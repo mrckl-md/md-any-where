@@ -1,5 +1,5 @@
 {
-  "status": "draft_requires_provider_policy_review",
+  "status": "code_and_official_policy_assessment_pending_publisher_ai_scope",
   "data_not_collected_claim_approved": false,
   "local_processing": [
     "Markdown editing and offline preview",
@@ -16,21 +16,111 @@
   "proposed_disclosures": [
     {
       "data_type": "Other User Content",
-      "purpose": "App Functionality",
-      "collection": "Declare if the recipient retains readable content beyond real-time request processing; verify actual providers and proxies.",
-      "linked_to_user": "Potentially yes because requests authenticate to an API account; do not mark unlinked without evidence.",
-      "tracking": "No advertising or cross-app tracking implementation found in DOT MD; verify recipient use and agreements."
+      "recommendation": "Declare for retained API prompts, document text and forwarded answers",
+      "purpose": [
+        "App Functionality"
+      ],
+      "linked_to_user_recommendation": true,
+      "tracking_recommendation": false,
+      "final_confirmation": null,
+      "conditions": "API account linkage and actual recipients must be checked; evaluate Other Purposes for general model training. Unknown proxies are not certified."
+    },
+    {
+      "data_type": "User ID",
+      "recommendation": "Conditional; declare retained account/project/key identifiers associated with requests",
+      "purpose": [
+        "App Functionality"
+      ],
+      "linked_to_user_recommendation": true,
+      "final_confirmation": null,
+      "conditions": "A token used only during the request and not retained is not automatically collected."
+    },
+    {
+      "data_type": "Other Usage Data",
+      "recommendation": "Conditional; verify retained model, token and usage/account records",
+      "purpose": [
+        "App Functionality"
+      ],
+      "final_confirmation": null,
+      "conditions": "Assess Product Interaction only for actually recorded actions; Analytics only for actual behavioral analysis."
+    },
+    {
+      "data_type": "Other Diagnostic Data / Performance Data",
+      "recommendation": "Conditional; verify retained API errors, safety events and performance records",
+      "purpose": [
+        "App Functionality"
+      ],
+      "final_confirmation": null,
+      "conditions": "Do not infer crash telemetry or device tracking from ordinary API access."
+    },
+    {
+      "data_type": "IP-dependent category",
+      "recommendation": "Unresolved; classify by actual recipient use, not simply because a connection has an IP",
+      "final_confirmation": null,
+      "conditions": "Possible diagnostics, identifier or coarse location depending on actual processing; no client location access found."
     }
   ],
   "unresolved": [
-    "Actual provider/proxy retention, training and account association",
-    "Other relevant data types based on actual credential/IP logging use",
-    "Final PrivacyInfo.xcprivacy and App Store Connect answer consistency",
-    "Public privacy/support pages and actual support contact"
+    "Publisher-approved first-release provider and custom-endpoint scope",
+    "Gemini paid/unpaid, age and territory compliance",
+    "DeepSeek/GLM and proxy API retention, training, account/IP/log purposes",
+    "Final account-ID, usage and diagnostic data classifications",
+    "Provider training opt-in/ZDR coverage across BYOK users",
+    "Consistency between final privacy manifest, consent UI, policy and App Store Connect answers",
+    "Private reviewer service access; never include credentials or private reviewer contact in public files"
   ],
   "sources": [
     "https://developer.apple.com/app-store/app-privacy-details/",
     "https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/",
-    "https://developer.apple.com/app-store/review/guidelines/#data-use-and-sharing"
+    "https://developer.apple.com/app-store/review/guidelines/#data-use-and-sharing",
+    "https://developers.openai.com/api/docs/guides/your-data",
+    "https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data",
+    "https://ai.google.dev/gemini-api/terms",
+    "https://cdn.deepseek.com/policies/en-US/deepseek-open-platform-terms-of-service.html",
+    "https://docs.bigmodel.cn/cn/terms/user-agreement",
+    "https://docs.x.ai/developers/faq/security"
+  ],
+  "last_checked": "2026-10-05",
+  "assessment_document": "Privacy-Assessment.md",
+  "app_name": "md any where",
+  "finalized": false,
+  "published_to_app_store_connect": false,
+  "ai_release_scope_confirmed": false,
+  "collects_data_recommendation": "Yes for the current online Agent feature set; not a finalized declaration",
+  "provider_assessments": [
+    {
+      "provider": "OpenAI",
+      "official_policy": "https://developers.openai.com/api/docs/guides/your-data",
+      "finding": "Default no training; standard abuse logs may retain content up to 30 days with exceptions. store:false is not ZDR. BYOK account policy unverified."
+    },
+    {
+      "provider": "Anthropic",
+      "official_policy": "https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data",
+      "finding": "Standard commercial API inputs/outputs generally deleted within 30 days, with contract, safety, model and legal exceptions."
+    },
+    {
+      "provider": "Gemini",
+      "official_policy": "https://ai.google.dev/gemini-api/terms",
+      "finding": "Unpaid and paid content policies differ; paid service still has safety and service metadata logs. Account tier, age and regional conditions are unresolved."
+    },
+    {
+      "provider": "DeepSeek",
+      "official_policy": "https://cdn.deepseek.com/policies/en-US/deepseek-open-platform-terms-of-service.html",
+      "finding": "Open Platform terms distinguish downstream user processing; precise API content retention/training/logging not established by reviewed official materials."
+    },
+    {
+      "provider": "GLM",
+      "official_policy": "https://docs.bigmodel.cn/cn/terms/user-agreement",
+      "finding": "User agreement reviewed; privacy-policy fetch failed. Content retention, training and logging remain unverified."
+    },
+    {
+      "provider": "Grok / xAI",
+      "official_policy": "https://docs.x.ai/developers/faq/security",
+      "finding": "Standard API content stored for 30-day auditing; no training without permission. Optional team ZDR is not enforced by this client."
+    },
+    {
+      "provider": "Local/custom endpoint",
+      "finding": "Loopback may forward to cloud; official provider policies do not cover arbitrary proxies. No blanket retention, training or tracking claim is supportable."
+    }
   ]
 }

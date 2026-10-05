@@ -17,9 +17,9 @@ all      依次归档并导出本地 .ipa。
 export 模式还需：
   DOT_MD_ARCHIVE_PATH        已有 .xcarchive 的绝对路径
 可选环境变量：
-  DOT_MD_ARCHIVE_PATH        archive/all 的新归档路径；默认 .build/ios/app-store/日期时间/DOT MD.xcarchive
+  DOT_MD_ARCHIVE_PATH        archive/all 的新归档路径；默认 .build/ios/app-store/日期时间/md any where.xcarchive
   DOT_MD_MARKETING_VERSION   发布版本，如 1.0.0
-  DOT_MD_BUILD_NUMBER        构建版本，如 1（每次上传前须增加）
+  DOT_MD_BUILD_NUMBER        构建版本，如 2（每次上传前须增加）
 
 仅使用自动签名并将产物保存在本机，不上传、不提交审核。
 Xcode 必须登录有 App Store 分发权限的 Apple Developer 团队；自动签名可能访问 Apple 以获取证书和描述文件。
@@ -63,7 +63,7 @@ if [[ "$archive_mode" == "export" && -z "${DOT_MD_ARCHIVE_PATH:-}" ]]; then
   print -u2 -- "export 模式必须指定 DOT_MD_ARCHIVE_PATH，不会猜测要导出的归档。"
   exit 2
 fi
-archive_path="${DOT_MD_ARCHIVE_PATH:-$project_dir/.build/ios/app-store/$(date +%Y%m%d-%H%M%S)/DOT MD.xcarchive}"
+archive_path="${DOT_MD_ARCHIVE_PATH:-$project_dir/.build/ios/app-store/$(date +%Y%m%d-%H%M%S)/md any where.xcarchive}"
 archive_path="${archive_path:A}"
 archive_directory="${archive_path:h}"
 
@@ -90,7 +90,11 @@ if [[ "$archive_mode" != "export" ]]; then
     "${version_arguments[@]}" archive 2>&1 | tee "$archive_directory/archive.log"
 fi
 
-app_path="$archive_path/Products/Applications/DOT MD.app"
+app_path="$archive_path/Products/Applications/md any where.app"
+# Previously exported releases remain usable with the explicit export command.
+if [[ "$archive_mode" == "export" && ! -d "$app_path" && -d "$archive_path/Products/Applications/DOT MD.app" ]]; then
+  app_path="$archive_path/Products/Applications/DOT MD.app"
+fi
 if [[ ! -f "$app_path/Info.plist" || ! -f "$app_path/PrivacyInfo.xcprivacy" ]]; then
   print -u2 -- "归档中缺少应用或隐私清单：$archive_path"
   exit 1

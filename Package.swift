@@ -11,9 +11,11 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "DOTMD",
+            dependencies: ["DOTMDLocalization"],
             path: "Sources/DOTMD",
             resources: [.copy("Resources")]
         ),
-        .executableTarget(name: "DOTMDAgent", path: "Sources/DOTMDAgent")
+        .target(name: "DOTMDLocalization", path: "Sources/DOTMDLocalization"),
+        .executableTarget(name: "DOTMDAgent", dependencies: ["DOTMDLocalization"], path: "Sources/DOTMDAgent")
     ]
 )

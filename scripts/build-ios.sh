@@ -80,7 +80,7 @@ if ! xcrun xcodebuild \
   exit 1
 fi
 
-app_path="$derived_data/Build/Products/Debug-$sdk/DOT MD.app"
+app_path="$derived_data/Build/Products/Debug-$sdk/md any where.app"
 for resource in Info.plist Editor/index.html Editor/app.js Editor/ipad.js Editor/ipad.css; do
   if [[ ! -f "$app_path/$resource" ]]; then
     print -u2 -- "构建产物缺少 $resource：$app_path"

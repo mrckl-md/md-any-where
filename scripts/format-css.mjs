@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Dependency-free formatter for DOT MD's own CSS. It only changes whitespace
+// Dependency-free formatter for md any where's own CSS. It only changes whitespace
 // outside quoted strings and preserves comments, parentheses and rule order.
 import { readFileSync, writeFileSync } from 'node:fs';
 

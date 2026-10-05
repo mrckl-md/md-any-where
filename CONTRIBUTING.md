@@ -1,4 +1,4 @@
-# 参与 DOT MD 开发
+# 参与 md any where 开发
 
 欢迎改进编辑体验、学术公式、可访问性和隐私保护。项目自有代码位于 `Sources/DOTMD/`、`Support/` 和 `scripts/`；`Resources/vendor/` 是保留上游许可证的第三方发布文件，不应直接修改。`.build/`、`dist/` 为可重建产物。
 

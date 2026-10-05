@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown ve AI ile yazma",
+  "promotional_text": "iPhone ve iPad’de yazın, formülleri önizleyin ve belgeleri dışa aktarın. İsteğe bağlı ajanlar göndermeden önce izin ister.",
+  "keywords": "markdown,latex,yazma,notlar,formüller,düzenleyici",
+  "description": "md any where; macOS, iPhone ve iPad için Markdown ve matematiksel yazı düzenleyicisidir. Çevrimdışı düzenleyin ve önizleyin, metin arayın, HTML, PDF ve DOCX dışa aktarın. Uygulama hesabı gerekmez. Mobil sürüm Dosyalar üzerinden belgeleri açar ve yerel taslakları kurtarır.\n\nDüzeltme, özet ve iş akışları için kendi adresiniz, modeliniz ve API anahtarınızla uyumlu bir AI hizmeti ayarlayın. Ajanlar başlangıçta kapalıdır. Her gönderim alıcıyı ve metnin kapsamını göstererek onayınızı ister. Sağlayıcılar ücret alabilir ve istekleri kendi politikalarına göre saklayabilir. Anahtarlar sistem anahtar zincirinde tutulur. Uygulama, AI modellerini kullanmak için kredi içermez; yerel düzenleme için ajanları etkinleştirmek gerekmez.\n\nmacOS sürümü MCP veya CLI aracılığıyla AI düzenleyicilerine bağlanır. iPhone/iPad, masaüstü IDE yerine yerleşik ajanları kullanır. Uygulamanın kendine ait bulut eşzamanlaması yoktur. Özgün kaynak kodu MIT lisanslıdır.",
+  "review_notes": "Yerel düzenleme, önizleme ve dışa aktarma için giriş gerekmez. Başlık ve formül içeren bir belge oluşturup dışa aktarın. Ajanlar onay gerektirir. Sınırlı test erişimi gönderimden önce App Store Connect üzerinden özel olarak sağlanmalıdır.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

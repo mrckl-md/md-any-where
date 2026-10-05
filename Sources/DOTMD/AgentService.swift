@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import Foundation
 import Security
 
@@ -110,18 +113,18 @@ final class AgentService: @unchecked Sendable {
              mode: String) async -> [AgentAnswer] {
         let selectedProfiles = loadProfiles().filter { profileIDs.contains($0.id) && $0.enabled }
         guard !selectedProfiles.isEmpty else {
-            return [AgentAnswer(profileID: "", name: "Agent", text: "", error: "请至少启用并选择一个 Agent。")]
+            return [AgentAnswer(profileID: "", name: L("native.agent.name"), text: "", error: L("native.agent.selectRequired"))]
         }
         let system = """
         You are an expert academic Markdown and mathematical notation editor. Preserve factual meaning. When the task concerns a formula, return the final LaTeX only, without dollar delimiters or a code fence, unless the user explicitly asks for explanation. Never invent citations.
         """
         let prompt = """
-        用户任务：\(instruction)
+        User task: \(instruction)
 
-        选中内容：
-        \(selection.isEmpty ? "（无；请根据上下文处理）" : selection)
+        Selected text:
+        \(selection.isEmpty ? "(None; use the document context.)" : selection)
 
-        文稿上下文：
+        Document context:
         \(context)
         """
         let chosenProfiles = mode == "single" ? Array(selectedProfiles.prefix(1)) : selectedProfiles
@@ -144,19 +147,19 @@ final class AgentService: @unchecked Sendable {
         \(candidates)
         """
         let merged = await requestAgentCompletion(chairProfile, system: system, prompt: mergePrompt)
-        return answers + [AgentAnswer(profileID: "consensus", name: "集群共识", text: merged.text, error: merged.error)]
+        return answers + [AgentAnswer(profileID: "consensus", name: L("native.agent.consensus"), text: merged.text, error: merged.error)]
     }
 
     func designWorkflow(profileID: String, goal: String) async -> AgentAnswer {
         let enabled = loadProfiles().filter(\.enabled)
         guard let planner = enabled.first(where: { $0.id == profileID }) else {
-            return AgentAnswer(profileID: profileID, name: "流程设计 Agent", text: "", error: "请先启用设计流程的 Agent。")
+            return AgentAnswer(profileID: profileID, name: L("native.agent.workflowDesigner"), text: "", error: L("native.agent.plannerRequired"))
         }
         let choices = enabled.map { "\($0.name):\($0.id)" }.joined(separator: ", ")
         let system = """
-        Design a simple academic text-editing workflow. Return only a JSON object, no Markdown fence: {"title":"短标题","stages":[{"title":"步骤名称","mode":"single或parallel","profileIDs":["已给出的ID"],"prompt":"清楚具体的中文任务"}]}. Use 2 to 5 sequential stages. In parallel stages, listed agents review independently. A final single stage should synthesize the prior answers. Use only listed Agent IDs, never invent an ID. Do not include document content, code, URLs, keys, or special workflow syntax. The user will review the proposal before it runs.
+        Design a simple academic text-editing workflow. Return only a JSON object, no Markdown fence: {"title":"short title","stages":[{"title":"step name","mode":"single or parallel","profileIDs":["provided ID"],"prompt":"clear, specific task"}]}. Use 2 to 5 sequential stages. In parallel stages, listed agents review independently. A final single stage should synthesize the prior answers. Use only listed Agent IDs, never invent an ID. Do not include document content, code, URLs, keys, or special workflow syntax. The user will review the proposal before it runs.
         """
-        let prompt = "用户目标：\(goal.prefix(1500))\n可用 Agent（显示名:ID）：\(choices)"
+        let prompt = "User goal: \(goal.prefix(1500))\nAvailable agents (display name:ID): \(choices)"
         return await requestAgentCompletion(planner, system: system, prompt: prompt)
     }
 
@@ -166,7 +169,7 @@ final class AgentService: @unchecked Sendable {
         for profile in enabled { profileMap[profile.id] = profile }
         guard (1...5).contains(workflow.stages.count), workflow.title.count <= 80,
               workflow.goal.count <= 1500, selection.count <= 100_000, context.count <= 100_000 else {
-            return [.init(title: "流程检查", answers: [.init(profileID: "", name: "Agent", text: "", error: "流程或文稿过长；最多 5 步、10 万字。")])]
+            return [.init(title: L("native.agent.workflowCheck"), answers: [.init(profileID: "", name: L("native.agent.name"), text: "", error: L("native.agent.workflowTooLong"))])]
         }
         // Validate every stage before the first network request, avoiding partial execution.
         for (index, stage) in workflow.stages.enumerated() {
@@ -177,13 +180,13 @@ final class AgentService: @unchecked Sendable {
                   Set(stage.profileIDs).count == stage.profileIDs.count,
                   stage.profileIDs.allSatisfy({ profileMap[$0] != nil }),
                   stage.mode != "single" || stage.profileIDs.count == 1 else {
-                return [.init(title: "流程检查", answers: [.init(profileID: "", name: "Agent", text: "", error: "第 \(index + 1) 步的要求或 Agent 选择无效；没有发送文稿。")])]
+                return [.init(title: L("native.agent.workflowCheck"), answers: [.init(profileID: "", name: L("native.agent.name"), text: "", error: L("native.agent.invalidStep", index + 1))])]
             }
         }
         var results: [AgentWorkflowResult] = []
         var priorAnswers = ""
         for stage in workflow.stages {
-            let instruction = "\(stage.prompt)\n\n用户的总目标：\(workflow.goal.isEmpty ? workflow.title : workflow.goal)\n\n前一步的 Agent 答案（供下一步参考）：\(priorAnswers.isEmpty ? "（第一步）" : priorAnswers)"
+            let instruction = "\(stage.prompt)\n\nOverall user goal: \(workflow.goal.isEmpty ? workflow.title : workflow.goal)\n\nPrevious agent responses (context for this step): \(priorAnswers.isEmpty ? "(First step)" : priorAnswers)"
             let answers = await runSelectedAgents(profileIDs: stage.profileIDs, instruction: instruction,
                                                   selection: selection, context: context, mode: stage.mode)
             results.append(.init(title: stage.title, answers: answers))
@@ -197,33 +200,34 @@ final class AgentService: @unchecked Sendable {
     func suggestExportLayout(profileID: String, requestText: String,
                              currentSettingsJSON: String) async -> AgentAnswer {
         guard let profile = loadProfiles().first(where: { $0.id == profileID && $0.enabled }) else {
-            return AgentAnswer(profileID: profileID, name: "排版 Agent", text: "",
-                               error: "请先启用所选 Agent。")
+            return AgentAnswer(profileID: profileID, name: L("native.agent.layoutAgent"), text: "",
+                               error: L("native.agent.enableRequired"))
         }
         let system = """
-        You configure DOCX page styles for an academic Markdown editor. Return ONLY one JSON object, no code fence or commentary, with {"settings":{...},"reason":"brief Chinese explanation"}. Allowed font keys (string names): bodyCjkFont and bodyLatinFont for Chinese/English body text, headingCjkFont and headingLatinFont for Chinese/English headings, mathCjkFont and mathLatinFont for Chinese/English equation characters, codeFont for code. Other allowed keys: bodySize (8-24 points); headingScale (1.05-2.4); lineSpacing (1-3); paragraphAfter (0-36 points); firstLineIndent (0-20 millimeters); bodyAlign (left,center,right,justify); headingAlign (left,center,right); pageSize (letter,a4); marginTop,marginBottom,marginLeft,marginRight (10-50 millimeters); pageNumbers (boolean). Include only keys that should change. Interpret Chinese typographic sizes accurately: 小四=12 pt, 五号=10.5 pt, 四号=14 pt. Times New Roman may be requested for equations, but equation layout software can substitute non-math-enabled fonts. Do not alter document content, invent requirements, or include other keys.
+        You configure DOCX page styles for an academic Markdown editor. Return ONLY one JSON object, no code fence or commentary, with {"settings":{...},"reason":"brief explanation in the user’s interface language"}. Allowed font keys (string names): bodyCjkFont and bodyLatinFont for Chinese/English body text, headingCjkFont and headingLatinFont for Chinese/English headings, mathCjkFont and mathLatinFont for Chinese/English equation characters, codeFont for code. Other allowed keys: bodySize (8-24 points); headingScale (1.05-2.4); lineSpacing (1-3); paragraphAfter (0-36 points); firstLineIndent (0-20 millimeters); bodyAlign (left,center,right,justify); headingAlign (left,center,right); pageSize (letter,a4); marginTop,marginBottom,marginLeft,marginRight (10-50 millimeters); pageNumbers (boolean). Include only keys that should change. Interpret Chinese typographic sizes accurately: 小四=12 pt, 五号=10.5 pt, 四号=14 pt. Times New Roman may be requested for equations, but equation layout software can substitute non-math-enabled fonts. Do not alter document content, invent requirements, or include other keys.
         """
         let prompt = """
-        用户排版要求：\(requestText.prefix(2000))
+        User layout instructions: \(requestText.prefix(2000))
 
-        当前排版设置：\(currentSettingsJSON)
+        Current layout settings: \(currentSettingsJSON)
 
-        只提出能由上述设置键表示的变更。文稿正文未提供，也不需要。
+        Only propose changes represented by these setting keys. Document text is not provided or required.
         """
         return await requestAgentCompletion(profile, system: system, prompt: prompt)
     }
 
     private func requestAgentCompletion(_ profile: AgentProfile, system: String, prompt: String) async -> AgentAnswer {
+        let system = system + "\nUse locale \(InterfaceLocalization.locale) for explanations and generated workflow labels, unless the user requests another language. Preserve the document’s language when editing. Keep JSON property names and enum values unchanged."
         do {
             let apiKey = keychain.secret(for: profile.id) ?? (profile.kind == "local" ? "ollama" : "")
-            if apiKey.isEmpty { throw NSError(domain: "Agent", code: 401, userInfo: [NSLocalizedDescriptionKey: "尚未配置 API Key"] ) }
+            if apiKey.isEmpty { throw NSError(domain: "Agent", code: 401, userInfo: [NSLocalizedDescriptionKey: L("native.agent.keyRequired")] ) }
             guard let components = URLComponents(string: profile.endpoint.replacingOccurrences(of: "{model}", with: profile.model.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? profile.model)),
-                  let url = components.url else { throw NSError(domain: "Agent", code: 400, userInfo: [NSLocalizedDescriptionKey: "端点 URL 无效"]) }
+                  let url = components.url else { throw NSError(domain: "Agent", code: 400, userInfo: [NSLocalizedDescriptionKey: L("native.agent.invalidEndpoint")]) }
             let scheme = url.scheme?.lowercased()
             let host = url.host?.lowercased()
             let isLoopback = host == "localhost" || host == "127.0.0.1" || host == "::1"
             guard scheme == "https" || (profile.kind == "local" && scheme == "http" && isLoopback) else {
-                throw NSError(domain: "Agent", code: 400, userInfo: [NSLocalizedDescriptionKey: "远程 Agent 必须使用 HTTPS；本地 HTTP 仅允许 localhost/回环地址"])
+                throw NSError(domain: "Agent", code: 400, userInfo: [NSLocalizedDescriptionKey: L("native.agent.httpsRequired")])
             }
             var httpRequest = URLRequest(url: url, timeoutInterval: 120)
             httpRequest.httpMethod = "POST"
@@ -257,7 +261,7 @@ final class AgentService: @unchecked Sendable {
             for try await byte in responseBytes {
                 guard responseData.count < maximumResponseBytes else {
                     throw NSError(domain: "Agent", code: 413,
-                                  userInfo: [NSLocalizedDescriptionKey:"Agent 回复超过 4 MiB 限制。"])
+                                  userInfo: [NSLocalizedDescriptionKey:L("native.agent.responseTooLarge")])
                 }
                 responseData.append(byte)
             }
@@ -268,7 +272,7 @@ final class AgentService: @unchecked Sendable {
                 throw NSError(domain: "Agent", code: statusCode, userInfo: [NSLocalizedDescriptionKey: message])
             }
             let text = extractAgentResponseText(responseJSON, kind: profile.kind)
-            guard !text.isEmpty else { throw NSError(domain: "Agent", code: 422, userInfo: [NSLocalizedDescriptionKey: "服务未返回文本"]) }
+            guard !text.isEmpty else { throw NSError(domain: "Agent", code: 422, userInfo: [NSLocalizedDescriptionKey: L("native.agent.emptyResponse")]) }
             return AgentAnswer(profileID: profile.id, name: profile.name, text: text, error: nil)
         } catch {
             return AgentAnswer(profileID: profile.id, name: profile.name, text: "", error: error.localizedDescription)
@@ -293,13 +297,13 @@ final class AgentService: @unchecked Sendable {
         return ((choices.first?["message"] as? [String: Any])?["content"] as? String) ?? ""
     }
 
-    static let defaultProfiles: [AgentProfile] = [
+    static var defaultProfiles: [AgentProfile] { [
         .init(id: "openai", name: "OpenAI", kind: "openai-responses", endpoint: "https://api.openai.com/v1/responses", model: "gpt-5.6-luna", enabled: false),
         .init(id: "anthropic", name: "Anthropic", kind: "anthropic", endpoint: "https://api.anthropic.com/v1/messages", model: "claude-sonnet-4-5", enabled: false),
         .init(id: "gemini", name: "Gemini", kind: "gemini", endpoint: "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent", model: "gemini-2.5-flash", enabled: false),
         .init(id: "deepseek", name: "DeepSeek", kind: "openai-chat", endpoint: "https://api.deepseek.com/chat/completions", model: "deepseek-chat", enabled: false),
         .init(id: "glm", name: "GLM", kind: "openai-chat", endpoint: "https://open.bigmodel.cn/api/paas/v4/chat/completions", model: "glm-4-flash", enabled: false),
         .init(id: "grok", name: "Grok", kind: "openai-chat", endpoint: "https://api.x.ai/v1/chat/completions", model: "grok-4-fast-non-reasoning", enabled: false),
-        .init(id: "local", name: "本地 Agent", kind: "local", endpoint: "http://127.0.0.1:11434/v1/chat/completions", model: "qwen3:8b", enabled: false)
-    ]
+        .init(id: "local", name: L("native.agent.local"), kind: "local", endpoint: "http://127.0.0.1:11434/v1/chat/completions", model: "qwen3:8b", enabled: false)
+    ] }
 }

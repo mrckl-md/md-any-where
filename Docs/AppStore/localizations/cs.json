@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown a psaní s AI",
+  "promotional_text": "Pište na iPhonu a iPadu, zobrazujte vzorce a exportujte dokumenty. Volitelní agenti žádají před odesláním o souhlas.",
+  "keywords": "markdown,latex,psaní,poznámky,vzorce,editor",
+  "description": "md any where je editor Markdown pro psaní a matematické dokumenty na macOS, iPhonu a iPadu. Upravujte a zobrazujte náhled offline, hledejte v textu a exportujte HTML, PDF a DOCX. Účet aplikace není nutný. Mobilní verze otevírá soubory přes aplikaci Soubory a obnovuje místní koncepty.\n\nPro korektury, shrnutí a pracovní postupy nastavte kompatibilní službu AI pomocí vlastní adresy, modelu a klíče API. Agenti jsou ve výchozím stavu vypnuti. Před každým odesláním se zobrazí příjemce a rozsah textu a vyžádá se váš souhlas. Poskytovatel může účtovat poplatky a uchovávat požadavky podle svých pravidel. Klíče jsou uloženy v systémové Klíčence. Aplikace neobsahuje kredity pro používání modelů AI a místní úpravy nevyžadují zapnutí agentů.\n\nVerze pro macOS se připojuje k editorům AI přes MCP nebo CLI. iPhone/iPad používá vestavěné agenty, nikoli desktopové IDE. Aplikace nemá vlastní cloudovou synchronizaci. Původní zdrojový kód má licenci MIT.",
+  "review_notes": "Místní úpravy, náhled a export nevyžadují přihlášení. Vytvořte dokument s nadpisem a vzorcem a exportujte jej. Agenti vyžadují souhlas. Omezený testovací přístup je třeba před odesláním soukromě poskytnout přes App Store Connect.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

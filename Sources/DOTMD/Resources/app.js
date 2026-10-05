@@ -1,39 +1,9 @@
 (() => {
-  const initial = `# 欢迎使用 DOT MD
+  const t = (key, args) => (globalThis.DotMDI18n || (typeof require === 'function' ? require('./i18n.js') : null))?.t(key, args) ?? key;
+  const bindText = (element, render) => globalThis.DotMDI18n.bindText(element, render);
+  const bindAttribute = (element, attribute, render) => globalThis.DotMDI18n.bindAttribute(element, attribute, render);
 
-现在可以直接编辑 Markdown，右侧会即时呈现排版结果。
-
-## 快速写作
-
-- 使用顶部工具栏或快捷键插入格式
-- 输入列表后按回车会自动延续
-- 按 **⌘S** 保存，支持自动保存已打开的文稿
-- 按 **⌘C / ⌘X / ⌘V / ⌘A / ⌘D** 复制、剪切、粘贴、全选或取消选择
-- 按 **⌘Z / ⌘⇧Z** 回退或前进，**⌘⌥Z** 打开操作记录
-- 按 **⌘T** 新建标签页，**⌃Tab** 循环切换，**⌘1…⌘9** 直接跳转
-- 按 **⌘⇧1 / ⌘⇧2 / ⌘⇧3** 切换编辑、分栏与预览
-- 按 **⌘⇧G** 插入 Mermaid 流程图，也可由 Agent 通过 MCP 生成
-
-## Agent 与公式工具
-
-- 选中文字后按 **⌘⇧A**，可调用一个或多个 Agent 润色、校对或生成公式
-- 选中公式后按 **⌘⌥M**，可转换并复制到 Word、WPS、LibreOffice、MathType 或 Overleaf
-- API Key 只保存在 macOS 钥匙串；只有点击运行时才会发送选中内容
-
-## LaTeX
-
-行内公式：$e^{i\\pi}+1=0$。
-
-$$
-\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}
-$$
-
-也支持矩阵、对齐、分式、根式和常用宏：
-
-$$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
-
-> 这是一个源码完整、可继续迭代的升级工程。
-`;
+  const initial = t("web.c2fc799b76");
 
   const source = document.getElementById('source');
   const preview = document.getElementById('preview');
@@ -93,7 +63,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const originalFence = md.renderer.rules.fence;
     md.renderer.rules.fence = (tokens, index, options, env, self) =>
       (tokens[index].info || '').trim().split(/\s+/)[0].toLowerCase() === 'mermaid'
-        ? '<div class="render-error">流程图模块未加载，请重新打开 DOT MD。</div>'
+        ? `<div class="render-error">${t('error.flowchartMissing')}</div>`
         : originalFence(tokens, index, options, env, self);
   }
   md.core.ruler.push('dotmd_source_map', state => {
@@ -146,8 +116,10 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     }
   });
 
+  bindAttribute(editor.getInputField(), 'aria-label', () => t('web.2bcb89b816'));
+
   function titleForUntitledDocument(text, fallback) {
-    if (!/^未命名|^欢迎/.test(fallback)) return fallback;
+    if (!/^未命名|^欢迎/.test(fallback) && ![t('web.5d440e0c24'), t('web.7610a5391a')].includes(fallback)) return fallback;
     const heading = text.match(/^#\s+(.+)$/m);
     return heading ? `${heading[1].trim().slice(0, 36)}.md` : fallback;
   }
@@ -160,10 +132,10 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
       const tab = tabs.get(id); if (!tab) return;
       const item = document.createElement('div');
       item.className = `document-tab${id === activeDocumentID ? ' active' : ''}${tab.dirty ? ' dirty' : ''}`;
-      item.draggable = true; item.dataset.id = id; item.title = `${tab.title}\n⌘${index + 1} 切换`;
+      item.draggable = true; item.dataset.id = id; bindAttribute(item, "title", () => t("web.e6f5ae2710", { p0: tab.title, p1: index + 1 }));
       const dot = document.createElement('span'); dot.className = 'tab-dirty';
       const title = document.createElement('span'); title.className = 'tab-title'; title.textContent = tab.title;
-      const close = document.createElement('button'); close.className = 'tab-close'; close.textContent = '×'; close.title = '关闭标签页（⌘W）';
+      const close = document.createElement('button'); close.className = 'tab-close'; close.textContent = '×'; bindAttribute(close, "title", () => t("web.a7be8042ec"));
       close.onclick = event => { event.stopPropagation(); sendNativeMessage('close', { id }); };
       item.onclick = () => switchTab(id);
       item.ondragstart = event => { event.dataTransfer.setData('text/tab-id', id); event.dataTransfer.effectAllowed = 'move'; };
@@ -188,7 +160,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const title = item.querySelector('.tab-title');
     if (title.textContent !== tab.title) {
       title.textContent = tab.title;
-      item.title = `${tab.title}\n⌘${documentTabOrder.indexOf(tab.id) + 1} 切换`;
+      bindAttribute(item, "title", () => t("web.e6f5ae2710", { p0: tab.title, p1: documentTabOrder.indexOf(tab.id) + 1 }));
     }
   }
 
@@ -218,7 +190,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   function createDocument(id, title, content, dirty = false) {
     const doc = new CodeMirror.Doc(content, { name: 'markdown', highlightFormatting: true });
     tabs.set(id, { id, title, doc, dirty, editorScroll: 0, previewScroll: 0,
-      timeline: [createHistoryEntry('初始状态', content, { line: 0, ch: 0 })], timelineIndex: 0 });
+      timeline: [createHistoryEntry(t("web.599abc8c57"), content, { line: 0, ch: 0 })], timelineIndex: 0 });
     documentTabOrder.push(id);
   }
 
@@ -273,10 +245,10 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     try {
       preview.innerHTML = md.render(text);
       if (window.dotmdMermaid) window.dotmdMermaid.renderInto(preview);
-      document.getElementById('latex-status').textContent = 'LaTeX 就绪';
+      bindText(document.getElementById('latex-status'), () => t("web.2dbb6c0834"));
     } catch (error) {
-      preview.innerHTML = `<div class="render-error">预览失败：${md.utils.escapeHtml(error.message)}</div>`;
-      document.getElementById('latex-status').textContent = '预览有错误';
+      preview.innerHTML = `<div class="render-error">${md.utils.escapeHtml(t('error.preview', {error:error.message}))}</div>`;
+      bindText(document.getElementById('latex-status'), () => t("web.6c29c6bb34"));
     }
     sourceMappedPreviewBlocks = [...preview.querySelectorAll('[data-source-start][data-source-end]')];
     lastRenderedText = text;
@@ -338,21 +310,21 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const headings = preview.querySelectorAll('h1,h2,h3,h4,h5,h6');
     outlineList.replaceChildren();
     if (!headings.length) {
-      const empty = document.createElement('div'); empty.className = 'outline-empty'; empty.textContent = '添加标题后会在这里显示'; outlineList.append(empty); return;
+      const empty = document.createElement('div'); empty.className = 'outline-empty'; bindText(empty, () => t("web.e7680a6f85")); outlineList.append(empty); return;
     }
     const visibleCount = Math.min(headings.length, 500);
     for (let index = 0; index < visibleCount; index++) {
       const heading = headings[index];
       heading.id = `heading-${index}`;
       const button = document.createElement('button');
-      button.className = 'outline-item'; button.style.paddingLeft = `${7 + (Number(heading.tagName[1]) - 1) * 11}px`; button.textContent = heading.textContent;
+      button.className = 'outline-item'; button.style.paddingInlineStart = `${7 + (Number(heading.tagName[1]) - 1) * 11}px`; button.textContent = heading.textContent;
       button.onclick = () => heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
       outlineList.append(button);
     }
     if (headings.length > visibleCount) {
       const note = document.createElement('div');
       note.className = 'outline-empty';
-      note.textContent = `大纲只展示前 ${visibleCount} 个标题，以保持编辑流畅。`;
+      bindText(note, () => t("web.25a857f6c7", { p0: visibleCount }));
       outlineList.append(note);
     }
   }
@@ -360,10 +332,10 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   function updateWordCount(text) {
     const cjk = (text.match(/[\u3400-\u9fff\uf900-\ufaff]/g) || []).length;
     const latin = (text.replace(/[\u3400-\u9fff\uf900-\ufaff]/g, ' ').match(/[\p{L}\p{N}]+/gu) || []).length;
-    document.getElementById('word-count').textContent = `${cjk + latin} 字 · ${text.length} 字符`;
+    bindText(document.getElementById('word-count'), () => t("web.2f9f4c0356", { p0: cjk + latin, p1: text.length }));
   }
 
-  function wrapSelectedText(before, after = before, placeholder = '文本') {
+  function wrapSelectedText(before, after = before, placeholder = t("web.dd81861811")) {
     const from = editor.getCursor('from'), to = editor.getCursor('to');
     const selected = editor.getSelection() || placeholder;
     editor.replaceSelection(before + selected + after, 'around');
@@ -384,16 +356,16 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
 
   function applyMarkdownFormatting(command) {
     switch(command) {
-      case 'bold': wrapSelectedText('**','**','粗体'); break;
-      case 'italic': wrapSelectedText('*','*','斜体'); break;
-      case 'link': wrapSelectedText('[','](https://)','链接文字'); break;
+      case 'bold': wrapSelectedText('**','**',t("web.f6da93ed21")); break;
+      case 'italic': wrapSelectedText('*','*',t("web.217901c51a")); break;
+      case 'link': wrapSelectedText('[','](https://)',t("web.6f64e476be")); break;
       case 'heading': toggleLinePrefix('# '); break;
       case 'bullet': toggleLinePrefix('- '); break;
       case 'task': toggleLinePrefix('- [ ] '); break;
       case 'quote': toggleLinePrefix('> '); break;
-      case 'code': wrapSelectedText('```\n','\n```','代码'); break;
+      case 'code': wrapSelectedText('```\n','\n```',t("web.e6f04ffbaa")); break;
       case 'math': wrapSelectedText('$$\n','\n$$','\\frac{a}{b}'); break;
-      case 'diagram': wrapSelectedText('```mermaid\nflowchart TD\n  A[输入内容] --> B{是否保留？}\n  B -->|否| C[丢弃]\n  B -->|是| D[整理为 Markdown]\n  D --> E[完成]\n','\n```',''); break;
+      case 'diagram': wrapSelectedText(t("web.9d8202668a"),'\n```',''); break;
     }
   }
 
@@ -429,25 +401,25 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   }
 
   function createHistoryEntry(label, content = editor.getValue(), cursor = editor.getCursor()) {
-    return { label, content, cursor, timestamp: Date.now() };
+    return { label, labelMessage:window.DotMDI18n.describeMessage(label), content, cursor, timestamp: Date.now() };
   }
 
   function ensureHistory(tab = tabs.get(activeDocumentID)) {
     if (!tab) return;
     if (!Array.isArray(tab.timeline) || !tab.timeline.length) {
-      tab.timeline = [createHistoryEntry('初始状态', tab.doc.getValue(), { line: 0, ch: 0 })];
+      tab.timeline = [createHistoryEntry(t("web.599abc8c57"), tab.doc.getValue(), { line: 0, ch: 0 })];
       tab.timelineIndex = 0;
     }
   }
 
   function labelForEditorChange(change) {
     const origin = change?.origin || '';
-    if (origin === 'paste') return '粘贴内容';
-    if (origin === 'cut') return '剪切内容';
-    if (origin === '+delete') return '删除内容';
-    if (origin === 'around') return '应用格式';
-    if (origin === 'setValue') return '替换文稿';
-    return '输入内容';
+    if (origin === 'paste') return t("web.4ba7285d6e");
+    if (origin === 'cut') return t("web.2c3d6943a8");
+    if (origin === '+delete') return t("web.92d8b5e3dc");
+    if (origin === 'around') return t("web.6f3fb9bcd1");
+    if (origin === 'setValue') return t("web.f2c5d6ba84");
+    return t("web.6495aeb002");
   }
 
   function trimUndoHistory(tab) {
@@ -458,7 +430,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     tab.timelineIndex = Math.max(0, tab.timelineIndex - removeCount);
   }
 
-  function commitHistorySnapshot(label = pendingHistoryLabel || '编辑内容') {
+  function commitHistorySnapshot(label = pendingHistoryLabel || t("web.2203dc909a")) {
     clearTimeout(historyTimer); historyTimer = null;
     const tab = tabs.get(activeDocumentID);
     if (!tab) { pendingHistoryLabel = ''; return; }
@@ -521,17 +493,17 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     if (!host) return;
     host.replaceChildren();
     const tab = tabs.get(activeDocumentID);
-    if (!tab) { host.innerHTML = '<div class="history-empty">当前没有可用记录</div>'; return; }
+    if (!tab) { host.innerHTML = `<div class="history-empty" data-i18n="history.empty">${t('history.empty')}</div>`; return; }
     ensureHistory(tab);
     [...tab.timeline].map((entry, index) => ({ entry, index })).reverse().forEach(({ entry, index }) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `history-entry${index === tab.timelineIndex ? ' current' : ''}`;
       const time = document.createElement('time');
-      time.textContent = new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const label = document.createElement('span'); label.className = 'history-label'; label.textContent = entry.label;
+      bindText(time, () => window.DotMDI18n.formatDate(entry.timestamp, { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      const label = document.createElement('span'); label.className = 'history-label'; bindText(label, () => entry.labelMessage ? t(entry.labelMessage.key, entry.labelMessage.args) : entry.label);
       const position = document.createElement('span'); position.className = 'history-position';
-      position.textContent = index === tab.timelineIndex ? '当前' : (index < tab.timelineIndex ? `回退 ${tab.timelineIndex - index} 步` : `前进 ${index - tab.timelineIndex} 步`);
+      bindText(position, () => index === tab.timelineIndex ? t("web.cb62ebd689") : (index < tab.timelineIndex ? t("web.2076317396", { p0: tab.timelineIndex - index }) : t("web.c796391c3b", { p0: index - tab.timelineIndex })));
       button.append(time, label, position);
       button.onclick = () => applyHistoryIndex(index);
       host.append(button);
@@ -561,7 +533,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   function scheduleSearch() {
     clearTimeout(searchTimer);
     const status = document.getElementById('search-status');
-    status.textContent = '查找中…';
+    bindText(status, () => t("web.ceecf20488"));
     searchTimer = setTimeout(collectSearchMatches, 180);
   }
 
@@ -571,7 +543,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const mode = document.getElementById('search-mode').value;
     if (!query) { updateSearchStatus(); return; }
     if (mode === 'fuzzy' && query.length > 64) {
-      document.getElementById('search-status').textContent = '模糊查找最多支持 64 个字符；请缩短关键词';
+      bindText(document.getElementById('search-status'), () => t("web.3143c2e0ad"));
       return;
     }
     const caseSensitive = mode === 'exact';
@@ -608,14 +580,14 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
 
   function updateSearchStatus(reveal = true) {
     const status = document.getElementById('search-status');
-    if (!document.getElementById('search-query').value) { status.textContent = '输入内容开始查找'; return; }
+    if (!document.getElementById('search-query').value) { bindText(status, () => t("web.5c6ceaf3d6")); return; }
     if (!searchMatches.length) {
-      status.textContent = searchLimited ? '未找到匹配；超长行已限量，请缩小关键词' : '没有找到匹配内容';
+      bindText(status, () => searchLimited ? t("web.be39a8ca29") : t("web.8f8d9703ae"));
       return;
     }
     const match = searchMatches[searchIndex];
-    const suffix = match.score < 1 ? ` · 相似度 ${Math.round(match.score * 100)}%` : '';
-    status.textContent = `${searchIndex + 1} / ${searchMatches.length}${suffix}${searchLimited ? ' · 结果已限量，请缩小范围' : ''}`;
+    const suffix = match.score < 1 ? t("web.2d5b9e5a54", { p0: Math.round(match.score * 100) }) : '';
+    bindText(status, () => `${window.DotMDI18n.formatNumber(searchIndex + 1)} / ${window.DotMDI18n.formatNumber(searchMatches.length)}${suffix}${searchLimited ? t("web.90dda3ef79") : ''}`);
     if (reveal) {
       editor.setSelection(match.from, match.to);
       editor.scrollIntoView({ from: match.from, to: match.to }, 90);
@@ -659,13 +631,13 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   function replaceAllSearch() {
     if (searchTimer) collectSearchMatches();
     if (!searchMatches.length) return;
-    if (searchLimited) { showToast('结果已限量，缩小查询后再执行全部替换'); return; }
+    if (searchLimited) { showToast(t("web.47d90f323d")); return; }
     const replacement = document.getElementById('replace-value').value;
     const matches = [...searchMatches].reverse();
     editor.operation(() => matches.forEach(match => editor.replaceRange(replacement, match.from, match.to)));
     const count = matches.length;
     collectSearchMatches();
-    showToast(`已替换 ${count} 处`);
+    showToast(t("web.d2bbe68238", { p0: count }));
   }
 
   function openSearchTools(focusReplacement = false) {
@@ -686,18 +658,18 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
 
   function updateActiveAgentSummary() {
     const names = agentProfiles.filter(profile => profile.enabled).map(profile => profile.name);
-    document.getElementById('agent-active-services').textContent = names.length
-      ? `已启用：${names.join('、')}。模型和密钥在设置中管理。`
-      : '尚未启用 Agent。请先在设置中选择服务并保存。';
+    bindText(document.getElementById('agent-active-services'), () => names.length
+      ? t("web.107db37963", { p0: window.DotMDI18n.list(names) })
+      : t("web.ef4e2f1b36"));
   }
 
   function runSearchAgent(purpose) {
     const query = document.getElementById('search-query').value.trim();
-    if (purpose === 'agent-find' && !query) { showToast('请先输入要查找的内容或含义'); return; }
+    if (purpose === 'agent-find' && !query) { showToast(t("web.8fc6285754")); return; }
     const instruction = purpose === 'summary'
-      ? '总结完整文稿，输出结构清晰、可直接保存为 Markdown 的总结。保留关键结论、论据、公式和待办事项，不要使用代码围栏。'
-      : `在完整 Markdown 文稿中进行语义查找：${query}。只返回严格 JSON，格式为 {"matches":[{"quote":"文稿中的原句","reason":"匹配原因"}]}。quote 必须逐字复制原文，最多返回 20 条。`;
-    document.getElementById('search-results').innerHTML = '<div class="empty-result">Agent 处理中…</div>';
+      ? t("web.7295603994")
+      : t("web.c666a583c6", { p0: query });
+    document.getElementById('search-results').innerHTML = `<div class="empty-result" data-i18n="agent.processing">${t('agent.processing')}</div>`;
     sendNativeMessage('agentRun', { profileIDs: selectedAgentProfileIDs(), instruction, selection: '', context: editor.getValue(), mode: 'single', purpose });
   }
 
@@ -729,7 +701,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     currentFormula = normalizeLatexFormula(document.getElementById('formula-source').value);
     const host = document.getElementById('formula-preview');
     try { window.katex.render(currentFormula, host, { displayMode:true, throwOnError:true, strict:false }); }
-    catch (error) { host.textContent = `格式错误：${error.message}`; }
+    catch (error) { bindText(host, () => t("web.ed1ada4b79", { p0: error.message })); }
   }
 
   function openFormulaTools(value) {
@@ -764,9 +736,9 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     host.replaceChildren();
     const header = document.createElement('div');
     header.className = 'agent-profile-header';
-    ['启用', '名称', '接口类型', 'API 端点', '模型'].forEach(label => {
+    [t("web.f4f0ead111"), t("web.d44e9b3d3b"), t("web.bca83194fe"), t("web.3d1ab62be0"), t("web.c98e118e0a")].forEach(label => {
       const column = document.createElement('span');
-      column.textContent = label;
+      bindText(column, label);
       header.append(column);
     });
     host.append(header);
@@ -778,55 +750,55 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
       enabled.type = 'checkbox';
       enabled.checked = profile.enabled;
       enabled.className = 'enabled';
-      enabled.title = '加入当前 Agent 集群';
-      enabled.setAttribute('aria-label', `${profile.name}：启用此服务`);
+      bindAttribute(enabled, "title", () => t("web.674a8b330b"));
+      bindAttribute(enabled, 'aria-label', () => t("web.b7c13f6a95", { p0: profile.name }));
       const name = document.createElement('input');
       name.value = profile.name;
       name.className = 'name';
-      name.title = '显示名称';
-      name.setAttribute('aria-label', `${profile.name} 显示名称`);
+      bindAttribute(name, "title", () => t("web.a98585871c"));
+      bindAttribute(name, 'aria-label', () => t("web.b78dbfd697", { p0: profile.name }));
       const kind = document.createElement('select');
       kind.className = 'kind';
-      kind.setAttribute('aria-label', `${profile.name} 接口类型`);
+      bindAttribute(kind, 'aria-label', () => t("web.60febc25ab", { p0: profile.name }));
       const kinds = [
         ['openai-responses', 'OpenAI Responses'], ['openai-chat', 'OpenAI compatible'],
-        ['anthropic', 'Anthropic'], ['gemini', 'Gemini'], ['local', '本地 compatible']
+        ['anthropic', 'Anthropic'], ['gemini', 'Gemini'], ['local', t("web.f0ee258b68")]
       ];
       kinds.forEach(([value, label]) => {
         const option = document.createElement('option');
         option.value = value;
-        option.textContent = label;
+        bindText(option, label);
         option.selected = profile.kind === value;
         kind.append(option);
       });
       const endpoint = document.createElement('input');
       endpoint.value = profile.endpoint;
       endpoint.className = 'endpoint';
-      endpoint.title = 'API 端点';
-      endpoint.setAttribute('aria-label', `${profile.name} API 端点`);
+      bindAttribute(endpoint, "title", () => t("web.3d1ab62be0"));
+      bindAttribute(endpoint, 'aria-label', () => t("web.d41fd7ee09", { p0: profile.name }));
       const model = document.createElement('input');
       model.value = profile.model;
       model.className = 'model';
-      model.title = '模型名称';
-      model.setAttribute('aria-label', `${profile.name} 模型名称`);
+      bindAttribute(model, "title", () => t("web.cb2f1709f9"));
+      bindAttribute(model, 'aria-label', () => t("web.d69de7e4e8", { p0: profile.name }));
       const key = document.createElement('input');
       key.type = 'password';
       key.className = 'key';
       key.setAttribute('aria-label', `${profile.name} API Key`);
-      key.placeholder = profile.keyPresent
-        ? 'API Key 已保存在钥匙串；留空表示不更改'
-        : '输入 API Key（仅存入 macOS 钥匙串）';
+      bindAttribute(key, "placeholder", () => profile.keyPresent
+        ? t("web.fce17ab7f9")
+        : t("web.5b5b54cb36"));
       const keyGroup = document.createElement('div');
       keyGroup.className = 'key-group';
       const clearKey = document.createElement('button');
       clearKey.type = 'button';
-      clearKey.textContent = '清除密钥';
-      clearKey.setAttribute('aria-label', `清除 ${profile.name} 的已存 API Key`);
+      bindText(clearKey, () => t("web.02945891f4"));
+      bindAttribute(clearKey, 'aria-label', () => t("web.2d6d0ac23e", { p0: profile.name }));
       clearKey.onclick = () => {
         key.value = '';
         key.disabled = true;
         keyGroup.dataset.clearKey = 'true';
-        key.placeholder = '保存配置后清除钥匙串中的密钥';
+        bindAttribute(key, "placeholder", () => t("web.f066673bc1"));
       };
       keyGroup.append(key, clearKey);
       row.append(enabled, name, kind, endpoint, model, keyGroup);
@@ -870,7 +842,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const nearbyContext = fullDocument.slice(
       Math.max(0, cursorOffset - 3000), Math.min(fullDocument.length, cursorOffset + 3000));
     const selectedProfileIDs = selectedAgentProfileIDs();
-    const purpose = selectedAction.startsWith('总结完整文稿') ? 'summary' : 'edit';
+    const purpose = document.getElementById('agent-action').selectedOptions[0]?.dataset.purpose || 'edit';
     sendNativeMessage('agentRun', {
       profileIDs: selectedProfileIDs, instruction, selection: selectedText,
       context: purpose === 'summary' ? fullDocument : nearbyContext,
@@ -903,11 +875,11 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
         return `${index + 1}. ${stage.title} → ${names.join(' + ')}`;
       });
       const calls = checked.stages.reduce((total, stage) => total + stage.profileIDs.length, 0);
-      const scope = document.getElementById('workflow-scope').value === 'full' ? '完整文稿' : '选中文字与附近内容';
-      preview.textContent = `${destinations.join('  ·  ')}。预计 ${calls} 次 Agent 请求；每一步会收到${scope}与此前的答案。`;
+      const scope = document.getElementById('workflow-scope').value === 'full' ? t("web.48511381c4") : t("web.c18c493c8a");
+      bindText(preview, () => t("web.2b7b73927b", { p0: destinations.join('  ·  '), p1: calls, p2: scope }));
       preview.classList.remove('workflow-warning');
     } catch (error) {
-      preview.textContent = enabled.length ? error.message : '请先在“设置 → Agent 与模型”中启用并保存至少一位 Agent。';
+      bindText(preview, () => enabled.length ? error.message : t("web.5f092bb735"));
       preview.classList.add('workflow-warning');
     }
   }
@@ -917,7 +889,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const previous = picker.value;
     picker.replaceChildren();
     availableWorkflowAgents().forEach(profile => {
-      const option = document.createElement('option'); option.value = profile.id; option.textContent = `${profile.name} 设计流程`;
+      const option = document.createElement('option'); option.value = profile.id; bindText(option, () => t("web.391a994c37", { p0: profile.name }));
       picker.append(option);
     });
     if ([...picker.options].some(option => option.value === previous)) picker.value = previous;
@@ -930,15 +902,15 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     editedWorkflow.stages.forEach((stage, index) => {
       const card = document.createElement('section'); card.className = 'workflow-stage';
       const top = document.createElement('div'); top.className = 'workflow-stage-top';
-      const number = document.createElement('span'); number.className = 'workflow-number'; number.textContent = String(index + 1);
+      const number = document.createElement('span'); number.className = 'workflow-number'; bindText(number, () => window.DotMDI18n.formatNumber(index + 1));
       const title = document.createElement('input'); title.value = stage.title || ''; title.maxLength = 60;
-      title.setAttribute('aria-label', `第 ${index + 1} 步名称`);
+      bindAttribute(title, 'aria-label', () => t("web.3912f8bfc7", { p0: index + 1 }));
       title.oninput = () => { stage.title = title.value; rememberWorkflow(); };
       const controls = document.createElement('div'); controls.className = 'workflow-stage-controls';
-      [['上移', -1], ['下移', 1]].forEach(([label, direction]) => {
+      [[t("web.f853a70b12"), -1], [t("web.e75e8b4e5c"), 1]].forEach(([label, direction]) => {
         const button = document.createElement('button'); button.type = 'button';
-        button.textContent = direction < 0 ? '↑' : '↓'; button.title = label;
-        button.setAttribute('aria-label', `第 ${index + 1} 步${label}`);
+        button.textContent = direction < 0 ? '↑' : '↓'; bindAttribute(button, 'title', label);
+        bindAttribute(button, 'aria-label', () => t("web.5d858e2b31", { p0: index + 1, p1: label }));
         button.disabled = direction < 0 ? index === 0 : index === editedWorkflow.stages.length - 1;
         button.onclick = () => {
           const other = index + direction;
@@ -948,13 +920,13 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
         controls.append(button);
       });
       const remove = document.createElement('button'); remove.type = 'button'; remove.textContent = '×';
-      remove.title = '删除这一步'; remove.setAttribute('aria-label', `删除第 ${index + 1} 步`);
+      bindAttribute(remove, "title", () => t("web.8ab8fcb9aa")); bindAttribute(remove, 'aria-label', () => t("web.949c29cbf2", { p0: index + 1 }));
       remove.disabled = editedWorkflow.stages.length === 1;
       remove.onclick = () => { editedWorkflow.stages.splice(index, 1); rememberWorkflow(); renderWorkflowStages(); };
       controls.append(remove); top.append(number, title, controls);
-      const mode = document.createElement('select'); mode.setAttribute('aria-label', `第 ${index + 1} 步方式`);
-      [['single', '一位 Agent 完成'], ['parallel', '几位 Agent 并行评审']].forEach(([value, label]) => {
-        const option = document.createElement('option'); option.value = value; option.textContent = label; mode.append(option);
+      const mode = document.createElement('select'); bindAttribute(mode, 'aria-label', () => t("web.901244f136", { p0: index + 1 }));
+      [['single', t("web.da29df0fe8")], ['parallel', t("web.e996aedbf0")]].forEach(([value, label]) => {
+        const option = document.createElement('option'); option.value = value; bindText(option, label); mode.append(option);
       });
       mode.value = stage.mode === 'parallel' ? 'parallel' : 'single';
       mode.onchange = () => { stage.mode = mode.value; if (mode.value === 'single') stage.profileIDs = stage.profileIDs.slice(0, 1); rememberWorkflow(); renderWorkflowStages(); };
@@ -971,7 +943,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
           label.append(checkbox, document.createTextNode(profile.name)); agentBox.append(label);
         });
       } else {
-        const picker = document.createElement('select'); picker.setAttribute('aria-label', `第 ${index + 1} 步 Agent`);
+        const picker = document.createElement('select'); bindAttribute(picker, 'aria-label', () => t("web.e68df74154", { p0: index + 1 }));
         agents.forEach(profile => {
           const option = document.createElement('option'); option.value = profile.id; option.textContent = profile.name; picker.append(option);
         });
@@ -982,9 +954,9 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
         agentBox.append(picker);
       }
       const promptLabel = document.createElement('label'); promptLabel.className = 'workflow-prompt';
-      const caption = document.createElement('span'); caption.textContent = '这一步要做什么';
+      const caption = document.createElement('span'); bindText(caption, () => t("web.2663ac186d"));
       const prompt = document.createElement('textarea'); prompt.rows = 2; prompt.maxLength = 1200;
-      prompt.value = stage.prompt || ''; prompt.setAttribute('aria-label', `第 ${index + 1} 步提示词`);
+      prompt.value = stage.prompt || ''; bindAttribute(prompt, 'aria-label', () => t("web.49b66c0c4b", { p0: index + 1 }));
       prompt.oninput = () => { stage.prompt = prompt.value; rememberWorkflow(); };
       promptLabel.append(caption, prompt); card.append(top, mode, agentBox, promptLabel); host.append(card);
     });
@@ -1017,15 +989,17 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
 
   function showWorkflowProposal(text, error) {
     const host = document.getElementById('workflow-proposal'); host.replaceChildren(); host.hidden = false;
-    if (error) { host.textContent = `设计失败：${error}`; pendingWorkflowProposal = null; return; }
+    if (error) { bindText(host, () => t("web.155f9a5bba", { p0: error })); pendingWorkflowProposal = null; return; }
     try {
       pendingWorkflowProposal = dotmdWorkflow.parseProposal(text, availableWorkflowAgents().map(profile => profile.id));
-      const heading = document.createElement('strong'); heading.textContent = `建议流程：${pendingWorkflowProposal.title}`;
+      // The hidden proposal remains mounted after acceptance clears the pending state.
+      const proposalTitle = pendingWorkflowProposal.title;
+      const heading = document.createElement('strong'); bindText(heading, () => t("web.7e570c7720", { p0: proposalTitle }));
       const list = document.createElement('ol');
       pendingWorkflowProposal.stages.forEach(stage => {
         const item = document.createElement('li'); item.textContent = `${stage.title}：${stage.prompt}`; list.append(item);
       });
-      const apply = document.createElement('button'); apply.type = 'button'; apply.textContent = '采用并继续修改';
+      const apply = document.createElement('button'); apply.type = 'button'; bindText(apply, () => t("web.bf06973841"));
       apply.onclick = () => {
         editedWorkflow = pendingWorkflowProposal;
         editedWorkflow.goal = document.getElementById('workflow-goal').value.trim();
@@ -1043,13 +1017,13 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     const host = document.getElementById('agent-results');
     if (results.length && purpose !== 'summary') {
       const finalLabel = document.createElement('div'); finalLabel.className = 'workflow-result-label';
-      finalLabel.textContent = `第 ${results.length} 步 · ${results.at(-1).title}${completed.length ? ' · 可采用下方结果' : ' · 未完成'}`;
+      bindText(finalLabel, () => t("web.9863342f0e", { p0: results.length, p1: results.at(-1).title, p2: completed.length ? t("web.dab4b7d1bd") : t("web.cb0faf0e9d") }));
       host.prepend(finalLabel);
     }
     results.slice(0, -1).reverse().forEach((stage, reverseIndex) => {
       const index = results.length - reverseIndex - 2;
       const card = document.createElement('section'); card.className = 'agent-result';
-      const header = document.createElement('header'); header.textContent = `第 ${index + 1} 步 · ${stage.title}`;
+      const header = document.createElement('header'); bindText(header, () => t("web.ace65eeabd", { p0: index + 1, p1: stage.title }));
       const pre = document.createElement('pre');
       pre.textContent = stage.answers.map(answer => `${answer.name}：${answer.error || answer.text}`).join('\n\n');
       card.append(header, pre); host.prepend(card);
@@ -1058,8 +1032,8 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
 
   function suggestedSummaryTitle() {
     const tab = tabs.get(activeDocumentID);
-    const base = (tab?.title || '未命名.md').replace(/\.md$/i, '');
-    return `${base} - 总结.md`;
+    const base = (tab?.title || t("web.5d440e0c24")).replace(/\.md$/i, '');
+    return t("web.bed89e01f0", { p0: base });
   }
 
   function parseAgentSearchMatches(text) {
@@ -1088,20 +1062,20 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     updateActiveSearchMark(false);
     if (!located.length) {
       const error = answers.find(answer => answer.error)?.error;
-      host.innerHTML = `<div class="empty-result">${md.utils.escapeHtml(error || 'Agent 没有返回可定位的原文匹配。')}</div>`;
-      document.getElementById('search-status').textContent = '没有可定位的 Agent 匹配';
+      host.innerHTML = `<div class="empty-result">${md.utils.escapeHtml(error || t("web.29288cf94f"))}</div>`;
+      bindText(document.getElementById('search-status'), () => t("web.cdc2281a76"));
       return;
     }
     located.forEach((match, index) => {
       const card = document.createElement('section'); card.className = 'agent-result';
-      const header = document.createElement('header'); header.textContent = `${match.agent} · 第 ${match.from.line + 1} 行`;
+      const header = document.createElement('header'); bindText(header, () => t("web.7e8436a305", { p0: match.agent, p1: match.from.line + 1 }));
       const pre = document.createElement('pre'); pre.textContent = `${match.quote}${match.reason ? `\n\n${match.reason}` : ''}`;
       const footer = document.createElement('footer');
-      const locate = document.createElement('button'); locate.type = 'button'; locate.textContent = '定位';
+      const locate = document.createElement('button'); locate.type = 'button'; bindText(locate, () => t("web.49726f09c8"));
       locate.onclick = () => { searchIndex = index; updateActiveSearchMark(true); };
       footer.append(locate); card.append(header, pre, footer); host.append(card);
     });
-    document.getElementById('search-status').textContent = `Agent 找到 ${located.length} 处语义匹配`;
+    bindText(document.getElementById('search-status'), () => t("web.416cc481bf", { p0: located.length }));
   }
 
   function showAgentResults(answers, purpose = 'edit') {
@@ -1125,15 +1099,15 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
       if (!answer.error) {
         const replace = document.createElement('button');
         replace.type = 'button';
-        replace.textContent = '替换选中内容';
+        bindText(replace, () => t("web.680c8de0e7"));
         replace.onclick = () => replaceRememberedSelection(answer.text, false);
         const formula = document.createElement('button');
         formula.type = 'button';
-        formula.textContent = '作为公式检查';
+        bindText(formula, () => t("web.84f69aeb47"));
         formula.onclick = () => openFormulaTools(answer.text);
         const copy = document.createElement('button');
         copy.type = 'button';
-        copy.textContent = '复制文本';
+        bindText(copy, () => t("web.befad31825"));
         copy.onclick = () => sendNativeMessage('copyText', { text: answer.text });
         footer.append(replace, formula, copy);
         if (purpose === 'summary') {
@@ -1141,7 +1115,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
           formula.remove();
           const create = document.createElement('button');
           create.type = 'button';
-          create.textContent = '生成新的 Markdown 文稿';
+          bindText(create, () => t("web.d33a76cc46"));
           create.onclick = () => sendNativeMessage('newWithContent', { title: suggestedSummaryTitle(), content: answer.text });
           footer.prepend(create);
         }
@@ -1151,13 +1125,13 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     });
     if (purpose === 'summary' && searchDialogOpen) {
       document.getElementById('search-dialog').classList.remove('busy');
-      document.getElementById('search-status').textContent = answers.some(answer => !answer.error) ? '总结完成，可生成新文稿' : '总结失败';
+      bindText(document.getElementById('search-status'), () => answers.some(answer => !answer.error) ? t("web.2b4892ed46") : t("web.36dae4e4b7"));
     }
   }
 
   function showToast(message) {
     const toast = document.getElementById('toast');
-    toast.textContent = message;
+    bindText(toast, message);
     toast.classList.add('show');
     clearTimeout(toast._timer);
     toast._timer = setTimeout(() => toast.classList.remove('show'), 2200);
@@ -1180,8 +1154,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   });
   function updateCursorStatus() {
     const cursorPosition = editor.getCursor();
-    document.getElementById('cursor-status').textContent =
-      `第 ${cursorPosition.line + 1} 行，第 ${cursorPosition.ch + 1} 列`;
+    bindText(document.getElementById('cursor-status'), () => t("web.bdb026b4a5", { p0: cursorPosition.line + 1, p1: cursorPosition.ch + 1 }));
   }
   editor.on('cursorActivity', () => {
     updateCursorStatus();
@@ -1212,7 +1185,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   document.getElementById('agent-tools').onclick = () => openAgentTools();
   document.getElementById('formula-source').oninput = updateFormulaPreview;
   document.getElementById('formula-normalize').onclick = () => { document.getElementById('formula-source').value=normalizeLatexFormula(document.getElementById('formula-source').value); updateFormulaPreview(); };
-  document.getElementById('formula-agent').onclick = () => { document.getElementById('formula-dialog').close(); openAgentTools('把选中内容转换为正确、可渲染的 LaTeX 公式，只返回公式源码'); };
+  document.getElementById('formula-agent').onclick = () => { document.getElementById('formula-dialog').close(); openAgentTools(t("web.0208ce3bf7")); };
   document.getElementById('formula-copy').onclick = () => {
     const clipboardFormats = prepareFormulaClipboardFormats();
     sendNativeMessage('copyFormula', {
@@ -1243,16 +1216,16 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     };
   }
   document.getElementById('workflow-add').onclick = () => {
-    if (editedWorkflow.stages.length >= dotmdWorkflow.MAX_STAGES) { showToast('最多添加 5 步。'); return; }
+    if (editedWorkflow.stages.length >= dotmdWorkflow.MAX_STAGES) { showToast(t("web.775e208b96")); return; }
     const firstID = availableWorkflowAgents()[0]?.id || '';
-    editedWorkflow.stages.push({ title: `第 ${editedWorkflow.stages.length + 1} 步`, mode: 'single', profileIDs: [firstID], prompt: '' });
+    editedWorkflow.stages.push({ title: t("web.c2e5810502", { p0: editedWorkflow.stages.length + 1 }), mode: 'single', profileIDs: [firstID], prompt: '' });
     rememberWorkflow(); renderWorkflowStages();
   };
   document.getElementById('workflow-generate').onclick = () => {
     const goal = document.getElementById('workflow-goal').value.trim();
     const planner = document.getElementById('workflow-planner').value;
-    if (!goal) { showToast('先用一句话描述目标。'); return; }
-    if (!planner) { showToast('先启用一位 Agent。'); return; }
+    if (!goal) { showToast(t("web.80d91696a4")); return; }
+    if (!planner) { showToast(t("web.e33b134dd0")); return; }
     sendNativeMessage('agentPlanWorkflow', { profileID: planner, goal });
   };
   document.getElementById('search-query').oninput = scheduleSearch;
@@ -1288,13 +1261,13 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   document.getElementById('font-size').oninput = event => {
     updateRangeProgress(event.target);
     document.documentElement.style.setProperty('--editor-size', `${event.target.value}px`);
-    document.getElementById('font-size-value').textContent = `${event.target.value} px`;
+    bindText(document.getElementById('font-size-value'), () => `${window.DotMDI18n.formatNumber(Number(document.getElementById('font-size').value))} px`);
     localStorage.editorSize = event.target.value;
   };
   document.getElementById('reading-width').oninput = event => {
     updateRangeProgress(event.target);
     document.documentElement.style.setProperty('--reading-width', `${event.target.value}px`);
-    document.getElementById('reading-width-value').textContent = `${event.target.value} px`;
+    bindText(document.getElementById('reading-width-value'), () => `${window.DotMDI18n.formatNumber(Number(document.getElementById('reading-width').value))} px`);
     localStorage.readingWidth = event.target.value;
   };
   document.getElementById('line-numbers').onchange = event => { editor.setOption('lineNumbers', event.target.checked); localStorage.lineNumbers = event.target.checked; };
@@ -1302,7 +1275,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   document.getElementById('history-depth').oninput = event => {
     updateRangeProgress(event.target);
     historyLimit = Number(event.target.value) || 10;
-    document.getElementById('history-depth-value').textContent = `${historyLimit} 步`;
+    bindText(document.getElementById('history-depth-value'), () => t("web.cb5c52f890", { p0: historyLimit }));
     localStorage.historyDepth = historyLimit;
     tabs.forEach(trimUndoHistory);
     editor.setOption('undoDepth', historyLimit);
@@ -1324,7 +1297,7 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   function agentConsoleSetupText() {
     const quoted = `'${agentConsoleHelperPath.replace(/'/g, `'\\''`)}'`;
     const platform = document.getElementById('agent-console-platform').value;
-    if (!agentConsoleHelperPath) return '请先启用 Agent 控制台';
+    if (!agentConsoleHelperPath) return t("web.8bea0433a9");
     if (platform === 'codex') return `codex mcp add dot-md -- ${quoted} mcp`;
     if (platform === 'claude') return `claude mcp add dot-md --scope user -- ${quoted} mcp`;
     if (platform === 'cursor') return JSON.stringify({mcpServers:{'dot-md':{command:agentConsoleHelperPath,args:['mcp']}}}, null, 2);
@@ -1332,10 +1305,10 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     return `${quoted} mcp`;
   }
   function refreshAgentConsoleSetup() {
-    document.getElementById('agent-console-command').textContent = agentConsoleSetupText();
-    document.getElementById('agent-console-cli-help').textContent = agentConsoleHelperPath
-      ? `${agentConsoleHelperPath} status\nprintf '# 新内容' | ${agentConsoleHelperPath} replace`
-      : 'dotmd-agent status';
+    bindText(document.getElementById('agent-console-command'), agentConsoleSetupText);
+    bindText(document.getElementById('agent-console-cli-help'), () => agentConsoleHelperPath
+      ? t("web.189f23a18f", { p0: agentConsoleHelperPath, p1: agentConsoleHelperPath })
+      : 'dotmd-agent status');
   }
   document.getElementById('agent-console-enabled').onchange = () => sendNativeMessage('agentConsole', {
     enabled: document.getElementById('agent-console-enabled').checked,
@@ -1405,8 +1378,8 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
       refreshAgentConsoleSetup();
     },
     configureAgents(profiles) { agentProfiles=profiles; renderAgentProfiles(); refreshWorkflowEditor(); window.dotmdDocx.updateAgents(); },
-    setAgentBusy(value) { document.getElementById('agent-dialog').classList.toggle('busy',value); document.getElementById('search-dialog').classList.toggle('busy',value); document.getElementById('agent-run').textContent=value?'Agent 运行中…':'运行 Agent'; },
-    setWorkflowPlanning(value) { document.getElementById('workflow-generate').disabled=value; document.getElementById('workflow-generate').textContent=value?'设计中…':'✦ Agent 设计流程'; if(!value) renderWorkflowPlanner(); },
+    setAgentBusy(value) { document.getElementById('agent-dialog').classList.toggle('busy',value); document.getElementById('search-dialog').classList.toggle('busy',value); bindText(document.getElementById('agent-run'), () => value?t("web.804f4ba54a"):t("web.50b8423f6d")); },
+    setWorkflowPlanning(value) { document.getElementById('workflow-generate').disabled=value; bindText(document.getElementById('workflow-generate'), () => value?t("web.d0cd87ce61"):t("web.ed9dd3a897")); if(!value) renderWorkflowPlanner(); },
     showWorkflowProposal,
     showWorkflowResults,
     showAgentResults,
@@ -1432,17 +1405,26 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
     exportHTML() {
       renderMarkdownPreview();
       const css = [...document.styleSheets].map(sheet => { try { return [...sheet.cssRules].map(rule => rule.cssText).join('\n'); } catch (_) { return ''; } }).join('\n');
-      return `<!doctype html><html><head><meta charset="utf-8"><title>Markdown 文稿</title><style>${css}</style></head><body><article class="markdown-body">${preview.innerHTML}</article></body></html>`;
+      return `<!doctype html><html lang="${window.DotMDI18n.locale}"><head><meta charset="utf-8"><title>${t('document.exportTitle')}</title><style>${css}</style></head><body><article class="markdown-body" dir="auto">${preview.innerHTML}</article></body></html>`;
     }
   };
 
   window.dotmdDocx.bind({
     getID: () => activeDocumentID,
-    getTitle: () => tabs.get(activeDocumentID)?.title || '未命名.md',
+    getTitle: () => tabs.get(activeDocumentID)?.title || t("web.5d440e0c24"),
     getArticle: () => { renderMarkdownPreview(); return preview; },
     getAgents: () => agentProfiles,
     post: sendNativeMessage,
     showToast
+  });
+
+  window.addEventListener('dotmdlanguagechange', () => {
+    updateCursorStatus();
+    updateWordCount(editor.getValue());
+    updateActiveAgentSummary();
+    updateSearchStatus(false);
+    scheduleDragRegionUpdate();
+    editor.refresh();
   });
 
   restoreSettings();
@@ -1450,11 +1432,11 @@ $$\\mathbf{A}=\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}$$
   editor.setValue(initial);
   const initialID = `welcome-${Date.now()}`;
   activeDocumentID = initialID;
-  tabs.set(initialID, { id: initialID, title: '欢迎.md', doc: editor.getDoc(), dirty: false, editorScroll: 0, previewScroll: 0,
-    timeline: [createHistoryEntry('初始状态', initial, { line: 0, ch: 0 })], timelineIndex: 0 });
+  tabs.set(initialID, { id: initialID, title: t("web.7610a5391a"), doc: editor.getDoc(), dirty: false, editorScroll: 0, previewScroll: 0,
+    timeline: [createHistoryEntry(t("web.599abc8c57"), initial, { line: 0, ch: 0 })], timelineIndex: 0 });
   documentTabOrder.push(initialID);
   renderTabs();
   renderMarkdownPreview();
-  sendNativeMessage('ready', { id: initialID, title: '欢迎.md', content: initial });
+  sendNativeMessage('ready', { id: initialID, title: t("web.7610a5391a"), content: initial });
   suppressChanges = false;
 })();

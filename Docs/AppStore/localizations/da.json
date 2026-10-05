@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown og skrivning med AI",
+  "promotional_text": "Skriv på iPhone og iPad, se formler, og eksporter dokumenter. Valgfrie agenter beder om samtykke, før indhold sendes.",
+  "keywords": "markdown,latex,skrivning,noter,formler,editor",
+  "description": "md any where er en Markdown-editor til skrivning og formler på macOS, iPhone og iPad. Rediger og se forhåndsvisning offline, søg i tekst, og eksporter HTML, PDF og DOCX. Du behøver ingen appkonto. Mobilversionen åbner dokumenter via Arkiver og gendanner lokale kladder.\n\nOpsæt en kompatibel AI-tjeneste med din egen adresse, model og API-nøgle til korrektur, resuméer og arbejdsgange. Agenter er slået fra som standard. Hver afsendelse viser modtageren og tekstens omfang og kræver dit samtykke. Udbydere kan opkræve betaling og gemme anmodninger efter deres egne politikker. Nøgler gemmes i systemets nøglering. Appen indeholder ikke kreditter til brug af AI-modeller, og lokal redigering kræver ikke, at agenter er slået til.\n\nmacOS-versionen forbindes med AI-editorer via MCP eller CLI. iPhone/iPad har indbyggede agenter, ikke et skrivebords-IDE. Appen tilbyder ikke sin egen skysynkronisering. Den originale kildekode er udgivet under MIT-licensen.",
+  "review_notes": "Lokal redigering, forhåndsvisning og eksport kræver ikke login. Opret et dokument med en overskrift og en formel, og eksporter det. Agenter kræver samtykke. Begrænset testadgang skal gives privat i App Store Connect før indsendelse.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

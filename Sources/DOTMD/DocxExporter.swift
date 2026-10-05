@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 #if canImport(AppKit)
 import AppKit
 #endif
@@ -117,7 +120,7 @@ private struct StoredZip {
         guard data.count < Int(UInt32.max), bytes.count < Int(UInt32.max),
               entries.count < Int(UInt16.max) else {
             throw NSError(domain: "DOTMD.DOCX", code: 1,
-                          userInfo: [NSLocalizedDescriptionKey: "文稿过大，无法打包为 DOCX。"])
+                          userInfo: [NSLocalizedDescriptionKey: L("native.docx.tooLarge")])
         }
         let nameBytes = Data(name.utf8)
         let checksum = Self.crc32(bytes)
@@ -141,7 +144,7 @@ private struct StoredZip {
     mutating func finalizeArchive() throws -> Data {
         guard data.count < Int(UInt32.max) else {
             throw NSError(domain: "DOTMD.DOCX", code: 2,
-                          userInfo: [NSLocalizedDescriptionKey: "DOCX 超过 ZIP 格式的容量限制。"])
+                          userInfo: [NSLocalizedDescriptionKey: L("native.docx.zipLimit")])
         }
         let centralOffset = UInt32(data.count)
         for entry in entries {
@@ -216,7 +219,7 @@ final class DocxExporter {
     func exportDocument(blocks: [DocxBlock], title: String, to url: URL) throws {
         guard blocks.count <= 50_000 else {
             throw NSError(domain: "DOTMD.DOCX", code: 3,
-                          userInfo: [NSLocalizedDescriptionKey: "文稿段落过多，已停止导出。"])
+                          userInfo: [NSLocalizedDescriptionKey: L("native.docx.tooManyParagraphs")])
         }
         let body = blocks.map(blockXML).joined()
         let section = sectionXML()
@@ -254,7 +257,7 @@ final class DocxExporter {
         try zip.addStoredFile("docProps/app.xml", utf8XMLData("""
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
         <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties">
-          <Application>DOT MD</Application></Properties>
+          <Application>md any where</Application></Properties>
         """))
         try zip.addStoredFile("word/document.xml", utf8XMLData(document))
         try zip.addStoredFile("word/styles.xml", utf8XMLData(stylesXML()))
@@ -479,8 +482,8 @@ final class DocxExporter {
         }
         if run.kind == "image" {
             if let drawing = imageXML(run) { return drawing }
-            let name = run.alt?.isEmpty == false ? run.alt! : (run.source ?? "图片")
-            return textXML("[图片：\(name)]", properties: "")
+            let name = run.alt?.isEmpty == false ? run.alt! : (run.source ?? L("native.image"))
+            return textXML(L("native.docx.imagePlaceholder", name), properties: "")
         }
         // CT_RPr has a fixed child order. Word rejects runs that put font or
         // size after underline/vertical alignment even when the XML parses.

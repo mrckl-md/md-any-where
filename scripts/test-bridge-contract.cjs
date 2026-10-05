@@ -38,8 +38,9 @@ for (const id of referencedDocxIDs) {
 
 assert.match(docxSource, /result\.open\s*=\s*node\.getAttribute\('open'\)/,
   'MathML fence opening must keep the Swift-decoded open field');
-for (const [command, key] of [['剪切', 'x'], ['拷贝', 'c'], ['粘贴', 'v'], ['全选', 'a']]) {
-  assert.match(nativeSource, new RegExp(`addMenuCommand\\(edit, "${command}"[^\\n]*"${key}", responderChain: true\\)`),
+for (const [command, key] of [['cut', 'x'], ['copy', 'c'], ['paste', 'v'], ['selectAll', 'a']]) {
+  const menuLine = nativeSource.split('\n').find(line => line.includes(`#selector(NSText.${command}(_:)`));
+  assert.ok(menuLine?.includes(`"${key}", responderChain: true`),
     `Native ${command} shortcut must follow the focused input responder chain`);
 }
 for (const key of ['Cmd-C', 'Cmd-X', 'Cmd-V']) {
@@ -92,3 +93,10 @@ const agentEntitlements = readSource('Support/DOTMDAgent.entitlements');
 assert.match(agentEntitlements, /com\.apple\.security\.app-sandbox/,
   'The independently launched Agent helper must have its own sandbox');
 console.log('Swift/JavaScript bridge and DOCX DOM contract tests passed.');
+
+for (const file of ['Sources/DOTMD/AppDelegate.swift', 'Sources/DOTMDiPad/AppDelegate.swift']) {
+  const changeLanguage = readSource(file).split('case "changeInterfaceLanguage":')[1]?.split('case "change":')[0] || '';
+  assert.match(changeLanguage, /setLanguage/);
+  assert.doesNotMatch(changeLanguage, /sendAgentProfiles|configureAgents/,
+    'Changing UI language must preserve unsaved profile fields and API keys');
+}

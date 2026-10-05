@@ -1,6 +1,6 @@
 # Third-party notices
 
-DOT MD's original code is licensed under the [MIT License](LICENSE). Bundled third-party code keeps its own copyright notices and license terms; the root license does not replace them.
+md any where's original code is licensed under the [MIT License](LICENSE). Bundled third-party code keeps its own copyright notices and license terms; the root license does not replace them.
 
 ## Bundled runtime components
 
@@ -16,7 +16,7 @@ Full license texts are already present in `Sources/DOTMD/Resources/Licenses/`. B
 
 Versions above come from each bundled file's own version string or banner. [Third-Party-Inventory.json](Docs/Third-Party-Inventory.json) records principal file and license hashes for this source snapshot; it is not a complete transitive SBOM or a security certification. No vendor payload or retained license text was changed for this release preparation.
 
-DOT MD's `mermaid-flowchart.js` is a project-owned parser/renderer for a limited Mermaid-style flowchart syntax, not the Mermaid library. DOCX font settings refer to fonts on the recipient's device; DOT MD does not bundle Microsoft fonts such as Times New Roman or Cambria Math.
+md any where's `mermaid-flowchart.js` is a project-owned parser/renderer for a limited Mermaid-style flowchart syntax, not the Mermaid library. DOCX font settings refer to fonts on the recipient's device; md any where does not bundle Microsoft fonts such as Times New Roman or Cambria Math.
 
 ## Development-only dependencies
 

@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown și scriere cu AI",
+  "promotional_text": "Scrie pe iPhone și iPad, previzualizează formule și exportă documente. Agenții opționali cer acordul înainte de a trimite conținut.",
+  "keywords": "markdown,latex,scriere,notițe,formule,editor",
+  "description": "md any where este un editor Markdown pentru scriere și formule pe macOS, iPhone și iPad. Editează și previzualizează offline, caută text și exportă HTML, PDF și DOCX. Nu este necesar un cont al aplicației. Versiunea mobilă deschide documente prin Fișiere și recuperează ciornele locale.\n\nConfigurează un serviciu AI compatibil cu adresa, modelul și cheia API proprii pentru corecturi, rezumate și fluxuri de lucru. Agenții sunt dezactivați inițial. Fiecare trimitere afișează destinatarul și porțiunea de text și solicită acordul tău. Furnizorii pot percepe taxe și păstra solicitările conform politicilor proprii. Cheile sunt salvate în portcheiul sistemului. Aplicația nu include credite pentru utilizarea modelelor AI, iar editarea locală nu necesită activarea agenților.\n\nVersiunea macOS se conectează la editoare AI prin MCP sau CLI. iPhone/iPad folosește agenți integrați, nu un IDE pentru desktop. Aplicația nu oferă sincronizare cloud proprie. Codul original este disponibil sub licența MIT.",
+  "review_notes": "Editarea, previzualizarea și exportul local nu cer autentificare. Creează un document cu titlu și formulă, apoi exportă-l. Agenții necesită acord. Accesul de test limitat trebuie oferit privat în App Store Connect înainte de trimitere.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

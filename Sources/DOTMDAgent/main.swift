@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import AppKit
 import Foundation
 
@@ -65,7 +68,7 @@ private func callDOTMD(command: String, arguments: [String: Any]) throws -> [Str
     let executable = URL(fileURLWithPath: CommandLine.arguments[0]).standardizedFileURL
     let appURL = executable.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     guard appURL.pathExtension == "app" else {
-        throw ConsoleError.transport("dotmd-agent 必须从 DOT MD.app/Contents/MacOS 中运行。")
+        throw ConsoleError.transport(L("native.helper.appRequired"))
     }
     let deadline = Date().addingTimeInterval(15)
     var didRequestLaunch = false
@@ -79,12 +82,12 @@ private func callDOTMD(command: String, arguments: [String: Any]) throws -> [Str
             let header = try readExactly(4, from: descriptor)
             let length = header.reduce(UInt32(0)) { ($0 << 8) | UInt32($1) }
             guard length > 0, length <= 10_000_000 else {
-                throw ConsoleError.transport("DOT MD 返回了无效响应。")
+                throw ConsoleError.transport(L("native.helper.invalidResponse"))
             }
             let data = try readExactly(Int(length), from: descriptor)
             guard let value = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                   value["state"] as? String == "response" else {
-                throw ConsoleError.transport("DOT MD 返回了无效响应。")
+                throw ConsoleError.transport(L("native.helper.invalidResponse"))
             }
             return value
         }
@@ -97,27 +100,27 @@ private func callDOTMD(command: String, arguments: [String: Any]) throws -> [Str
         }
         Thread.sleep(forTimeInterval: 0.10)
     }
-    throw ConsoleError.transport("DOT MD 没有在 15 秒内响应。请确认应用已启动且已在设置中启用 Agent 控制台。")
+    throw ConsoleError.transport(L("native.helper.timeout"))
 }
 
 private let tools: [[String: Any]] = [
-    ["name":"dotmd_status", "description":"Check whether the local DOT MD console bridge is enabled and get the active document summary.",
+    ["name":"dotmd_status", "description":L("native.helper.toolDescription1"),
      "inputSchema":["type":"object", "properties":[:]], "annotations":["readOnlyHint":true]],
-    ["name":"dotmd_list_documents", "description":"List documents currently open in DOT MD. Does not scan the filesystem.",
+    ["name":"dotmd_list_documents", "description":L("native.helper.toolDescription2"),
      "inputSchema":["type":"object", "properties":[:]], "annotations":["readOnlyHint":true]],
-    ["name":"dotmd_read_document", "description":"Read one document already open in DOT MD. Omit document_id for the active document.",
+    ["name":"dotmd_read_document", "description":L("native.helper.toolDescription3"),
      "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "max_chars":["type":"integer", "minimum":1, "maximum":200000]]], "annotations":["readOnlyHint":true]],
-    ["name":"dotmd_create_document", "description":"Create a new unsaved Markdown tab in DOT MD. The user chooses a location when saving.",
+    ["name":"dotmd_create_document", "description":L("native.helper.toolDescription4"),
      "inputSchema":["type":"object", "properties":["title":["type":"string"], "content":["type":"string"]], "required":["content"]], "annotations":["readOnlyHint":false, "destructiveHint":false]],
-    ["name":"dotmd_replace_document", "description":"Replace the content of a document already open in DOT MD. Requires edit access in DOT MD settings.",
+    ["name":"dotmd_replace_document", "description":L("native.helper.toolDescription5"),
      "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "content":["type":"string"]], "required":["content"]], "annotations":["readOnlyHint":false, "destructiveHint":true]],
-    ["name":"dotmd_append_text", "description":"Append Markdown to a document already open in DOT MD. Requires edit access.",
+    ["name":"dotmd_append_text", "description":L("native.helper.toolDescription6"),
      "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "text":["type":"string"]], "required":["text"]], "annotations":["readOnlyHint":false, "destructiveHint":false]],
-    ["name":"dotmd_insert_diagram", "description":"Insert an offline-rendered Mermaid flowchart into an open DOT MD document. Pass Mermaid source beginning with flowchart/graph and a direction. Requires edit access.",
-     "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "title":["type":"string"], "diagram":["type":"string", "description":"Mermaid flowchart source without fenced-code markers, for example: flowchart LR\\nA[Input] --> B[Output]"]], "required":["diagram"]], "annotations":["readOnlyHint":false, "destructiveHint":false]],
-    ["name":"dotmd_find_replace", "description":"Literal find and replace in one open document. Returns the replacement count. Requires edit access.",
+    ["name":"dotmd_insert_diagram", "description":L("native.helper.toolDescription7"),
+     "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "title":["type":"string"], "diagram":["type":"string", "description":L("native.helper.toolDescription8")]], "required":["diagram"]], "annotations":["readOnlyHint":false, "destructiveHint":false]],
+    ["name":"dotmd_find_replace", "description":L("native.helper.toolDescription9"),
      "inputSchema":["type":"object", "properties":["document_id":["type":"string"], "find":["type":"string"], "replace":["type":"string"], "all":["type":"boolean"]], "required":["find","replace"]], "annotations":["readOnlyHint":false, "destructiveHint":true]],
-    ["name":"dotmd_save_document", "description":"Save an already-saved open document to its authorized location. Unsaved tabs require the user-facing Save As dialog.",
+    ["name":"dotmd_save_document", "description":L("native.helper.toolDescription10"),
      "inputSchema":["type":"object", "properties":["document_id":["type":"string"]]], "annotations":["readOnlyHint":false, "destructiveHint":false]]
 ]
 
@@ -140,7 +143,7 @@ private func mcpResponse(id: Any, result: Any? = nil, error: [String: Any]? = ni
         case "initialize":
             response = mcpResponse(id: id, result: ["protocolVersion":"2025-06-18",
                 "capabilities":["tools":["listChanged":false]],
-                "serverInfo":["name":"DOT MD", "version":"1.0.0"]])
+                "serverInfo":["name":"DOT MD", "title":"md any where", "version":"1.0.0"]])
         case "ping": response = mcpResponse(id: id, result: [:])
         case "tools/list": response = mcpResponse(id: id, result: ["tools":tools])
         case "tools/call":
@@ -157,7 +160,7 @@ private func mcpResponse(id: Any, result: Any? = nil, error: [String: Any]? = ni
             } catch {
                 response = mcpResponse(id: id, result: ["content":[["type":"text", "text":error.localizedDescription]], "isError":true])
             }
-        default: response = mcpResponse(id: id, error: ["code":-32601, "message":"Method not found"])
+        default: response = mcpResponse(id: id, error: ["code":-32601, "message":L("native.helper.methodNotFound")])
         }
         if let output = try? jsonData(response), let text = String(data: output, encoding: .utf8) {
             print(text); fflush(stdout)
@@ -168,28 +171,28 @@ private func mcpResponse(id: Any, result: Any? = nil, error: [String: Any]? = ni
 private func stdinText() -> String { String(data: FileHandle.standardInput.readDataToEndOfFile(), encoding: .utf8) ?? "" }
 
 @MainActor private func runCLI(_ arguments: [String]) throws {
-    guard let verb = arguments.first else { throw ConsoleError.usage("用法：dotmd-agent status|list|read|new|replace|append|diagram|find-replace|save|call|mcp") }
+    guard let verb = arguments.first else { throw ConsoleError.usage(L("native.helper.usage")) }
     if verb == "mcp" { runMCP(); return }
     var command = verb, payload: [String: Any] = [:]
     switch verb {
     case "status": break
     case "list": command = "list_documents"
     case "read": command = "read_document"; if arguments.count > 1 { payload["document_id"] = arguments[1] }
-    case "new": command = "create_document"; payload["title"] = arguments.count > 1 ? arguments[1] : "Agent 文稿.md"; payload["content"] = stdinText()
+    case "new": command = "create_document"; payload["title"] = arguments.count > 1 ? arguments[1] : L("native.agent.documentTitle"); payload["content"] = stdinText()
     case "replace": command = "replace_document"; if arguments.count > 1 { payload["document_id"] = arguments[1] }; payload["content"] = stdinText()
     case "append": command = "append_text"; if arguments.count > 1 { payload["document_id"] = arguments[1] }; payload["text"] = stdinText()
     case "diagram": command = "insert_diagram"; if arguments.count > 1 { payload["document_id"] = arguments[1] }; payload["diagram"] = stdinText()
     case "find-replace":
-        guard arguments.count >= 3 else { throw ConsoleError.usage("用法：dotmd-agent find-replace <查找> <替换> [文稿ID]") }
+        guard arguments.count >= 3 else { throw ConsoleError.usage(L("native.helper.findUsage")) }
         command = "find_replace"; payload["find"] = arguments[1]; payload["replace"] = arguments[2]; payload["all"] = true
         if arguments.count > 3 { payload["document_id"] = arguments[3] }
     case "save": command = "save_document"; if arguments.count > 1 { payload["document_id"] = arguments[1] }
     case "call":
-        guard arguments.count >= 2 else { throw ConsoleError.usage("用法：dotmd-agent call <命令> '[JSON参数]'") }
+        guard arguments.count >= 2 else { throw ConsoleError.usage(L("native.helper.callUsage")) }
         command = arguments[1]
         if arguments.count > 2, let data = arguments[2].data(using: .utf8),
            let value = try JSONSerialization.jsonObject(with: data) as? [String: Any] { payload = value }
-    default: throw ConsoleError.usage("未知命令：\(verb)")
+    default: throw ConsoleError.usage(L("native.helper.unknownCommand", verb))
     }
     let response = try callDOTMD(command: command, arguments: payload)
     FileHandle.standardOutput.write(try jsonData(response)); print()

@@ -1,6 +1,10 @@
 /* Loaded by the iPhone/iPad host, after app.js. Keep the shared editor bridge intact. */
 (() => {
   'use strict';
+  const t = (key, args) => (globalThis.DotMDI18n || (typeof require === 'function' ? require('./i18n.js') : null))?.t(key, args) ?? key;
+  const bindText = (element, render) => globalThis.DotMDI18n.bindText(element, render);
+  const bindAttribute = (element, attribute, render) => globalThis.DotMDI18n.bindAttribute(element, attribute, render);
+
 
   const editor = document.querySelector('.CodeMirror')?.CodeMirror;
   if (!editor || !window.dotmd) return;
@@ -22,8 +26,8 @@
   function createButton(label, action, accessibleLabel = label) {
     const button = document.createElement('button');
     button.type = 'button';
-    button.textContent = label;
-    button.setAttribute('aria-label', accessibleLabel);
+    bindText(button, label);
+    bindAttribute(button, 'aria-label', accessibleLabel);
     button.addEventListener('click', action);
     return button;
   }
@@ -36,22 +40,22 @@
   menuHeader.className = 'dialog-title';
   const menuTitle = document.createElement('h2');
   menuTitle.id = 'ipad-file-menu-title';
-  menuTitle.textContent = '文稿';
-  const menuClose = createButton('×', () => fileMenu.close(), '关闭文稿菜单');
+  bindText(menuTitle, () => t("web.f569701965"));
+  const menuClose = createButton('×', () => fileMenu.close(), t("web.44f7556e75"));
   menuClose.className = 'icon-close';
   menuHeader.append(menuTitle, menuClose);
   const menuActions = document.createElement('div');
   menuActions.className = 'ipad-menu-actions';
   const menuItems = [
-    ['新建文稿', () => sendNativeMessage('new')],
-    ['打开文稿…', () => sendNativeMessage('open')],
-    ['保存', () => sendNativeMessage('save')],
-    ['另存为…', () => sendNativeMessage('saveAs')],
-    ['导出 Word / WPS…', () => window.dotmd.openDocxTools()],
-    ['导出 PDF…', () => sendNativeMessage('exportPDF')],
-    ['导出 HTML…', () => sendNativeMessage('exportHTML')],
-    ['分享 Markdown…', () => sendNativeMessage('share')],
-    ['设置与 Agent…', () => window.dotmd.openSettings()]
+    [t("web.748571e33e"), () => sendNativeMessage('new')],
+    [t("web.b7e867ed8c"), () => sendNativeMessage('open')],
+    [t("web.a3030bf8f1"), () => sendNativeMessage('save')],
+    [t("web.9016c46397"), () => sendNativeMessage('saveAs')],
+    [t("web.f0600a0531"), () => window.dotmd.openDocxTools()],
+    [t("web.9ec4c7bf99"), () => sendNativeMessage('exportPDF')],
+    [t("web.663f6864e5"), () => sendNativeMessage('exportHTML')],
+    [t("web.69311783ce"), () => sendNativeMessage('share')],
+    [t("web.e15ea19da5"), () => window.dotmd.openSettings()]
   ];
   menuItems.forEach(([label, action]) => {
     menuActions.append(createButton(label, () => {
@@ -64,31 +68,31 @@
 
   const fileTools = document.createElement('nav');
   fileTools.className = 'ipad-file-tools';
-  fileTools.setAttribute('aria-label', '文稿操作');
-  const fileButton = createButton('文稿 ▾', () => fileMenu.showModal(), '打开文稿菜单');
+  bindAttribute(fileTools, 'aria-label', () => t("web.606b4b2701"));
+  const fileButton = createButton(t("web.271f734980"), () => fileMenu.showModal(), t("web.5254a5ca7c"));
   fileButton.setAttribute('aria-haspopup', 'dialog');
   fileButton.setAttribute('aria-controls', fileMenu.id);
-  fileTools.append(fileButton, createButton('保存', () => sendNativeMessage('save'), '保存当前文稿'));
-  const formatToggle = createButton('格式', () => {
+  fileTools.append(fileButton, createButton(t("web.a3030bf8f1"), () => sendNativeMessage('save'), t("web.a70e86e337")));
+  const formatToggle = createButton(t("web.0e8b1c78c5"), () => {
     const isOpen = document.body.classList.toggle('mobile-format-open');
     formatToggle.setAttribute('aria-expanded', String(isOpen));
     editor.refresh();
-  }, '展开或收起格式工具栏');
+  }, t("web.100d547ad4"));
   formatToggle.id = 'mobile-format-toggle';
   formatToggle.setAttribute('aria-expanded', 'false');
   const formatTools = document.querySelector('.format-tools');
   formatTools.id = 'mobile-format-tools';
-  formatTools.setAttribute('aria-label', '格式工具栏，可左右滑动');
+  bindAttribute(formatTools, 'aria-label', () => t("web.2bcdacfac9"));
   formatTools.tabIndex = 0;
   formatToggle.setAttribute('aria-controls', formatTools.id);
   fileTools.append(formatToggle);
   topbar.insertBefore(fileTools, document.querySelector('.format-tools'));
-  const viewLabels = { editor: '编辑', split: '分栏', preview: '预览' };
+  const viewLabels = { editor: t("web.0518365699"), split: t("web.e02531a7e0"), preview: t("web.13d61fea9f") };
   document.querySelectorAll('[data-mode]').forEach(button => {
-    button.textContent = viewLabels[button.dataset.mode] || button.textContent;
+    bindText(button, viewLabels[button.dataset.mode] || button.textContent);
   });
 
-  const hideKeyboard = createButton('收起键盘', () => {
+  const hideKeyboard = createButton(t("web.d826c4ece4"), () => {
     document.activeElement?.blur();
     editor.getInputField().blur();
   });
@@ -133,7 +137,7 @@
       tab.setAttribute('aria-selected', String(tab.classList.contains('active')));
       tab.tabIndex = 0;
       const close = tab.querySelector('.tab-close');
-      close?.setAttribute('aria-label', `关闭 ${tab.querySelector('.tab-title')?.textContent || '文稿'}`);
+      bindAttribute(close, 'aria-label', () => t("web.780bce343c", { p0: tab.querySelector('.tab-title')?.textContent || t("web.f569701965") }));
     });
   }
   new MutationObserver(adaptDocumentTabs).observe(tabList, { childList: true });
@@ -148,21 +152,8 @@
   // The local macOS MCP console and window material controls do not exist on iOS.
   document.getElementById('settings-console-title')?.closest('.settings-section')?.setAttribute('hidden', '');
   document.getElementById('settings-appearance-title')?.closest('.settings-section')?.setAttribute('hidden', '');
-  document.querySelectorAll('.settings-section-hint, .privacy-policy-content p, #agent-dialog .format-hint').forEach(element => {
-    element.textContent = element.textContent.replaceAll('macOS 钥匙串', 'iOS 钥匙串')
-      .replaceAll('不离开电脑', '在所配置的本地服务上处理')
-      .replaceAll('，或关闭本机控制台', '');
-  });
-  document.querySelectorAll('.privacy-policy-content h3').forEach(heading => {
-    if (heading.textContent === '本机控制台') {
-      heading.nextElementSibling?.setAttribute('hidden', '');
-      heading.hidden = true;
-    }
-  });
+  document.querySelector('[data-privacy-console]')?.setAttribute('hidden', '');
   function adaptAgentProfiles() {
-    document.querySelectorAll('#agent-profiles .key').forEach(input => {
-      input.placeholder = input.placeholder.replace('macOS 钥匙串', 'iOS 钥匙串');
-    });
     document.querySelectorAll('#agent-profiles input:not([type="checkbox"])').forEach(input => {
       input.autocapitalize = 'none';
       input.setAttribute('autocorrect', 'off');
@@ -173,7 +164,7 @@
   adaptAgentProfiles();
 
   editor.setOption('autofocus', false);
-  editor.getInputField().setAttribute('aria-label', 'Markdown 编辑器');
+  bindAttribute(editor.getInputField(), 'aria-label', () => t("web.2bcb89b816"));
   editor.getInputField().setAttribute('autocapitalize', 'off');
   editor.getInputField().setAttribute('autocorrect', 'off');
   editor.getInputField().setAttribute('spellcheck', 'false');

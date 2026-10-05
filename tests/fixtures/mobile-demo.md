@@ -1,6 +1,8 @@
-# DOT MD · 随身写作
+# md any where · 随身写作
 
-在 iPhone 和 iPad 上记录灵感，用 Markdown 整理思路。
+在 macOS、iPhone 和 iPad 上随时写作，用 Markdown 整理思路。
+
+本机离线编辑与预览，可选接入 AI 模型协助润色、校对和公式编辑。macOS 还支持通过 MCP 接入 AI 编辑器；运行远程 Agent 前，会先确认发送范围。
 
 ## 写作与排版
 

@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown in pisanje z AI",
+  "promotional_text": "Pišite na iPhonu in iPadu, oglejte si formule in izvozite dokumente. Izbirni agenti pred pošiljanjem prosijo za soglasje.",
+  "keywords": "markdown,latex,pisanje,zapiski,formule,urejevalnik",
+  "description": "md any where je urejevalnik Markdown za pisanje in formule v macOS, na iPhonu in iPadu. Urejajte in pregledujte brez povezave, iščite besedilo ter izvažajte HTML, PDF in DOCX. Račun aplikacije ni potreben. Mobilna različica odpira dokumente prek Datotek in obnavlja lokalne osnutke.\n\nZa popravke, povzetke in poteke dela nastavite združljivo storitev AI z lastnim naslovom, modelom in ključem API. Agenti so privzeto izklopljeni. Pred vsakim pošiljanjem sta prikazana prejemnik in obseg besedila, nato je potrebno vaše soglasje. Ponudniki lahko zaračunajo storitev in hranijo zahteve po svojih pravilih. Ključi so shranjeni v sistemskem obesku ključev. Aplikacija ne vključuje kreditov za uporabo modelov AI, lokalno urejanje pa ne zahteva vklopa agentov.\n\nRazličica macOS se povezuje z urejevalniki AI prek MCP ali CLI. iPhone/iPad uporablja vgrajene agente, ne namiznega IDE. Aplikacija nima lastne sinhronizacije v oblaku. Izvorna koda je na voljo pod licenco MIT.",
+  "review_notes": "Lokalno urejanje, predogled in izvoz ne zahtevajo prijave. Ustvarite dokument z naslovom in formulo ter ga izvozite. Agenti zahtevajo soglasje. Omejen preskusni dostop je treba pred oddajo zasebno zagotoviti v App Store Connect.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

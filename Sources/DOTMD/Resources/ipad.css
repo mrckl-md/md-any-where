@@ -361,3 +361,34 @@ body.ipad-app.printing .dotmd-flow-edge { stroke:#555; }
 body.ipad-app.printing .dotmd-flow-edge-label { stroke:#fff; }
 body.ipad-app.printing .markdown-body pre { white-space:pre-wrap; overflow-wrap:anywhere; overflow:visible; }
 body.ipad-app.printing .markdown-body pre * { color:#111 !important; background:transparent !important; }
+
+/* Long localized labels remain reachable without widening the viewport. */
+.ipad-app .ipad-file-tools { overflow-x:auto; scrollbar-width:none; }
+.ipad-app .ipad-file-tools::-webkit-scrollbar { display:none; }
+.ipad-app .view-switch { min-width:0; }
+.ipad-app .view-switch button { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ipad-app #word-count { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ipad-app .statusbar button { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ipad-app .ipad-menu-actions button { text-align:start; }
+html[dir="rtl"] .ipad-app .topbar { direction:rtl; }
+html[dir="rtl"] .ipad-app #outline { inset:0 0 0 auto; }
+html[dir="rtl"] .ipad-app .view-switch { margin-right:0; margin-left:10px; }
+@media (max-width:600px) {
+  .ipad-app .topbar { grid-template-columns:auto minmax(44px,1fr) minmax(132px,46%); }
+  .ipad-app .view-switch { width:100%; }
+  .ipad-app .view-switch button { flex:1 1 0; min-width:0; padding-inline:5px; }
+  .ipad-app .statusbar button { max-width:34%; flex-shrink:0; }
+  .ipad-app .statusbar { gap:6px; }
+  .ipad-app #word-count { flex:1; }
+  .ipad-app .status-spacer { display:none; }
+  html[dir="rtl"] .ipad-app .view-switch { margin-left:4px; }
+  body.ipad-app.mobile-compact-height .topbar { grid-template-columns:minmax(44px,1fr) minmax(132px,46%); }
+}
+/* WebKit's native select caption can otherwise enlarge an ancestor's scrollable
+   area even while the select's border box fits. The full option stays available
+   in the system picker and to accessibility. */
+.ipad-app dialog select {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}

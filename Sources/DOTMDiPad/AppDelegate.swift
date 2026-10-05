@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import UIKit
 import WebKit
 import UniformTypeIdentifiers
@@ -39,7 +42,10 @@ final class IPadSceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) { editor?.flushRecovery() }
-    func sceneDidBecomeActive(_ scene: UIScene) { editor?.refreshActiveDocument() }
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        editor?.synchronizeInterfaceLanguage()
+        editor?.refreshActiveDocument()
+    }
     func sceneDidEnterBackground(_ scene: UIScene) { editor?.saveInBackground() }
     func sceneDidDisconnect(_ scene: UIScene) { editor?.flushRecovery() }
 }
@@ -85,7 +91,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.add(IPadEditorMessageHandler(owner: self), name: "editor")
         configuration.userContentController.addUserScript(WKUserScript(
-            source: "window.DOTMD_IPAD = true;",
+            source: "window.DOTMD_IPAD = true;" + InterfaceLocalization.initialJavaScript,
             injectionTime: .atDocumentStart, forMainFrameOnly: true))
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
@@ -105,7 +111,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         ])
         guard let root = Bundle.main.resourceURL?.appendingPathComponent("Editor", isDirectory: true),
               FileManager.default.fileExists(atPath: root.appendingPathComponent("index.html").path) else {
-            showError("无法载入编辑器资源。")
+            showError(L("native.error.editorLoad"))
             return
         }
         editorRoot = root.standardizedFileURL
@@ -136,7 +142,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                         document.bookmark = nil
                         document.isDirty = true
                         document.hasSaveConflict = false
-                        restoreWarning = "已恢复本机文稿；部分原文件访问权限已失效，请另存为。"
+                        restoreWarning = L("native.recovery.permissions")
                     }
                 } else if let url = document.url { retainAccess(to: url) }
                 documents[document.id] = document
@@ -149,10 +155,10 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             do {
                 guard let recoveryStore else { throw error }
                 try recoveryStore.preserveUnreadableSession()
-                restoreWarning = "无法读取旧的文稿恢复文件，原始副本已保留。新的文稿仍会自动恢复：\(originalError)"
+                restoreWarning = L("native.recovery.backupPreserved", originalError)
             } catch {
                 recoveryStore = nil
-                restoreWarning = "无法读取或备份文稿恢复文件。请手动保存新的文稿，避免退出后丢失：\(originalError)"
+                restoreWarning = L("native.recovery.backupFailed", originalError)
             }
         }
     }
@@ -188,12 +194,12 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                         arguments: ["documentID": id, "previousContent": current.content,
                                     "content": content, "title": current.title],
                         in: nil, contentWorld: .page) as? Bool ?? false
-                    if applied { toast("已载入文件在其他应用中的最新更改") }
+                    if applied { toast(L("native.file.refreshed")) }
                     else { refreshedDocumentContent[id] = nil }
                 } catch { refreshedDocumentContent[id] = nil }
             case .failure:
                 // Keep the private recovery copy usable even when its provider is offline.
-                toast("原文件暂时无法读取，已保留本机副本")
+                toast(L("native.file.localCopy"))
             }
         }
     }
@@ -222,7 +228,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
     private func reportRecoveryFailure(_ error: String) {
         guard !recoveryFailureShown else { return }
         recoveryFailureShown = true
-        showError("本机恢复副本无法保存，请尽快手动保存文稿：\(error)")
+        showError(L("native.recovery.saveFailed", error))
     }
 
     func saveInBackground() {
@@ -278,7 +284,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                 do {
                     let content = try result.get()
                     guard content.utf8.count <= remainingBytes else {
-                        throw IPadDocumentStore.fileError(413, "本次打开的文稿总量超过 80 MiB。")
+                        throw IPadDocumentStore.fileError(413, L("native.error.totalTooLarge"))
                     }
                     remainingBytes -= content.utf8.count
                     // The user can open the same file again while a provider is loading.
@@ -287,7 +293,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                     let document = IPadDocument(id: UUID().uuidString, url: url, bookmark: bookmark,
                         title: url.lastPathComponent, content: content, isDirty: false, lastSavedContent: content)
                     self.addDocument(document)
-                } catch { self.showError("无法打开 \(url.lastPathComponent)：\(error.localizedDescription)") }
+                } catch { self.showError(L("native.error.openDocument", url.lastPathComponent, error.localizedDescription)) }
             }
             for url in candidates {
                 let path = url.standardizedFileURL.path
@@ -309,9 +315,9 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
 
     @objc private func newDocument() {
         let number = documents.values.filter { $0.url == nil }.count + 1
-        let title = number == 1 ? "未命名.md" : "未命名 \(number).md"
+        let title = number == 1 ? L("native.untitled") : L("native.untitledNumber", number)
         addDocument(IPadDocument(id: UUID().uuidString, title: title,
-            content: "# 未命名文稿\n\n开始写作…\n", isDirty: false))
+            content: L("native.newContent"), isDirty: false))
     }
 
     @objc private func openDocument() {
@@ -382,7 +388,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             case .failure(let error):
                 self.documents[id]?.hasSaveConflict = true // Retry only after explicit save-as; avoid repeated provider alerts.
                 self.flushRecovery()
-                self.showError("无法保存文稿：\(error.localizedDescription)")
+                self.showError(L("native.error.saveDocument", error.localizedDescription))
                 return false
             }
         }
@@ -402,7 +408,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             picker.delegate = self
             picker.shouldShowFileExtensions = true
             present(picker, animated: true)
-        } catch { showError("无法准备保存：\(error.localizedDescription)") }
+        } catch { showError(L("native.error.prepareSave", error.localizedDescription)) }
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
@@ -456,9 +462,9 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             if let saving = diskSaves[id] { _ = await saving.task.value }
             guard let document = documents[id] else { return }
             if !document.isDirty { removeDocument(id); return }
-            let choice = await choose(title: "要保存对“\(document.title)”的更改吗？",
-                message: "关闭并不保存会丢弃此标签页的未保存内容。",
-                actions: [("保存", .default), ("不保存", .destructive), ("取消", .cancel)])
+            let choice = await choose(title: L("native.close.title", document.title),
+                message: L("native.close.mobileWarning"),
+                actions: [(L("native.save"), .default), (L("native.dontSave"), .destructive), (L("native.cancel"), .cancel)])
             switch choice {
             case 0:
                 if document.url == nil || document.hasSaveConflict { beginSaveAs(id, closeAfterSave: true) }
@@ -485,16 +491,16 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let basename = URL(fileURLWithPath: title).deletingPathExtension().lastPathComponent
-        let safeName = basename.isEmpty ? "文稿" : String(basename.prefix(100))
+        let safeName = basename.isEmpty ? L("native.document") : String(basename.prefix(100))
         return directory.appendingPathComponent(safeName).appendingPathExtension(suffix)
     }
 
-    private var activeTitle: String { activeDocumentID.flatMap { documents[$0]?.title } ?? "未命名.md" }
+    private var activeTitle: String { activeDocumentID.flatMap { documents[$0]?.title } ?? L("native.untitled") }
 
     private func shareFile(_ url: URL) {
         guard presentedViewController == nil else {
             try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
-            toast("请先关闭当前弹窗，再次导出或分享")
+            toast(L("native.export.dismissSheet"))
             return
         }
         let sheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -517,7 +523,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         let title = activeTitle
         webView.evaluateJavaScript("window.dotmd.exportHTML()") { [weak self] result, error in
             guard let self else { return }
-            guard error == nil, let html = result as? String else { self.showError("无法生成 HTML。"); return }
+            guard error == nil, let html = result as? String else { self.showError(L("native.error.generateHTML")); return }
             do {
                 let file = try self.temporaryFile(title: title, extension: "html")
                 try html.write(to: file, atomically: true, encoding: .utf8)
@@ -553,7 +559,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                 self.shareFile(file)
             } catch {
                 self.finishPrintPreparation()
-                self.showError("无法导出 PDF：\(error.localizedDescription)")
+                self.showError(L("native.error.exportPDF", error.localizedDescription))
             }
         }
     }
@@ -564,7 +570,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         webView.isUserInteractionEnabled = false
         webView.evaluateJavaScript("window.dotmd.preparePrint()") { [weak self] _, error in
             guard let self else { return }
-            guard error == nil else { self.finishPrintPreparation(); self.showError("无法准备打印。"); return }
+            guard error == nil else { self.finishPrintPreparation(); self.showError(L("native.error.preparePrint")); return }
             let controller = UIPrintInteractionController.shared
             let info = UIPrintInfo(dictionary: nil)
             info.jobName = self.activeTitle
@@ -573,7 +579,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             controller.printFormatter = self.webView.viewPrintFormatter()
             let completion: UIPrintInteractionController.CompletionHandler = { [weak self] _, _, error in
                 self?.finishPrintPreparation()
-                if let error { self?.showError("无法打印：\(error.localizedDescription)") }
+                if let error { self?.showError(L("native.error.print", error.localizedDescription)) }
             }
             let presented: Bool
             if self.traitCollection.userInterfaceIdiom == .pad {
@@ -582,7 +588,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             } else {
                 presented = controller.present(animated: true, completionHandler: completion)
             }
-            if !presented { self.finishPrintPreparation(); self.showError("此设备当前无法打开打印面板。") }
+            if !presented { self.finishPrintPreparation(); self.showError(L("native.error.printUnavailable")) }
         }
     }
 
@@ -605,7 +611,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
               let settingsData = try? JSONSerialization.data(withJSONObject: rawSettings),
               let blocks = try? JSONDecoder().decode([DocxBlock].self, from: blockData),
               let layout = try? JSONDecoder().decode(DocxLayout.self, from: settingsData) else {
-            toast("导出内容或排版设置无效"); return
+            toast(L("native.error.exportSettings")); return
         }
         Task {
             do {
@@ -616,7 +622,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                 }.value
                 invoke("docxExported", [])
                 shareFile(file)
-            } catch { showError("无法导出 DOCX：\(error.localizedDescription)") }
+            } catch { showError(L("native.error.exportDOCX", error.localizedDescription)) }
         }
     }
 
@@ -633,11 +639,11 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         }
         if !svg.isEmpty { item["public.svg-image"] = Data(svg.utf8) }
         UIPasteboard.general.setItems([item])
-        toast("公式已复制，可粘贴到目标软件")
+        toast(L("native.copiedFormula"))
     }
 
     private func pasteClipboard() {
-        guard let text = UIPasteboard.general.string, !text.isEmpty else { toast("剪贴板中没有可粘贴的文本"); return }
+        guard let text = UIPasteboard.general.string, !text.isEmpty else { toast(L("native.clipboard.empty")); return }
         invoke("insertClipboardText", [text])
     }
 
@@ -649,6 +655,11 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         webView.evaluateJavaScript("window.dotmd.\(function).apply(window.dotmd, \(json))")
     }
 
+    func synchronizeInterfaceLanguage() {
+        guard isEditorReady else { return }
+        webView.evaluateJavaScript(InterfaceLocalization.synchronizationJavaScript)
+    }
+
     private func toast(_ message: String) { invoke("showToast", [message]) }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -658,6 +669,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         switch type {
         case "ready":
             isEditorReady = true
+            synchronizeInterfaceLanguage()
             // Current editor versions may initialize a welcome tab; replace it with recovery state.
             if let id { invoke("removeTab", [id]) }
             if documents.isEmpty { newDocument() }
@@ -672,6 +684,9 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
             let urls = pendingURLs; pendingURLs.removeAll(); openFiles(urls)
             if let restoreWarning { showError(restoreWarning); self.restoreWarning = nil }
             refreshActiveDocument()
+        case "changeInterfaceLanguage":
+            guard let language = body["language"] as? String, InterfaceLocalization.setLanguage(language) else { return }
+            synchronizeInterfaceLanguage()
         case "change":
             guard let id, documents[id] != nil, let content = body["content"] as? String else { return }
             if refreshedDocumentContent.removeValue(forKey: id) == content {
@@ -680,7 +695,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                 documents[id]?.isDirty = false
                 documents[id]?.hasSaveConflict = false
                 scheduleRecovery()
-                invoke("markSaved", [id, documents[id]?.title ?? "未命名.md"])
+                invoke("markSaved", [id, documents[id]?.title ?? L("native.untitled")])
                 return
             }
             documents[id]?.content = content
@@ -694,8 +709,8 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         case "close": if let id { closeTab(id) }
         case "new": newDocument()
         case "newWithContent":
-            let rawTitle = (body["title"] as? String ?? "Agent 总结.md").trimmingCharacters(in: .whitespacesAndNewlines)
-            let title = rawTitle.isEmpty ? "Agent 总结.md" : (rawTitle.lowercased().hasSuffix(".md") ? rawTitle : rawTitle + ".md")
+            let rawTitle = (body["title"] as? String ?? L("native.agent.summaryTitle")).trimmingCharacters(in: .whitespacesAndNewlines)
+            let title = rawTitle.isEmpty ? L("native.agent.summaryTitle") : (rawTitle.lowercased().hasSuffix(".md") ? rawTitle : rawTitle + ".md")
             addDocument(IPadDocument(id: UUID().uuidString, title: title,
                 content: body["content"] as? String ?? "", isDirty: true))
         case "open": openDocument()
@@ -709,7 +724,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         case "pasteRequest": pasteClipboard()
         case "copySelection", "copyText":
             UIPasteboard.general.string = body["text"] as? String ?? ""
-            if type == "copyText" { toast("已复制") }
+            if type == "copyText" { toast(L("native.copied")) }
         case "copyFormula": copyFormula(body)
         case "saveAgentProfiles": saveAgentProfiles(body)
         case "agentRun": runAgents(body)
@@ -750,12 +765,12 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         guard let raw = body["profiles"], JSONSerialization.isValidJSONObject(raw),
               let data = try? JSONSerialization.data(withJSONObject: raw),
               let profiles = try? JSONDecoder().decode([AgentProfile].self, from: data) else {
-            toast("Agent 配置格式无效"); return
+            toast(L("native.agent.invalidProfiles")); return
         }
         do {
             try agentService.saveProfiles(profiles, keys: body["keys"] as? [String: String] ?? [:])
-            sendAgentProfiles(); toast("Agent 配置已安全保存")
-        } catch { showError("无法保存到钥匙串：\(error.localizedDescription)") }
+            sendAgentProfiles(); toast(L("native.agent.profilesSaved"))
+        } catch { showError(L("native.error.keychain", error.localizedDescription)) }
     }
 
     private func confirmTransfer(profileIDs: [String], description: String) async -> Bool {
@@ -765,29 +780,29 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
                 && host != "localhost" && host != "127.0.0.1" && host != "::1"
         }
         guard !remote.isEmpty else { return true }
-        let recipients = remote.map { "• \($0.name) — \(URLComponents(string: $0.endpoint)?.host ?? "自定义地址")" }.joined(separator: "\n")
-        let choice = await choose(title: "本次将向第三方 Agent 发送内容",
-            message: "接收方：\n\(recipients)\n\n发送范围：\(description)。多 Agent 模式会分别发送给多个服务。请勿发送不允许外传的资料，仅本次执行有效。",
-            actions: [("同意本次发送", .default), ("取消", .cancel)])
+        let recipients = remote.map { "• \($0.name) — \(URLComponents(string: $0.endpoint)?.host ?? L("native.agent.customEndpoint"))" }.joined(separator: "\n")
+        let choice = await choose(title: L("native.agent.transferTitle"),
+            message: L("native.agent.mobileTransferBody", recipients, description),
+            actions: [(L("native.agent.allowTransfer"), .default), (L("native.cancel"), .cancel)])
         return choice == 0
     }
 
     private func runAgents(_ body: [String: Any]) {
         let ids = body["profileIDs"] as? [String] ?? []
-        let instruction = body["instruction"] as? String ?? "修正选中内容"
+        let instruction = body["instruction"] as? String ?? L("native.agent.defaultInstruction")
         let selection = body["selection"] as? String ?? ""
         let context = body["context"] as? String ?? ""
         let mode = body["mode"] as? String ?? "single"
         let purpose = body["purpose"] as? String ?? "edit"
         Task {
             guard await confirmTransfer(profileIDs: mode == "single" ? Array(ids.prefix(1)) : ids,
-                description: "任务要求、选中文字（\(selection.count) 字）及文稿上下文（\(context.count) 字）") else { return }
+                description: L("native.agent.editScope", selection.count, context.count)) else { return }
             invoke("setAgentBusy", [true])
             let answers = await agentService.runSelectedAgents(profileIDs: ids, instruction: instruction,
                 selection: selection, context: context, mode: mode)
             invoke("setAgentBusy", [false])
             guard let data = try? JSONEncoder().encode(answers), let object = try? JSONSerialization.jsonObject(with: data) else {
-                toast("Agent 返回结果无法解析"); return
+                toast(L("native.agent.invalidResult")); return
             }
             invoke("showAgentResults", [object, purpose])
         }
@@ -797,10 +812,10 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         let id = body["profileID"] as? String ?? ""
         let goal = body["goal"] as? String ?? ""
         guard !goal.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, goal.count <= 1500 else {
-            toast("请写一句不超过 1500 字的目标。"); return
+            toast(L("native.agent.goalRequired")); return
         }
         Task {
-            guard await confirmTransfer(profileIDs: [id], description: "工作流程目标（\(goal.count) 字）与已启用的 Agent 名称；不含文稿正文") else { return }
+            guard await confirmTransfer(profileIDs: [id], description: L("native.agent.workflowScope", goal.count)) else { return }
             invoke("setWorkflowPlanning", [true])
             let answer = await agentService.designWorkflow(profileID: id, goal: goal)
             invoke("setWorkflowPlanning", [false])
@@ -812,7 +827,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         guard let raw = body["workflow"], JSONSerialization.isValidJSONObject(raw),
               let data = try? JSONSerialization.data(withJSONObject: raw),
               let workflow = try? JSONDecoder().decode(AgentWorkflow.self, from: data) else {
-            toast("工作流程格式无效；没有发送文稿。"); return
+            toast(L("native.agent.invalidWorkflow")); return
         }
         let selection = body["selection"] as? String ?? ""
         let context = body["context"] as? String ?? ""
@@ -820,12 +835,12 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
         Task {
             let ids = Array(Set(workflow.stages.flatMap(\.profileIDs)))
             guard await confirmTransfer(profileIDs: ids,
-                description: "工作流程要求、选中文字（\(selection.count) 字）、文稿上下文（\(context.count) 字），以及步骤之间的 Agent 答案") else { return }
+                description: L("native.agent.workflowRunScope", selection.count, context.count)) else { return }
             invoke("setAgentBusy", [true])
             let results = await agentService.runWorkflow(workflow, selection: selection, context: context)
             invoke("setAgentBusy", [false])
             guard let data = try? JSONEncoder().encode(results), let object = try? JSONSerialization.jsonObject(with: data) else {
-                toast("工作流结果无法解析"); return
+                toast(L("native.agent.invalidWorkflowResult")); return
             }
             invoke("showWorkflowResults", [object, purpose])
         }
@@ -839,11 +854,11 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
               JSONSerialization.isValidJSONObject(settings),
               let data = try? JSONSerialization.data(withJSONObject: settings),
               let settingsJSON = String(data: data, encoding: .utf8) else {
-            invoke("showDocxAgentSuggestion", ["", "请先输入排版要求并选择 Agent。"]); return
+            invoke("showDocxAgentSuggestion", ["", L("native.agent.layoutRequired")]); return
         }
         Task {
-            guard await confirmTransfer(profileIDs: [id], description: "排版要求（\(prompt.count) 字）与当前排版设置；不含文稿正文") else {
-                invoke("showDocxAgentSuggestion", ["", "您取消了本次发送。"]); return
+            guard await confirmTransfer(profileIDs: [id], description: L("native.agent.layoutScope", prompt.count)) else {
+                invoke("showDocxAgentSuggestion", ["", L("native.agent.cancelled")]); return
             }
             let answer = await agentService.suggestExportLayout(profileID: id, requestText: prompt,
                                                                  currentSettingsJSON: settingsJSON)
@@ -855,7 +870,7 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
 
     private func choose(title: String, message: String,
                         actions: [(String, UIAlertAction.Style)]) async -> Int {
-        guard presentedViewController == nil else { toast("请先关闭当前弹窗后重试"); return -1 }
+        guard presentedViewController == nil else { toast(L("native.dismissSheet")); return -1 }
         return await withCheckedContinuation { continuation in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             for (index, action) in actions.enumerated() {
@@ -872,8 +887,8 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
 
     private func showError(_ message: String) {
         guard isViewLoaded, view.window != nil, presentedViewController == nil else { toast(message); return }
-        let alert = UIAlertController(title: "DOT MD", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好", style: .default))
+        let alert = UIAlertController(title: "md any where", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L("native.ok"), style: .default))
         present(alert, animated: true)
     }
 
@@ -881,19 +896,19 @@ final class IPadEditorViewController: UIViewController, WKScriptMessageHandler, 
 
     override var keyCommands: [UIKeyCommand]? {
         let definitions: [(String, UIKeyModifierFlags, Selector, String)] = [
-            ("n", .command, #selector(newDocument), "新建文稿"),
-            ("t", .command, #selector(newDocument), "新建标签页"),
-            ("o", .command, #selector(openDocument), "打开文稿"),
-            ("s", .command, #selector(saveActiveDocument), "保存"),
-            ("s", [.command, .shift], #selector(saveActiveDocumentAs), "另存为"),
-            ("w", .command, #selector(closeActiveDocument), "关闭标签页"),
-            ("p", .command, #selector(printDocument), "打印"),
-            ("p", [.command, .shift], #selector(exportPDF), "导出 PDF"),
-            ("e", [.command, .shift], #selector(exportHTML), "导出 HTML"),
-            ("f", .command, #selector(findText), "查找与替换"),
-            (",", .command, #selector(openSettings), "设置"),
-            ("\t", .control, #selector(nextTab), "下一个标签页"),
-            ("\t", [.control, .shift], #selector(previousTab), "上一个标签页")
+            ("n", .command, #selector(newDocument), L("native.shortcut.new")),
+            ("t", .command, #selector(newDocument), L("native.menu.newTab")),
+            ("o", .command, #selector(openDocument), L("native.shortcut.open")),
+            ("s", .command, #selector(saveActiveDocument), L("native.save")),
+            ("s", [.command, .shift], #selector(saveActiveDocumentAs), L("native.shortcut.saveAs")),
+            ("w", .command, #selector(closeActiveDocument), L("native.menu.closeTab")),
+            ("p", .command, #selector(printDocument), L("native.shortcut.print")),
+            ("p", [.command, .shift], #selector(exportPDF), L("native.shortcut.exportPDF")),
+            ("e", [.command, .shift], #selector(exportHTML), L("native.shortcut.exportHTML")),
+            ("f", .command, #selector(findText), L("native.shortcut.find")),
+            (",", .command, #selector(openSettings), L("native.shortcut.settings")),
+            ("\t", .control, #selector(nextTab), L("native.menu.nextTab")),
+            ("\t", [.control, .shift], #selector(previousTab), L("native.menu.previousTab"))
         ]
         return definitions.map { input, flags, action, title in
             let command = UIKeyCommand(input: input, modifierFlags: flags, action: action)

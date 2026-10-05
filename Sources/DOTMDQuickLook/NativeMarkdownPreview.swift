@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import AppKit
 import Foundation
 
@@ -12,7 +15,7 @@ enum NativeMarkdownPreview {
         let output = NSMutableAttributedString()
         append(title, to: output, size: 24, weight: .bold, spacing: 17)
         if truncated {
-            append("仅显示前 1 MiB；请在 DOT MD 中打开完整文稿。", to: output,
+            append(L("native.quicklook.truncated"), to: output,
                    size: 13, color: .secondaryLabelColor)
         }
 
@@ -29,7 +32,7 @@ enum NativeMarkdownPreview {
                     insideFence = true
                     fenceLanguage = String(trimmed.dropFirst(3)).trimmingCharacters(in: .whitespaces)
                     if fenceLanguage.lowercased() == "mermaid" {
-                        append("流程图 · 完整图形请在 DOT MD 中查看", to: output,
+                        append(L("native.quicklook.flowchart"), to: output,
                                size: 13, weight: .semibold, color: .secondaryLabelColor)
                     }
                 }

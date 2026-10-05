@@ -7,7 +7,7 @@ usage() {
   cat <<'USAGE'
 用法：DOT_MD_TEAM_ID=你的团队ID DOT_MD_DEVICE_UDID=你的设备UDID ./scripts/deploy-ios.sh
 
-构建、自动签名、安装并启动指定 iPhone 或 iPad 上的 DOT MD。
+构建、自动签名、安装并启动指定 iPhone 或 iPad 上的 md any where。
 必须显式指定 iPhone 或 iPad UDID；不会自动选择其他设备。
 首次部署前请连接并解锁设备、信任 Mac，并在 设备设置中开启开发者模式。
 USAGE
@@ -28,7 +28,7 @@ fi
 
 "$project_dir/scripts/build-ios.sh" device
 
-app_path="$project_dir/.build/ios/device/Build/Products/Debug-iphoneos/DOT MD.app"
+app_path="$project_dir/.build/ios/device/Build/Products/Debug-iphoneos/md any where.app"
 log_directory="$project_dir/.build/ios/logs"
 
 report_device_failure() {
@@ -51,4 +51,4 @@ if ! xcrun devicectl device process launch --device "$DOT_MD_DEVICE_UDID" app.do
   report_device_failure "$log_directory/launch.log"
   exit 1
 fi
-print -r -- "DOT MD 已安装并启动于指定 iPhone 或 iPad：$DOT_MD_DEVICE_UDID"
+print -r -- "md any where 已安装并启动于指定 iPhone 或 iPad：$DOT_MD_DEVICE_UDID"

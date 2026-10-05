@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown i pisanie z AI",
+  "promotional_text": "Pisz na iPhonie i iPadzie, przeglądaj wzory i eksportuj dokumenty. Opcjonalni agenci proszą o zgodę przed wysłaniem treści.",
+  "keywords": "markdown,latex,pisanie,notatki,wzory,edytor",
+  "description": "md any where to edytor Markdown do pisania i pracy ze wzorami na macOS, iPhonie i iPadzie. Edytuj i korzystaj z podglądu offline, wyszukuj tekst i eksportuj HTML, PDF oraz DOCX. Konto aplikacji nie jest wymagane. Wersja mobilna otwiera dokumenty przez Pliki i odzyskuje lokalne szkice.\n\nSkonfiguruj zgodną usługę AI, podając własny adres, model i klucz API do korekty, streszczeń i przepływów pracy. Agenci są początkowo wyłączeni. Każde wysłanie pokazuje odbiorcę i zakres tekstu oraz wymaga Twojej zgody. Dostawcy mogą pobierać opłaty i przechowywać żądania zgodnie ze swoimi zasadami. Klucze są zapisane w systemowym pęku kluczy. Aplikacja nie zawiera kredytów na korzystanie z modeli AI, a lokalna edycja nie wymaga włączania agentów.\n\nWersja macOS łączy się z edytorami AI przez MCP lub CLI. iPhone/iPad używa wbudowanych agentów, a nie komputerowego IDE. Aplikacja nie oferuje własnej synchronizacji w chmurze. Oryginalny kod jest objęty licencją MIT.",
+  "review_notes": "Lokalna edycja, podgląd i eksport nie wymagają logowania. Utwórz dokument z nagłówkiem i wzorem, a następnie go wyeksportuj. Agenci wymagają zgody. Ograniczony dostęp testowy należy przekazać prywatnie w App Store Connect przed zgłoszeniem.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown ja tekoälykirjoitus",
+  "promotional_text": "Kirjoita iPhonella ja iPadilla, esikatsele kaavoja ja vie asiakirjoja. Valinnaiset agentit pyytävät luvan ennen lähettämistä.",
+  "keywords": "markdown,latex,kirjoitus,muistiinpanot,kaavat,editori",
+  "description": "md any where on Markdown-editori kirjoittamiseen ja kaavoihin macOS:ssä, iPhonessa ja iPadissa. Muokkaa ja esikatsele ilman verkkoyhteyttä, etsi tekstistä ja vie HTML-, PDF- ja DOCX-tiedostoja. Sovelluksen tiliä ei tarvita. Mobiiliversio avaa asiakirjoja Tiedostot-sovelluksesta ja palauttaa paikalliset luonnokset.\n\nMääritä yhteensopiva tekoälypalvelu omalla osoitteella, mallilla ja API-avaimella oikolukua, yhteenvetoja ja työnkulkuja varten. Agentit ovat oletuksena pois käytöstä. Jokainen lähetys näyttää vastaanottajan ja tekstin laajuuden sekä vaatii suostumuksesi. Palvelu voi veloittaa ja säilyttää pyynnöt käytäntöjensä mukaan. Avaimet tallennetaan järjestelmän avainnippuun. Sovellus ei sisällä tekoälymallien käyttökrediittejä, eikä paikallinen muokkaus vaadi agenttien käyttöönottoa.\n\nmacOS-versio yhdistyy tekoälyeditoreihin MCP:n tai CLI:n kautta. iPhone/iPad käyttää sisäisiä agentteja eikä työpöydän IDE:tä. Sovelluksella ei ole omaa pilvisynkronointia. Alkuperäinen lähdekoodi on MIT-lisensoitu.",
+  "review_notes": "Paikallinen muokkaus, esikatselu ja vienti eivät vaadi kirjautumista. Luo otsikon ja kaavan sisältävä asiakirja ja vie se. Agentit vaativat luvan. Rajattu testikäyttö on annettava yksityisesti App Store Connectissa ennen lähettämistä.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

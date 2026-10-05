@@ -1,5 +1,5 @@
 {
-  "status": "locally_archived_exported_and_tested_not_uploaded_or_submitted",
+  "status": "multilingual_build_3_archived_ipa_export_blocked_not_uploaded_or_submitted",
   "last_checked": "2026-10-05",
   "platform": "iOS",
   "supported_devices": [
@@ -13,30 +13,35 @@
   "primary_locale": "zh-Hans",
   "primary_category_suggestion": "PRODUCTIVITY",
   "source_license": "MIT",
-  "repository_url": "https://github.com/mrckl-md/DOT-MD",
-  "support_url": "https://github.com/mrckl-md/DOT-MD/issues",
-  "privacy_policy_url": "https://github.com/mrckl-md/DOT-MD/blob/main/PRIVACY.md",
-  "url_status": "public_repository_main_source_and_privacy_policy_verified",
-  "app_store_app_id": null,
+  "repository_url": "https://github.com/mrckl-md/md-any-where",
+  "support_url": "https://github.com/mrckl-md/md-any-where/issues",
+  "privacy_policy_url": "https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md",
+  "url_status": "public_repository_rename_verified",
+  "app_store_app_id": "6819302567",
   "review_contact_name": null,
   "review_contact_email": null,
   "review_contact_phone": null,
-  "public_support_contact": null,
-  "price": null,
-  "territories": null,
+  "public_support_contact": "longshenggdgz@163.com",
+  "price": 0,
+  "territories": {
+    "must_include": [
+      "CHN"
+    ],
+    "remaining_selection_pending": true
+  },
   "final_age_rating": null,
   "privacy_answers_finalized": false,
   "review_service_access_ready": false,
-  "screenshots_ready": true,
+  "screenshots_ready": false,
   "release_acceptance_complete": false,
-  "copyright_owner_for_store": "Maintainer must confirm actual publishing rights holder; source copyright: 2026 DOT MD contributors",
+  "copyright_owner_for_store": "陈科霖",
   "release_mode_suggestion": "manual",
   "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
-  "build_number": "1",
+  "build_number": "3",
   "screenshots_uploaded": false,
   "screenshots": {
     "locale": "zh-Hans",
-    "source": "actual_simulator_ui_from_final_source",
+    "source": "historical_pre_rename_simulator_ui",
     "manifest": "Screenshots/README.md",
     "iphone_6_9": {
       "count": 2,
@@ -49,9 +54,19 @@
       "width": 2064,
       "height": 2752,
       "format": "JPEG"
-    }
+    },
+    "new_brand_recapture_required": true,
+    "source_build": "1.0.0 (1)"
   },
-  "local_distribution": {
+  "display_name": "md any where",
+  "price_model": "free",
+  "china_mainland_filing_provided": false,
+  "copyright": "© 2026 陈科霖",
+  "review_contact_provided_privately": true,
+  "review_contact_saved_in_app_store_connect": true,
+  "app_store_record_status": "created_zh_Hans_name_subtitle_categories_version_copy_and_private_review_contact_saved",
+  "ai_release_scope_confirmed": false,
+  "historical_distribution": {
     "release_archive_created": true,
     "app_store_ipa_exported": true,
     "artifact_directory": ".build/ios/app-store/20261005-214601/",
@@ -66,9 +81,29 @@
     "server_validation_completed": false,
     "uploaded": false,
     "testflight_distributed": false,
-    "submitted_for_review": false
+    "submitted_for_review": false,
+    "brand": "DOT MD",
+    "scope": "Historical build 1; not evidence for the renamed multilingual build 3."
   },
-  "verification": {
+  "local_distribution": {
+    "version": "1.0.0",
+    "build": "3",
+    "app_filename": "md any where.app",
+    "archive_filename": "md any where.xcarchive",
+    "release_archive_created": true,
+    "app_store_ipa_exported": false,
+    "server_validation_completed": false,
+    "uploaded": false,
+    "testflight_distributed": false,
+    "submitted_for_review": false,
+    "artifact_directory": ".build/ios/app-store/20261005-232647/",
+    "archive_signature_verified": true,
+    "archive_sources_match": true,
+    "export_status": "blocked_missing_xcode_account_and_distribution_signing_identity",
+    "last_export_attempt_directory": ".build/ios/app-store/20261005-231707/",
+    "final_corrected_archive_export_attempted": false
+  },
+  "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",
     "physical_os": "iOS 27.0.1",
     "final_build_redeployed": true,
@@ -80,8 +115,61 @@
     "mobile_layout_viewports_passed": 9,
     "docx_flowchart_regression_passed": true,
     "independent_review_blockers": 0,
-    "scope": "These checks do not certify the entire release acceptance checklist or App Store review.",
+    "scope": "Checks performed before rebranding and localization; do not certify multilingual build 3 or App Store review.",
     "ipad_final_build_install_and_launch_passed": true,
-    "macos_final_build_passed": true
+    "macos_final_build_passed": true,
+    "source_build": "1.0.0 (1)"
+  },
+  "verification": {
+    "source_build": "1.0.0 (3)",
+    "macos_build_passed": true,
+    "macos_signature_verified": true,
+    "simulator_build_passed": true,
+    "simulator_install_and_launch_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_existing_document_restoration_observed": true,
+    "device_build_passed": true,
+    "device_install_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "ipad_launch_passed": true,
+    "iphone_launch_status": "blocked_by_device_lock",
+    "manual_multilingual_device_acceptance_complete": false,
+    "offline_catalogs_verified": 47,
+    "locale_state_preservation_cases_passed": 50,
+    "localized_webkit_layout_cases_passed": 27,
+    "runtime_native_store_locale_sets_match": true,
+    "workflow_adoption_then_language_change_regression_passed": true,
+    "independent_review_blockers_remaining": 0,
+    "scope": "Source checks, WebKit automation, builds, installations and simulator snapshots; does not certify native-speaker quality, all physical-device interactions or App Store review.",
+    "release_archive_verified": true
+  },
+  "subtitle": "AI 编辑与三端 Markdown 写作",
+  "secondary_category_suggestion": "UTILITIES",
+  "localizations": {
+    "manifest": "localizations/manifest.json",
+    "metadata_locale_count": 50,
+    "all_metadata_files_prepared": true,
+    "structural_validation_passed": true,
+    "native_speaker_review_completed": false,
+    "uploaded_to_app_store_connect": false,
+    "app_ui_validation_status": "50_locale_state_preservation_and_27_webkit_layouts_passed",
+    "territory_availability_confirmed": false,
+    "ui_catalog_count": 47,
+    "strings_per_catalog": 583,
+    "system_and_manual_language_selection": true,
+    "right_to_left_ui_languages": [
+      "ar-SA",
+      "he",
+      "ur-PK"
+    ],
+    "saved_store_locales": [
+      "zh-Hans"
+    ],
+    "english_name_conflict": true,
+    "english_name_resolution_pending": true
   }
 }

@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import Foundation
 
 struct IPadDocument: Codable, Sendable {
@@ -42,7 +45,7 @@ final class IPadDocumentStore: @unchecked Sendable {
             let session = try JSONDecoder().decode(IPadSession.self, from: Data(contentsOf: sessionURL))
             guard session.version == 1,
                   Set(session.documents.map(\.id)).count == session.documents.count else {
-                throw Self.fileError(422, "恢复文件版本或标签页标识无效。")
+                throw Self.fileError(422, L("native.recovery.invalid"))
             }
             return session
         }
@@ -93,10 +96,10 @@ final class IPadDocumentStore: @unchecked Sendable {
         defer { try? handle.close() }
         let data = try handle.read(upToCount: 16 * 1024 * 1024 + 1) ?? Data()
         guard data.count <= 16 * 1024 * 1024 else {
-            throw fileError(413, "文稿超过 16 MiB，请拆分后打开。")
+            throw fileError(413, L("native.error.fileTooLarge"))
         }
         guard let content = String(data: data, encoding: .utf8) else {
-            throw fileError(422, "文稿必须使用 UTF-8 文本编码。")
+            throw fileError(422, L("native.error.utf8Required"))
         }
         return content
     }
@@ -109,7 +112,7 @@ final class IPadDocumentStore: @unchecked Sendable {
             do {
                 if let expectedPreviousContent {
                     guard try readWithoutCoordination(coordinatedURL) == expectedPreviousContent else {
-                        throw fileError(409, "文件已被其他应用修改。您的内容已保留在本机，请使用“另存为”保存，避免覆盖外部更改。")
+                        throw fileError(409, L("native.error.mobileConflict"))
                     }
                 }
                 try content.write(to: coordinatedURL, atomically: true, encoding: .utf8)

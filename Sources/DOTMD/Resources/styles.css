@@ -54,6 +54,7 @@ button {
   width: 78px;
 }
 .brand {
+  min-width:0;
   padding-left: 82px;
   display: flex;
   align-items: center;
@@ -65,8 +66,14 @@ button {
   -webkit-app-region:drag;
   cursor:default;
 }
+.brand span {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 .brand-mark {
   display:block;
+  flex:none;
   width:25px;
   height:25px;
   border-radius:8px;
@@ -1563,3 +1570,24 @@ body.printing .markdown-body {
     margin-right:9px;
   }
 }
+
+/* Interface direction is independent of the user's Markdown and source syntax. */
+html[dir="rtl"] .topbar { direction:ltr; }
+html[dir="rtl"] .format-tools,
+html[dir="rtl"] .view-switch,
+html[dir="rtl"] #tabs-shell,
+html[dir="rtl"] #outline { direction:rtl; }
+#workspace { direction:ltr; }
+#outline { text-align:start; }
+.tab-title,.outline-item,.ipad-menu-actions button { text-align:start; }
+#preview { unicode-bidi:plaintext; }
+.CodeMirror,#source,#preview pre,#preview code,.katex,.dotmd-flowchart-svg,
+#formula-source,#formula-preview,#agent-console-command,#agent-console-cli-help,
+.agent-profile .endpoint,.agent-profile .model,.agent-profile .key { direction:ltr; unicode-bidi:isolate; }
+html[dir="rtl"] .dialog-title,
+html[dir="rtl"] .setting-row,
+html[dir="rtl"] .workflow-heading { text-align:start; }
+html[dir="rtl"] .dialog-title .icon-close { margin-inline-start:auto; }
+#interface-language { min-width:0; max-width:100%; }
+.settings-section-hint,.setting-description,.dialog-title h2,
+.dialog-title p,.format-hint { overflow-wrap:anywhere; }

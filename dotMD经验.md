@@ -1,4 +1,4 @@
-# DOT MD 开发经验
+# md any where 开发经验
 
 当前发布版本：1.0.0。开发源码在本文件夹的 `Sources/`，应用配置在 `Support/`，构建和验证脚本在 `scripts/`。`dist/` 与 `.build/` 是可重新生成的产物，不是源码。
 

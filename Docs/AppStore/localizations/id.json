@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown dan menulis dengan AI",
+  "promotional_text": "Tulis di iPhone dan iPad, pratinjau rumus, lalu ekspor dokumen. Agen opsional meminta persetujuan sebelum mengirim konten.",
+  "keywords": "markdown,latex,menulis,catatan,rumus,editor",
+  "description": "md any where adalah editor Markdown untuk menulis dan mengolah rumus di macOS, iPhone, dan iPad. Edit dan lihat pratinjau secara offline, cari teks, lalu ekspor HTML, PDF, dan DOCX. Akun aplikasi tidak diperlukan. Versi seluler membuka dokumen melalui File dan memulihkan draf lokal.\n\nAtur layanan AI yang kompatibel dengan alamat, model, dan kunci API sendiri untuk koreksi, ringkasan, serta alur kerja. Semua agen awalnya nonaktif. Setiap pengiriman menampilkan penerima dan cakupan teks serta meminta persetujuan Anda. Penyedia dapat mengenakan biaya dan menyimpan permintaan sesuai kebijakannya. Kunci disimpan di Keychain sistem. Aplikasi tidak menyertakan kredit penggunaan model AI, dan pengeditan lokal tidak mengharuskan agen diaktifkan.\n\nVersi macOS terhubung ke editor AI melalui MCP atau CLI. iPhone/iPad memakai agen bawaan, bukan IDE desktop. Aplikasi tidak menyediakan sinkronisasi awan sendiri. Kode sumber asli memakai lisensi MIT.",
+  "review_notes": "Pengeditan, pratinjau, dan ekspor lokal tidak memerlukan login. Buat dokumen berisi judul dan rumus, lalu ekspor. Agen memerlukan persetujuan. Akses uji terbatas harus diberikan secara pribadi melalui App Store Connect sebelum pengajuan.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

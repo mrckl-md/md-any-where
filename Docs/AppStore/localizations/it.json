@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown e scrittura con IA",
+  "promotional_text": "Scrivi su iPhone e iPad, visualizza formule ed esporta documenti. Gli agenti facoltativi chiedono il consenso prima di inviare contenuti.",
+  "keywords": "markdown,latex,scrittura,note,formule,editor",
+  "description": "md any where è un editor Markdown per scrittura e formule su macOS, iPhone e iPad. Modifica e visualizza anteprime offline, cerca nel testo ed esporta HTML, PDF e DOCX. Non serve un account dell’app. La versione mobile apre documenti tramite File e recupera le bozze locali.\n\nConfigura un servizio IA compatibile con indirizzo, modello e chiave API personali per correzioni, riassunti e flussi di lavoro. Gli agenti sono inizialmente disattivati. Ogni invio mostra il destinatario e l’estensione del testo e richiede il consenso. I fornitori possono addebitare costi e conservare le richieste secondo le proprie politiche. Le chiavi sono salvate nel portachiavi di sistema. L’app non include crediti per l’uso dei modelli IA e la modifica locale non richiede l’attivazione degli agenti.\n\nLa versione macOS si collega agli editor IA tramite MCP o CLI. iPhone/iPad usa agenti integrati, non IDE desktop. L’app non offre una propria sincronizzazione cloud. Il codice originale è distribuito con licenza MIT.",
+  "review_notes": "Modifica, anteprima ed esportazione locali non richiedono l’accesso. Crea un documento con un titolo e una formula, poi esportalo. Gli agenti richiedono consenso. L’accesso di prova limitato va fornito privatamente in App Store Connect prima dell’invio.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

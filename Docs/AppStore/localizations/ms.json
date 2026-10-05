@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown dan penulisan AI",
+  "promotional_text": "Tulis pada iPhone dan iPad, pratonton formula dan eksport dokumen. Ejen pilihan meminta persetujuan sebelum menghantar kandungan.",
+  "keywords": "markdown,latex,penulisan,nota,formula,editor",
+  "description": "md any where ialah editor Markdown untuk penulisan dan formula pada macOS, iPhone dan iPad. Sunting dan pratonton di luar talian, cari teks serta eksport HTML, PDF dan DOCX. Akaun aplikasi tidak diperlukan. Versi mudah alih membuka dokumen melalui Fail dan memulihkan draf setempat.\n\nSediakan perkhidmatan AI serasi dengan alamat, model dan kunci API sendiri untuk pembetulan, ringkasan dan aliran kerja. Semua ejen dimatikan pada awalnya. Setiap penghantaran menunjukkan penerima serta skop teks dan memerlukan persetujuan anda. Penyedia mungkin mengenakan bayaran dan menyimpan permintaan mengikut dasarnya. Kunci disimpan dalam Keychain sistem. Aplikasi tidak menyertakan kredit penggunaan model AI, dan penyuntingan setempat tidak memerlukan ejen diaktifkan.\n\nVersi macOS bersambung dengan editor AI melalui MCP atau CLI. iPhone/iPad menggunakan ejen terbina dalam, bukan IDE desktop. Aplikasi tidak menyediakan penyegerakan awan sendiri. Kod sumber asal menggunakan lesen MIT.",
+  "review_notes": "Penyuntingan, pratonton dan eksport setempat tidak memerlukan log masuk. Cipta dokumen dengan tajuk dan formula, kemudian eksport. Ejen memerlukan persetujuan. Akses ujian terhad mesti diberikan secara peribadi dalam App Store Connect sebelum penyerahan.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

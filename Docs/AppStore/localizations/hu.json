@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown és írás AI-val",
+  "promotional_text": "Írjon iPhone-on és iPaden, tekintse meg a képleteket, és exportáljon dokumentumokat. Az opcionális ügynökök küldés előtt engedélyt kérnek.",
+  "keywords": "markdown,latex,írás,jegyzet,képlet,szerkesztő",
+  "description": "Az md any where Markdown-szerkesztő íráshoz és képletekhez macOS-en, iPhone-on és iPaden. Szerkesszen és nézzen előnézetet offline, keressen a szövegben, és exportáljon HTML-, PDF- és DOCX-fájlokat. Nem kell alkalmazásfiókot létrehozni. A mobilváltozat a Fájlokból nyit meg dokumentumokat, és helyreállítja a helyi vázlatokat.\n\nÁllítson be kompatibilis AI-szolgáltatást saját címmel, modellel és API-kulccsal javításhoz, összefoglalókhoz és munkafolyamatokhoz. Az ügynökök alapból ki vannak kapcsolva. Minden küldés megmutatja a címzettet és a szöveg körét, és beleegyezést kér. A szolgáltató díjat kérhet, és szabályzata szerint tárolhatja a kéréseket. A kulcsok a rendszer kulcskarikájába kerülnek. Az alkalmazás nem tartalmaz AI-modellek használatára fordítható krediteket, és a helyi szerkesztéshez nem kell bekapcsolni az ügynököket.\n\nA macOS-verzió MCP-n vagy CLI-n kapcsolódik AI-szerkesztőkhöz. Az iPhone/iPad beépített ügynököket használ, nem asztali IDE-t. Nincs saját felhőszinkronizálás. Az eredeti forráskód MIT-licencű.",
+  "review_notes": "A helyi szerkesztés, előnézet és export nem igényel bejelentkezést. Készítsen címet és képletet tartalmazó dokumentumot, majd exportálja. Az ügynökök engedélyt kérnek. A korlátozott teszthozzáférést beküldés előtt privát módon, az App Store Connectben kell megadni.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

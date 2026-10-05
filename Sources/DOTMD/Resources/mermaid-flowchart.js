@@ -4,6 +4,8 @@
   if (root) root.dotmdMermaid = api;
 })(typeof window === 'undefined' ? globalThis : window, function () {
   'use strict';
+  const t = (key, args) => (globalThis.DotMDI18n || (typeof require === 'function' ? require('./i18n.js') : null))?.t(key, args) ?? key;
+
 
   const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -28,7 +30,7 @@
     const lines = splitStatements(source);
     const header = lines.shift() || '';
     const headerMatch = header.match(/^(?:flowchart|graph)\s+(TD|TB|BT|LR|RL)$/i);
-    if (!headerMatch) throw new Error('第一行需要是 flowchart TD、LR、RL 或 BT');
+    if (!headerMatch) throw new Error(t("web.3b944a8672"));
     const direction = headerMatch[1].toUpperCase() === 'TB' ? 'TD' : headerMatch[1].toUpperCase();
     const nodes = new Map();
     const edges = [];
@@ -47,16 +49,16 @@
       }
       if (match) {
         const from = parseNode(fromExpression), to = parseNode(toExpression);
-        if (!from || !to) throw new Error(`无法识别连线：${line}`);
+        if (!from || !to) throw new Error(t("web.bd0cf2d880", { p0: line }));
         remember(from); remember(to); edges.push({ from: from.id, to: to.id, style, label });
         continue;
       }
       const node = parseNode(line);
-      if (!node) throw new Error(`无法识别：${line}`);
+      if (!node) throw new Error(t("web.ce559e2395", { p0: line }));
       remember(node);
     }
-    if (!nodes.size) throw new Error('流程图中还没有节点');
-    if (nodes.size > 120 || edges.length > 240) throw new Error('流程图过大：请控制在 120 个节点、240 条连线以内');
+    if (!nodes.size) throw new Error(t("web.7bc8e8bd62"));
+    if (nodes.size > 120 || edges.length > 240) throw new Error(t("web.b7c93625d6"));
     return { direction, nodes: [...nodes.values()], edges };
   }
 
@@ -157,7 +159,7 @@
       const label = node.label.length > 26 ? node.label.slice(0, 25) + '…' : node.label;
       return `<g class="dotmd-flow-node" data-node-id="${escapeHTML(node.id)}">${shape}<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle">${escapeHTML(label)}</text></g>`;
     }).join('');
-    return `<svg class="dotmd-flowchart-svg" role="img" aria-label="Mermaid 流程图" viewBox="0 0 ${width} ${height}" style="min-width:${width}px" xmlns="http://www.w3.org/2000/svg"><defs><marker id="${markerID}" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" class="dotmd-flow-arrow"/></marker></defs>${edgeSVG}${nodeSVG}</svg>`;
+    return `<svg class="dotmd-flowchart-svg" role="img" aria-label="${escapeHTML(t('diagram.accessibleName'))}" viewBox="0 0 ${width} ${height}" style="min-width:${width}px" xmlns="http://www.w3.org/2000/svg"><defs><marker id="${markerID}" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" class="dotmd-flow-arrow"/></marker></defs>${edgeSVG}${nodeSVG}</svg>`;
   }
 
   function installMarkdownIt(markdown) {
@@ -175,7 +177,7 @@
   function renderInto(container) {
     container.querySelectorAll('.dotmd-mermaid[data-mermaid-source]').forEach(element => {
       try { element.innerHTML = renderSVG(element.dataset.mermaidSource || ''); element.classList.remove('dotmd-mermaid-error'); }
-      catch (error) { element.classList.add('dotmd-mermaid-error'); element.innerHTML = `<strong>流程图语法有误</strong><span>${escapeHTML(error.message)}</span>`; }
+      catch (error) { element.classList.add('dotmd-mermaid-error'); element.innerHTML = `<strong>${escapeHTML(t('diagram.syntaxError'))}</strong><span>${escapeHTML(error.message)}</span>`; }
     });
   }
 

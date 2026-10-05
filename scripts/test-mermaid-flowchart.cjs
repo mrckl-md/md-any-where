@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+// These assertions intentionally exercise the Simplified Chinese error catalog.
+require('../Sources/DOTMD/Resources/i18n.js').setLanguage('zh-Hans');
 const renderer = require('../Sources/DOTMD/Resources/mermaid-flowchart.js');
 
 const source = `flowchart LR

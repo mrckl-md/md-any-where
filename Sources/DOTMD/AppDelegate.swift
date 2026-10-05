@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import AppKit
 import Darwin
 import Network
@@ -120,6 +123,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         let messageHandler = WeakEditorMessageHandler(owner: self)
         editorMessageHandler = messageHandler
         configuration.userContentController.add(messageHandler, name: "editor")
+        configuration.userContentController.addUserScript(WKUserScript(
+            source: InterfaceLocalization.initialJavaScript, injectionTime: .atDocumentStart, forMainFrameOnly: true))
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
         webView.underPageBackgroundColor = .clear
@@ -169,7 +174,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
 
     private func createWindowMaterialView() -> NSView {
         // NSGlassEffectView is available on macOS 26. Resolve it dynamically so
-        // DOT MD can still be built with the compatibility SDK used by this project.
+        // md any where can still be built with the compatibility SDK used by this project.
         if #available(macOS 26.0, *),
            let glassType = NSClassFromString("NSGlassEffectView") as? NSView.Type {
             let glass = glassType.init(frame: .zero)
@@ -207,7 +212,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                 resourceURL = nil
             }
         }
-        guard let resourceURL else { showErrorAlert("无法载入编辑器资源。"); return }
+        guard let resourceURL else { showErrorAlert(L("native.error.editorLoad")); return }
         editorResourceURL = resourceURL.standardizedFileURL
         webView.loadFileURL(resourceURL.appendingPathComponent("index.html"), allowingReadAccessTo: resourceURL)
     }
@@ -218,66 +223,66 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         let main = NSMenu()
         let appItem = NSMenuItem(); main.addItem(appItem)
         let appMenu = NSMenu()
-        appMenu.addItem(withTitle: "关于 DOT MD", action: #selector(showAbout), keyEquivalent: "")
+        appMenu.addItem(withTitle: L("native.menu.about"), action: #selector(showAbout), keyEquivalent: "")
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "设置…", action: #selector(showSettings), keyEquivalent: ",")
+        appMenu.addItem(withTitle: L("native.menu.settings"), action: #selector(showSettings), keyEquivalent: ",")
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "退出 DOT MD", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: L("native.menu.quit"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = appMenu
 
         let fileItem = NSMenuItem(); main.addItem(fileItem)
-        let file = NSMenu(title: "文件")
-        addMenuCommand(file, "新建标签页", #selector(newDocument), "t")
-        addMenuCommand(file, "打开多个文稿…", #selector(openDocument), "o")
-        addMenuCommand(file, "打开 Markdown 文件夹…", #selector(openFolder), "o", [.command, .shift])
-        addMenuCommand(file, "关闭标签页", #selector(closeCurrentTab), "w")
-        addMenuCommand(file, "重新打开关闭的标签页", #selector(reopenClosedTab), "t", [.command, .shift])
+        let file = NSMenu(title: L("native.menu.file"))
+        addMenuCommand(file, L("native.menu.newTab"), #selector(newDocument), "t")
+        addMenuCommand(file, L("native.menu.openMultiple"), #selector(openDocument), "o")
+        addMenuCommand(file, L("native.menu.openFolder"), #selector(openFolder), "o", [.command, .shift])
+        addMenuCommand(file, L("native.menu.closeTab"), #selector(closeCurrentTab), "w")
+        addMenuCommand(file, L("native.menu.reopenTab"), #selector(reopenClosedTab), "t", [.command, .shift])
         file.addItem(.separator())
-        addMenuCommand(file, "保存", #selector(saveDocument), "s")
-        addMenuCommand(file, "另存为…", #selector(saveAsDocument), "S")
+        addMenuCommand(file, L("native.save"), #selector(saveDocument), "s")
+        addMenuCommand(file, L("native.menu.saveAs"), #selector(saveAsDocument), "S")
         file.addItem(.separator())
-        addMenuCommand(file, "导出 HTML…", #selector(exportHTML), "e", [.command, .shift])
-        addMenuCommand(file, "导出 PDF…", #selector(exportPDF), "p", [.command, .shift])
-        addMenuCommand(file, "导出 Word / WPS…", #selector(showDocxTools), "d", [.command, .shift])
+        addMenuCommand(file, L("native.menu.exportHTML"), #selector(exportHTML), "e", [.command, .shift])
+        addMenuCommand(file, L("native.menu.exportPDF"), #selector(exportPDF), "p", [.command, .shift])
+        addMenuCommand(file, L("native.menu.exportWord"), #selector(showDocxTools), "d", [.command, .shift])
         fileItem.submenu = file
 
         let editItem = NSMenuItem(); main.addItem(editItem)
-        let edit = NSMenu(title: "编辑")
-        addMenuCommand(edit, "回退", #selector(undoAction), "z")
-        addMenuCommand(edit, "前进", #selector(redoAction), "z", [.command, .shift])
-        addMenuCommand(edit, "操作记录…", #selector(showHistoryTools), "z", [.command, .option])
+        let edit = NSMenu(title: L("native.menu.edit"))
+        addMenuCommand(edit, L("native.menu.undo"), #selector(undoAction), "z")
+        addMenuCommand(edit, L("native.menu.redo"), #selector(redoAction), "z", [.command, .shift])
+        addMenuCommand(edit, L("native.menu.history"), #selector(showHistoryTools), "z", [.command, .option])
         edit.addItem(.separator())
-        addMenuCommand(edit, "剪切", #selector(NSText.cut(_:)), "x", responderChain: true)
-        addMenuCommand(edit, "拷贝", #selector(NSText.copy(_:)), "c", responderChain: true)
-        addMenuCommand(edit, "粘贴", #selector(NSText.paste(_:)), "v", responderChain: true)
-        addMenuCommand(edit, "全选", #selector(NSText.selectAll(_:)), "a", responderChain: true)
-        addMenuCommand(edit, "取消选择", #selector(clearSelection), "d")
-        addMenuCommand(edit, "查找与替换…", #selector(showSearchTools), "f")
-        addMenuCommand(edit, "替换…", #selector(showReplaceTools), "f", [.command, .option])
+        addMenuCommand(edit, L("native.menu.cut"), #selector(NSText.cut(_:)), "x", responderChain: true)
+        addMenuCommand(edit, L("native.menu.copy"), #selector(NSText.copy(_:)), "c", responderChain: true)
+        addMenuCommand(edit, L("native.menu.paste"), #selector(NSText.paste(_:)), "v", responderChain: true)
+        addMenuCommand(edit, L("native.menu.selectAll"), #selector(NSText.selectAll(_:)), "a", responderChain: true)
+        addMenuCommand(edit, L("native.menu.deselect"), #selector(clearSelection), "d")
+        addMenuCommand(edit, L("native.menu.find"), #selector(showSearchTools), "f")
+        addMenuCommand(edit, L("native.menu.replace"), #selector(showReplaceTools), "f", [.command, .option])
         editItem.submenu = edit
 
         let viewItem = NSMenuItem(); main.addItem(viewItem)
-        let view = NSMenu(title: "显示")
-        addMenuCommand(view, "仅编辑器", #selector(showEditor), "1", [.command, .shift])
-        addMenuCommand(view, "分栏", #selector(showSplit), "2", [.command, .shift])
-        addMenuCommand(view, "仅预览", #selector(showPreview), "3", [.command, .shift])
+        let view = NSMenu(title: L("native.menu.view"))
+        addMenuCommand(view, L("native.menu.editor"), #selector(showEditor), "1", [.command, .shift])
+        addMenuCommand(view, L("native.menu.split"), #selector(showSplit), "2", [.command, .shift])
+        addMenuCommand(view, L("native.menu.preview"), #selector(showPreview), "3", [.command, .shift])
         view.addItem(.separator())
-        addMenuCommand(view, "切换大纲", #selector(toggleOutline), "l", [.command, .shift])
-        addMenuCommand(view, "进入全屏幕", #selector(toggleFullScreen), "f", [.command, .control])
+        addMenuCommand(view, L("native.menu.outline"), #selector(toggleOutline), "l", [.command, .shift])
+        addMenuCommand(view, L("native.menu.fullScreen"), #selector(toggleFullScreen), "f", [.command, .control])
         viewItem.submenu = view
 
         let agentItem = NSMenuItem(); main.addItem(agentItem)
-        let agentMenu = NSMenu(title: "Agent")
-        addMenuCommand(agentMenu, "打开 Agent 编辑台", #selector(showAgentTools), "a", [.command, .shift])
-        addMenuCommand(agentMenu, "公式转换器", #selector(showFormulaTools), "m", [.command, .option])
+        let agentMenu = NSMenu(title: L("native.menu.ai"))
+        addMenuCommand(agentMenu, L("native.menu.agent"), #selector(showAgentTools), "a", [.command, .shift])
+        addMenuCommand(agentMenu, L("native.menu.formula"), #selector(showFormulaTools), "m", [.command, .option])
         agentItem.submenu = agentMenu
 
         let windowItem = NSMenuItem(); main.addItem(windowItem)
-        let windowMenu = NSMenu(title: "窗口")
-        windowMenu.addItem(withTitle: "最小化", action: #selector(NSWindow.miniaturize(_:)), keyEquivalent: "m")
+        let windowMenu = NSMenu(title: L("native.menu.window"))
+        windowMenu.addItem(withTitle: L("native.menu.minimize"), action: #selector(NSWindow.miniaturize(_:)), keyEquivalent: "m")
         windowMenu.addItem(.separator())
-        addMenuCommand(windowMenu, "下一个标签页", #selector(nextTab), "\t", [.control])
-        addMenuCommand(windowMenu, "上一个标签页", #selector(previousTab), "\t", [.control, .shift])
+        addMenuCommand(windowMenu, L("native.menu.nextTab"), #selector(nextTab), "\t", [.control])
+        addMenuCommand(windowMenu, L("native.menu.previousTab"), #selector(previousTab), "\t", [.control, .shift])
         windowItem.submenu = windowMenu
         NSApp.mainMenu = main
     }
@@ -292,9 +297,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
 
     @objc private func newDocument() {
         let id = UUID().uuidString
-        let number = documents.values.filter { $0.url == nil && !$0.title.hasPrefix("欢迎") }.count + 1
-        let title = number == 1 ? "未命名.md" : "未命名 \(number).md"
-        let text = "# 未命名文稿\n\n开始写作…\n"
+        let number = documents.values.filter { $0.url == nil }.count + 1
+        let title = number == 1 ? L("native.untitled") : L("native.untitledNumber", number)
+        let text = L("native.newContent")
         documents[id] = DocumentState(id: id, url: nil, title: title, content: text, isDirty: false)
         activeDocumentID = id
         invokeEditorJavaScript("addDocument", [id, title, text, false])
@@ -304,7 +309,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     private func createGeneratedDocument(title requestedTitle: String, content: String) {
         let id = UUID().uuidString
         let cleanTitle = requestedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-        let title = cleanTitle.isEmpty ? "Agent 总结.md" : (cleanTitle.lowercased().hasSuffix(".md") ? cleanTitle : cleanTitle + ".md")
+        let title = cleanTitle.isEmpty ? L("native.agent.summaryTitle") : (cleanTitle.lowercased().hasSuffix(".md") ? cleanTitle : cleanTitle + ".md")
         documents[id] = DocumentState(id: id, url: nil, title: title, content: content, isDirty: true)
         activeDocumentID = id
         invokeEditorJavaScript("addDocument", [id, title, content, true])
@@ -323,8 +328,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
-        panel.prompt = "授权此文件夹"
-        panel.message = "DOT MD 只会获得你在此处选择的文件夹及其子文件的访问权限。"
+        panel.prompt = L("native.folder.authorize")
+        panel.message = L("native.folder.scope")
         guard panel.runModal() == .OK, let folder = panel.url else { return }
         retainSecurityScope(for: folder)
 
@@ -350,12 +355,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         markdownFiles.sort { $0.path.localizedStandardCompare($1.path) == .orderedAscending }
 
         guard !markdownFiles.isEmpty else {
-            showErrorAlert("所选文件夹中没有 Markdown 文稿。")
+            showErrorAlert(L("native.folder.empty"))
             return
         }
         openMarkdownFiles(markdownFiles)
         if reachedLimit {
-            invokeEditorJavaScript("showToast", ["为保持流畅，本次只打开扫描到的前 100 个 Markdown 文稿"])
+            invokeEditorJavaScript("showToast", [L("native.folder.limit")])
         }
     }
 
@@ -392,11 +397,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                 let data = try handle.read(upToCount: limit + 1) ?? Data()
                 guard data.count <= limit else {
                     throw NSError(domain: "DOTMD.File", code: 413,
-                                  userInfo: [NSLocalizedDescriptionKey:"文稿超过 16 MiB，请拆分后打开。"])
+                                  userInfo: [NSLocalizedDescriptionKey:L("native.error.fileTooLarge")])
                 }
                 guard let decoded = String(data: data, encoding: .utf8) else {
                     throw NSError(domain: "DOTMD.File", code: 422,
-                                  userInfo: [NSLocalizedDescriptionKey:"文稿不是有效的 UTF-8 文本。"])
+                                  userInfo: [NSLocalizedDescriptionKey:L("native.error.invalidUTF8")])
                 }
                 content = decoded
             }
@@ -418,7 +423,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                     let current = try readCoordinatedMarkdownWithoutNesting(at: writableURL)
                     guard current == expectedPreviousContent else {
                         throw NSError(domain: "DOTMD.File", code: 409, userInfo: [
-                            NSLocalizedDescriptionKey:"磁盘上的文稿已由其他程序修改。为避免覆盖，请检查差异后使用“另存为”。"
+                            NSLocalizedDescriptionKey:L("native.error.diskConflict")
                         ])
                     }
                 }
@@ -436,7 +441,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         guard bytes.count <= 16 * 1024 * 1024,
               let text = String(data: bytes, encoding: .utf8) else {
             throw NSError(domain: "DOTMD.File", code: 409,
-                          userInfo: [NSLocalizedDescriptionKey:"磁盘文稿已变更或过大，未执行覆盖保存。"])
+                          userInfo: [NSLocalizedDescriptionKey:L("native.error.diskChanged")])
         }
         return text
     }
@@ -469,12 +474,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
                         guard size <= remainingBytes else {
                             throw NSError(domain: "DOTMD.File", code: 413,
-                                          userInfo: [NSLocalizedDescriptionKey:"本次打开的文稿总量超过 80 MiB。"])
+                                          userInfo: [NSLocalizedDescriptionKey:L("native.error.totalTooLarge")])
                         }
                         let content = try Self.readCoordinatedMarkdown(at: url)
                         guard content.utf8.count <= remainingBytes else {
                             throw NSError(domain: "DOTMD.File", code: 413,
-                                          userInfo: [NSLocalizedDescriptionKey:"本次打开的文稿总量超过 80 MiB。"])
+                                          userInfo: [NSLocalizedDescriptionKey:L("native.error.totalTooLarge")])
                         }
                         remainingBytes -= content.utf8.count
                         return LoadedMarkdownFile(url: url,
@@ -501,7 +506,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             }
             guard let file = byPath[url.standardizedFileURL.path] else { continue }
             guard let text = file.content else {
-                showErrorAlert("无法打开文稿：\(url.lastPathComponent)：\(file.errorMessage ?? "未知错误")")
+                showErrorAlert(L("native.error.openDocument", url.lastPathComponent, file.errorMessage ?? L("native.error.unknown")))
                 continue
             }
             let id = UUID().uuidString
@@ -583,7 +588,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             if (error as NSError).domain == "DOTMD.File", (error as NSError).code == 409 {
                 documents[id]?.hasSaveConflict = true
             }
-            showErrorAlert("无法保存文稿：\(error.localizedDescription)")
+            showErrorAlert(L("native.error.saveDocument", error.localizedDescription))
             return false
         }
     }
@@ -636,7 +641,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
               documents[id]?.url?.standardizedFileURL == url.standardizedFileURL else { return }
         if let errorMessage {
             if isConflict { documents[id]?.hasSaveConflict = true }
-            showErrorAlert("无法保存文稿：\(errorMessage)")
+            showErrorAlert(L("native.error.saveDocument", errorMessage))
             return
         }
         documents[id]?.lastSavedContent = snapshot.content
@@ -697,17 +702,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
 
     @objc private func exportHTML() {
         let panel = NSSavePanel(); panel.allowedContentTypes = [.html]
-        let title = activeDocumentID.flatMap { documents[$0]?.title } ?? "未命名.md"
+        let title = activeDocumentID.flatMap { documents[$0]?.title } ?? L("native.untitled")
         panel.nameFieldStringValue = URL(fileURLWithPath: title).deletingPathExtension().lastPathComponent + ".html"
         guard panel.runModal() == .OK, let url = panel.url else { return }
         webView.evaluateJavaScript("window.dotmd.exportHTML()") { result, error in
-            guard error == nil, let html = result as? String else { self.showErrorAlert("无法生成 HTML。"); return }
+            guard error == nil, let html = result as? String else { self.showErrorAlert(L("native.error.generateHTML")); return }
             Task { [weak self] in
                 let message = await Task.detached(priority: .userInitiated) { () -> String? in
                     do { try Self.writeCoordinatedMarkdown(html, to: url, expectedPreviousContent: nil); return nil }
                     catch { return error.localizedDescription }
                 }.value
-                if let message { self?.showErrorAlert("无法导出 HTML：\(message)") }
+                if let message { self?.showErrorAlert(L("native.error.exportHTML", message)) }
             }
         }
     }
@@ -732,15 +737,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
               let settingsData = try? JSONSerialization.data(withJSONObject: rawSettings),
               let blocks = try? JSONDecoder().decode([DocxBlock].self, from: blockData),
               let layout = try? JSONDecoder().decode(DocxLayout.self, from: settingsData) else {
-            invokeEditorJavaScript("showToast", ["导出内容或排版设置无效"])
+            invokeEditorJavaScript("showToast", [L("native.error.exportSettings")])
             return
         }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [UTType(filenameExtension: "docx") ?? .data]
         panel.nameFieldStringValue = URL(fileURLWithPath: document.title)
             .deletingPathExtension().lastPathComponent + ".docx"
-        panel.prompt = "导出 DOCX"
-        panel.message = "只写入你在此处选择的文件；Word 与 WPS 均可打开并继续编辑。"
+        panel.prompt = L("native.exportDOCX")
+        panel.message = L("native.exportDOCX.scope")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         let title = document.title
         let sourceURL = document.url
@@ -752,7 +757,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                     return nil
                 } catch { return error.localizedDescription }
             }.value
-            if let message { self?.showErrorAlert("无法导出 DOCX：\(message)") }
+            if let message { self?.showErrorAlert(L("native.error.exportDOCX", message)) }
             else { self?.invokeEditorJavaScript("docxExported", []) }
         }
     }
@@ -768,12 +773,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             settingsJSON = text
         } else { settingsJSON = "{}" }
         guard !profileID.isEmpty, !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            invokeEditorJavaScript("showDocxAgentSuggestion", ["", "请先输入排版要求并选择 Agent。"])
+            invokeEditorJavaScript("showDocxAgentSuggestion", ["", L("native.agent.layoutRequired")])
             return
         }
         guard confirmThirdPartyAgentTransfer(profileIDs: [profileID],
-                                             description: "排版要求（\(prompt.count) 字）与当前排版设置；不含文稿正文") else {
-            invokeEditorJavaScript("showDocxAgentSuggestion", ["", "您取消了本次发送。"])
+                                             description: L("native.agent.layoutScope", prompt.count)) else {
+            invokeEditorJavaScript("showDocxAgentSuggestion", ["", L("native.agent.cancelled")])
             return
         }
         Task {
@@ -801,11 +806,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     @objc private func showHistoryTools() { invokeEditorJavaScript("openHistoryTools", []) }
 
     @objc private func showAbout() {
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "开发版"
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? L("native.version.development")
         let alert = NSAlert()
-        alert.messageText = "DOT MD"
-        alert.informativeText = "多标签 Markdown、公式与 Agent 写作工作台\n版本 \(version)"
-        alert.addButton(withTitle: "好")
+        alert.messageText = "md any where"
+        alert.informativeText = L("native.about.details", version)
+        alert.addButton(withTitle: L("native.ok"))
         alert.runModal()
     }
 
@@ -818,18 +823,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
 
     private func updateWindowTitle() {
         guard let id = activeDocumentID, let document = documents[id] else {
-            window?.title = "DOT MD"; window?.representedURL = nil; return
+            window?.title = "md any where"; window?.representedURL = nil; return
         }
-        window?.title = "\(document.isDirty ? "● " : "")\(document.title) — DOT MD"
+        window?.title = "\(document.isDirty ? "● " : "")\(document.title) — md any where"
         window?.representedURL = document.url
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard message.name == "editor", let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
+        guard message.name == "editor", message.frameInfo.isMainFrame, let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
         let id = body["id"] as? String
         switch type {
         case "ready":
             isEditorReady = true
+            synchronizeInterfaceLanguage()
             if let id, let content = body["content"] as? String, let title = body["title"] as? String {
                 documents[id] = DocumentState(id: id, url: nil, title: title, content: content, isDirty: false)
                 activeDocumentID = id
@@ -838,6 +844,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             pendingAgentCommandURLs.forEach(handleAgentCommandFile); pendingAgentCommandURLs.removeAll()
             sendAgentProfiles()
             sendAgentConsoleConfiguration()
+        case "changeInterfaceLanguage":
+            guard let language = body["language"] as? String, InterfaceLocalization.setLanguage(language) else { return }
+            configureApplicationMenus()
+            synchronizeInterfaceLanguage()
         case "change":
             guard let id, let content = body["content"] as? String else { return }
             documents[id]?.content = content; documents[id]?.isDirty = true
@@ -849,7 +859,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         case "close": if let id { closeTab(id) }
         case "new": newDocument()
         case "newWithContent":
-            createGeneratedDocument(title: body["title"] as? String ?? "Agent 总结.md",
+            createGeneratedDocument(title: body["title"] as? String ?? L("native.agent.summaryTitle"),
                                     content: body["content"] as? String ?? "")
         case "open": openDocument()
         case "save": saveDocument()
@@ -878,19 +888,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                                   mathML: body["mathML"] as? String ?? "",
                                   svg: body["svg"] as? String ?? "",
                                   target: body["target"] as? String ?? "word")
-            invokeEditorJavaScript("showToast", ["公式已复制，可粘贴到目标软件"])
+            invokeEditorJavaScript("showToast", [L("native.copiedFormula")])
         case "copyText":
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
             pasteboard.setString(body["text"] as? String ?? "", forType: .string)
-            invokeEditorJavaScript("showToast", ["已复制"])
+            invokeEditorJavaScript("showToast", [L("native.copied")])
         default: break
         }
     }
 
+    private func synchronizeInterfaceLanguage() {
+        guard isEditorReady else { return }
+        webView.evaluateJavaScript(InterfaceLocalization.synchronizationJavaScript)
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        configureApplicationMenus()
+        synchronizeInterfaceLanguage()
+    }
+
     private func pasteClipboardIntoEditor() {
         guard let text = NSPasteboard.general.string(forType: .string), !text.isEmpty else {
-            invokeEditorJavaScript("showToast", ["剪贴板中没有可粘贴的文本"])
+            invokeEditorJavaScript("showToast", [L("native.clipboard.empty")])
             return
         }
         invokeEditorJavaScript("insertClipboardText", [text])
@@ -958,7 +978,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                   let id = request["id"] as? String,
                   let command = request["command"] as? String else {
                 throw NSError(domain: "DOTMDAgent", code: 400,
-                              userInfo: [NSLocalizedDescriptionKey:"命令格式无效。"])
+                              userInfo: [NSLocalizedDescriptionKey:L("native.console.invalidCommand")])
             }
             requestID = id
             let arguments = request["arguments"] as? [String: Any] ?? [:]
@@ -1021,7 +1041,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                   fileStatus.st_uid == getuid(), fileStatus.st_nlink == 1,
                   fileStatus.st_size <= 10_000_000, fileStatus.st_mode & 0o077 == 0 else {
                 throw NSError(domain: "DOTMDAgent", code: 403,
-                              userInfo: [NSLocalizedDescriptionKey:"命令文件不安全或过大。"])
+                              userInfo: [NSLocalizedDescriptionKey:L("native.console.unsafeFile")])
             }
             try handle.seek(toOffset: 0)
             let data = try handle.readToEnd() ?? Data()
@@ -1030,7 +1050,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                   let id = request["id"] as? String,
                   let command = request["command"] as? String else {
                 throw NSError(domain: "DOTMDAgent", code: 400,
-                              userInfo: [NSLocalizedDescriptionKey:"命令格式无效。"])
+                              userInfo: [NSLocalizedDescriptionKey:L("native.console.invalidCommand")])
             }
             requestID = id
             let arguments = request["arguments"] as? [String: Any] ?? [:]
@@ -1048,7 +1068,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             ?? activeDocumentID
         guard let id, let document = documents[id] else {
             throw NSError(domain: "DOTMDAgent", code: 404,
-                          userInfo: [NSLocalizedDescriptionKey:"没有找到已打开的文稿。"])
+                          userInfo: [NSLocalizedDescriptionKey:L("native.console.noDocument")])
         }
         return (id, document)
     }
@@ -1056,7 +1076,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     private func requireAgentConsoleEditAccess() throws {
         guard agentConsoleAccess == "edit" else {
             throw NSError(domain: "DOTMDAgent", code: 403,
-                          userInfo: [NSLocalizedDescriptionKey:"DOT MD 当前只允许 Agent 读取；请在设置中改为“读取与编辑”。"])
+                          userInfo: [NSLocalizedDescriptionKey:L("native.console.readOnly")])
         }
     }
 
@@ -1064,13 +1084,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     // decision for every document operation; never treat localhost as identity.
     private func approveAgentConsoleRequest(_ command: String, arguments: [String: Any]) -> Bool {
         let documentID = arguments["document_id"] as? String ?? activeDocumentID
-        let title = documentID.flatMap { documents[$0]?.title } ?? "当前打开的文稿"
+        let title = documentID.flatMap { documents[$0]?.title } ?? L("native.console.currentDocument")
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "允许本机 Agent 执行“\(command)”吗？"
-        alert.informativeText = "请求来自本机进程，但无法验证它属于哪个 Agent。目标：\(title)。读取可能泄露文稿内容；编辑可能修改文稿。仅在您刚刚发起此操作时批准。"
-        alert.addButton(withTitle: "允许本次操作")
-        alert.addButton(withTitle: "拒绝")
+        alert.messageText = L("native.console.confirmTitle", command)
+        alert.informativeText = L("native.console.confirmBody", title)
+        alert.addButton(withTitle: L("native.console.allowOnce"))
+        alert.addButton(withTitle: L("native.console.deny"))
         return alert.runModal() == .alertFirstButtonReturn
     }
 
@@ -1082,11 +1102,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         }
         guard agentConsoleEnabled else {
             throw NSError(domain: "DOTMDAgent", code: 403,
-                          userInfo: [NSLocalizedDescriptionKey:"Agent 控制台尚未启用；请在 DOT MD 设置中开启。"])
+                          userInfo: [NSLocalizedDescriptionKey:L("native.console.disabled")])
         }
         guard approveAgentConsoleRequest(command, arguments: arguments) else {
             throw NSError(domain: "DOTMDAgent", code: 403,
-                          userInfo: [NSLocalizedDescriptionKey:"用户没有批准本次 Agent 控制台操作。"])
+                          userInfo: [NSLocalizedDescriptionKey:L("native.console.denied")])
         }
         switch command {
         case "list_documents":
@@ -1102,9 +1122,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         case "create_document":
             try requireAgentConsoleEditAccess()
             let text = arguments["content"] as? String ?? ""
-            guard text.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:"文稿超过 200 万字限制。"])}
+            guard text.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:L("native.console.documentTooLong")])}
             let id = UUID().uuidString
-            let requested = (arguments["title"] as? String ?? "Agent 文稿.md").trimmingCharacters(in: .whitespacesAndNewlines)
+            let requested = (arguments["title"] as? String ?? L("native.agent.documentTitle")).trimmingCharacters(in: .whitespacesAndNewlines)
             let title = requested.lowercased().hasSuffix(".md") ? requested : requested + ".md"
             documents[id] = DocumentState(id:id, url:nil, title:title, content:text, isDirty:true)
             activeDocumentID = id; invokeEditorJavaScript("addDocument", [id, title, text, true]); updateWindowTitle()
@@ -1117,16 +1137,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             let header = try NSRegularExpression(pattern: "^(?:flowchart|graph)\\s+(?:TD|TB|BT|LR|RL)$", options: .caseInsensitive)
             let headerRange = NSRange(firstLine.startIndex..<firstLine.endIndex, in: firstLine)
             guard header.firstMatch(in: firstLine, range: headerRange) != nil else {
-                throw NSError(domain:"DOTMDAgent", code:400, userInfo:[NSLocalizedDescriptionKey:"流程图第一行必须是 flowchart TD、LR、RL 或 BT。"])
+                throw NSError(domain:"DOTMDAgent", code:400, userInfo:[NSLocalizedDescriptionKey:L("native.console.diagramDirection")])
             }
             guard diagram.count <= 100_000, !diagram.contains("```") else {
-                throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:"流程图过长或包含不允许的代码块边界。"])
+                throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:L("native.console.diagramTooLong")])
             }
             let heading = (arguments["title"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
             let sectionTitle = heading.flatMap { $0.isEmpty ? nil : "### \($0)\n\n" } ?? ""
             let separator = document.content.isEmpty || document.content.hasSuffix("\n\n") ? "" : (document.content.hasSuffix("\n") ? "\n" : "\n\n")
             let content = document.content + separator + sectionTitle + "```mermaid\n" + diagram + "\n```\n"
-            guard content.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:"编辑后的文稿超过 200 万字限制。"])}
+            guard content.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:L("native.console.editedTooLong")])}
             documents[id]?.content = content; documents[id]?.isDirty = true; activeDocumentID = id
             invokeEditorJavaScript("replaceDocumentFromAgent", [id, content]); updateWindowTitle()
             return ["id":id, "title":document.title, "changed":true, "kind":"mermaid"]
@@ -1140,7 +1160,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
             else {
                 let needle = arguments["find"] as? String ?? ""
                 let replacement = arguments["replace"] as? String ?? ""
-                guard !needle.isEmpty else { throw NSError(domain:"DOTMDAgent", code:400, userInfo:[NSLocalizedDescriptionKey:"查找文字不能为空。"])}
+                guard !needle.isEmpty else { throw NSError(domain:"DOTMDAgent", code:400, userInfo:[NSLocalizedDescriptionKey:L("native.console.findRequired")])}
                 if arguments["all"] as? Bool == false {
                     if let range = content.range(of: needle) { content.replaceSubrange(range, with: replacement); replacements = 1 }
                 } else {
@@ -1151,7 +1171,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
                     content = content.replacingOccurrences(of: needle, with: replacement)
                 }
             }
-            guard content.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:"编辑后的文稿超过 200 万字限制。"])}
+            guard content.count <= 2_000_000 else { throw NSError(domain:"DOTMDAgent", code:413, userInfo:[NSLocalizedDescriptionKey:L("native.console.editedTooLong")])}
             if content == document.content {
                 return ["id":id, "title":document.title, "changed":false, "replacements":replacements]
             }
@@ -1161,12 +1181,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         case "save_document":
             try requireAgentConsoleEditAccess()
             let (id, document) = try agentConsoleDocument(arguments)
-            guard document.url != nil else { throw NSError(domain:"DOTMDAgent", code:409, userInfo:[NSLocalizedDescriptionKey:"这是未保存文稿；请由用户在 DOT MD 中选择“另存为”位置。"])}
-            guard activeDiskSaves[id] == nil else { throw NSError(domain:"DOTMDAgent", code:409, userInfo:[NSLocalizedDescriptionKey:"文稿正在保存，请稍后重试。"])}
-            guard writeDocumentToDisk(id) else { throw NSError(domain:"DOTMDAgent", code:500, userInfo:[NSLocalizedDescriptionKey:"保存失败。"])}
+            guard document.url != nil else { throw NSError(domain:"DOTMDAgent", code:409, userInfo:[NSLocalizedDescriptionKey:L("native.console.unsaved")])}
+            guard activeDiskSaves[id] == nil else { throw NSError(domain:"DOTMDAgent", code:409, userInfo:[NSLocalizedDescriptionKey:L("native.console.saving")])}
+            guard writeDocumentToDisk(id) else { throw NSError(domain:"DOTMDAgent", code:500, userInfo:[NSLocalizedDescriptionKey:L("native.error.saveFailed")])}
             return ["id":id, "title":documents[id]?.title ?? document.title, "saved":true]
         default:
-            throw NSError(domain:"DOTMDAgent", code:404, userInfo:[NSLocalizedDescriptionKey:"不支持的命令：\(command)"])
+            throw NSError(domain:"DOTMDAgent", code:404, userInfo:[NSLocalizedDescriptionKey:L("native.console.unsupported", command)])
         }
     }
 
@@ -1174,31 +1194,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         guard let raw = body["profiles"], JSONSerialization.isValidJSONObject(raw),
               let data = try? JSONSerialization.data(withJSONObject: raw),
               let profiles = try? JSONDecoder().decode([AgentProfile].self, from: data) else {
-            invokeEditorJavaScript("showToast", ["Agent 配置格式无效"]); return
+            invokeEditorJavaScript("showToast", [L("native.agent.invalidProfiles")]); return
         }
         do {
             try agentService.saveProfiles(profiles, keys: body["keys"] as? [String: String] ?? [:])
-            sendAgentProfiles(); invokeEditorJavaScript("showToast", ["Agent 配置已安全保存"])
-        } catch { invokeEditorJavaScript("showToast", ["无法保存到钥匙串：\(error.localizedDescription)"]) }
+            sendAgentProfiles(); invokeEditorJavaScript("showToast", [L("native.agent.profilesSaved")])
+        } catch { invokeEditorJavaScript("showToast", [L("native.error.keychain", error.localizedDescription)]) }
     }
 
     private func runAgents(_ body: [String: Any]) {
         let ids = body["profileIDs"] as? [String] ?? []
-        let instruction = body["instruction"] as? String ?? "修正选中内容"
+        let instruction = body["instruction"] as? String ?? L("native.agent.defaultInstruction")
         let selection = body["selection"] as? String ?? ""
         let context = body["context"] as? String ?? ""
         let mode = body["mode"] as? String ?? "single"
         let purpose = body["purpose"] as? String ?? "edit"
         let selectedIDs = mode == "single" ? Array(ids.prefix(1)) : ids
         guard confirmThirdPartyAgentTransfer(profileIDs: selectedIDs,
-                                             description: "任务要求、选中文字（\(selection.count) 字）及文稿上下文（\(context.count) 字）") else { return }
+                                             description: L("native.agent.editScope", selection.count, context.count)) else { return }
         invokeEditorJavaScript("setAgentBusy", [true])
         Task {
             let answers = await agentService.runSelectedAgents(profileIDs: ids, instruction: instruction,
                                                  selection: selection, context: context, mode: mode)
             guard let data = try? JSONEncoder().encode(answers),
                   let object = try? JSONSerialization.jsonObject(with: data) else {
-                invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", ["Agent 返回结果无法解析"]); return
+                invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", [L("native.agent.invalidResult")]); return
             }
             invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showAgentResults", [object, purpose])
         }
@@ -1208,10 +1228,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         let profileID = body["profileID"] as? String ?? ""
         let goal = body["goal"] as? String ?? ""
         guard !goal.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, goal.count <= 1500 else {
-            invokeEditorJavaScript("showToast", ["请写一句不超过 1500 字的目标。"]); return
+            invokeEditorJavaScript("showToast", [L("native.agent.goalRequired")]); return
         }
         guard confirmThirdPartyAgentTransfer(profileIDs: [profileID],
-                                             description: "工作流程目标（\(goal.count) 字）与已启用的 Agent 名称；不含文稿正文") else { return }
+                                             description: L("native.agent.workflowScope", goal.count)) else { return }
         invokeEditorJavaScript("setWorkflowPlanning", [true])
         Task {
             let answer = await agentService.designWorkflow(profileID: profileID, goal: goal)
@@ -1224,20 +1244,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         guard let raw = body["workflow"],
               let data = try? JSONSerialization.data(withJSONObject: raw),
               let workflow = try? JSONDecoder().decode(AgentWorkflow.self, from: data) else {
-            invokeEditorJavaScript("showToast", ["工作流程格式无效；没有发送文稿。"]); return
+            invokeEditorJavaScript("showToast", [L("native.agent.invalidWorkflow")]); return
         }
         let selection = body["selection"] as? String ?? ""
         let context = body["context"] as? String ?? ""
         let purpose = body["purpose"] as? String ?? "edit"
         let profileIDs = Array(Set(workflow.stages.flatMap(\.profileIDs))).sorted()
         guard confirmThirdPartyAgentTransfer(profileIDs: profileIDs,
-                                             description: "工作流程要求、选中文字（\(selection.count) 字）、文稿上下文（\(context.count) 字），以及步骤之间的 Agent 答案") else { return }
+                                             description: L("native.agent.workflowRunScope", selection.count, context.count)) else { return }
         invokeEditorJavaScript("setAgentBusy", [true])
         Task {
             let results = await agentService.runWorkflow(workflow, selection: selection, context: context)
             guard let data = try? JSONEncoder().encode(results),
                   let object = try? JSONSerialization.jsonObject(with: data) else {
-                invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", ["工作流结果无法解析"]); return
+                invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", [L("native.agent.invalidWorkflowResult")]); return
             }
             invokeEditorJavaScript("setAgentBusy", [false])
             invokeEditorJavaScript("showWorkflowResults", [object, purpose])
@@ -1252,14 +1272,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
         }
         guard !remote.isEmpty else { return true }
         let recipients = remote.map { profile in
-            let host = URLComponents(string: profile.endpoint)?.host ?? "自定义地址"
+            let host = URLComponents(string: profile.endpoint)?.host ?? L("native.agent.customEndpoint")
             return "• \(profile.name) — \(host)"
         }.joined(separator: "\n")
         let alert = NSAlert()
-        alert.messageText = "本次将向第三方 Agent 发送内容"
-        alert.informativeText = "接收方：\n\(recipients)\n\n发送范围：\(description)。并行或共识模式会分别发送给多个服务。服务商对内容的处理和保存期限依其政策；请勿发送不允许外传的资料。仅本次执行，之后仍需再次同意。"
-        alert.addButton(withTitle: "同意本次发送")
-        alert.addButton(withTitle: "取消")
+        alert.messageText = L("native.agent.transferTitle")
+        alert.informativeText = L("native.agent.transferBody", recipients, description)
+        alert.addButton(withTitle: L("native.agent.allowTransfer"))
+        alert.addButton(withTitle: L("native.cancel"))
         return alert.runModal() == .alertFirstButtonReturn
     }
 
@@ -1314,9 +1334,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, WKSc
     private func confirmClose(_ document: DocumentState) -> Bool {
         guard document.isDirty else { return true }
         let alert = NSAlert()
-        alert.messageText = "要保存对“\(document.title)”的更改吗？"
-        alert.informativeText = "未保存的更改将会丢失。"
-        alert.addButton(withTitle: "保存"); alert.addButton(withTitle: "取消"); alert.addButton(withTitle: "不保存")
+        alert.messageText = L("native.close.title", document.title)
+        alert.informativeText = L("native.close.discardWarning")
+        alert.addButton(withTitle: L("native.save")); alert.addButton(withTitle: L("native.cancel")); alert.addButton(withTitle: L("native.dontSave"))
         switch alert.runModal() {
         case .alertFirstButtonReturn: return document.url == nil ? saveAs(document.id) : writeDocumentToDisk(document.id)
         case .alertThirdButtonReturn: return true

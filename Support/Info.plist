@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
-  <string>zh_CN</string>
+  <string>en</string>
   <key>CFBundleDisplayName</key>
-  <string>DOT MD</string>
+  <string>md any where</string>
   <key>CFBundleExecutable</key>
   <string>DOTMD</string>
   <key>CFBundleIconFile</key>
@@ -15,15 +15,15 @@
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>DOT MD</string>
+  <string>md any where</string>
   <key>NSHumanReadableCopyright</key>
-  <string>© 2026 DOT MD contributors</string>
+  <string>© 2026 md any where contributors</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
   <string>1.0.0</string>
   <key>CFBundleVersion</key>
-  <string>1.0.0</string>
+  <string>3</string>
   <key>NSAppTransportSecurity</key>
   <dict>
     <key>NSAllowsLocalNetworking</key>
@@ -39,7 +39,7 @@
   <array>
     <dict>
       <key>CFBundleTypeName</key>
-      <string>Markdown 文稿</string>
+      <string>Markdown Document</string>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>LSHandlerRank</key>
@@ -52,7 +52,7 @@
     </dict>
     <dict>
       <key>CFBundleTypeName</key>
-      <string>DOT MD Agent Command</string>
+      <string>md any where Agent Command</string>
       <key>CFBundleTypeRole</key>
       <string>Viewer</string>
       <key>LSHandlerRank</key>
@@ -84,7 +84,7 @@
       <key>UTTypeConformsTo</key>
       <array><string>public.data</string></array>
       <key>UTTypeDescription</key>
-      <string>DOT MD Agent Command</string>
+      <string>md any where Agent Command</string>
       <key>UTTypeIdentifier</key>
       <string>app.dotmd.agent-command</string>
       <key>UTTypeTagSpecification</key>

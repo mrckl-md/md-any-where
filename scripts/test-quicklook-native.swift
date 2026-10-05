@@ -22,7 +22,7 @@ let preview = NativeMarkdownPreview.render(source: source, title: "测试.md", t
 let text = preview.string
 precondition(text.contains("测试.md") && text.contains("标题"))
 precondition(text.contains("粗体") && !text.contains("**粗体**"))
-precondition(text.contains("流程图") && text.contains("flowchart LR"))
+precondition(text.contains(L("native.quicklook.flowchart")) && text.contains("flowchart LR"))
 precondition(!text.contains("<html"))
 let file = FileManager.default.temporaryDirectory.appendingPathComponent("dotmd-quicklook-\(UUID().uuidString).md")
 try! source.write(to: file, atomically: true, encoding: .utf8)

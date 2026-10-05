@@ -1,6 +1,6 @@
-# DOT MD 源码导览
+# md any where 源码导览
 
-DOT MD 的业务代码都是编译前源码。`Resources/vendor/` 是带原始许可证的第三方发布包，贡献者不应直接修改；`dist/` 和 `.build/` 是可重建产物，不应提交到 Git。
+md any where 的业务代码都是编译前源码。`Resources/vendor/` 是带原始许可证的第三方发布包，贡献者不应直接修改；`dist/` 和 `.build/` 是可重建产物，不应提交到 Git。
 
 ## 组件边界
 
@@ -17,8 +17,10 @@ DOT MD 的业务代码都是编译前源码。`Resources/vendor/` 是带原始�
 - `Sources/DOTMDiPad/AppDelegate.swift`：iPhone/iPad 共用的 UIKit Scene 与 WebKit 宿主，负责系统文件选择器、协调保存、分享、打印和 Agent 请求确认。
 - `Sources/DOTMDiPad/DocumentStore.swift`：移动端 UTF-8 文件读写、外部修改冲突检查与受保护的会话恢复数据。
 - `Resources/ipad.js` 与 `Resources/ipad.css`：移动端触控入口、窄屏布局和键盘视口适配。`scripts/prepare-ipad-resources.py` 只在 iOS 构建副本中加载这两份资源，桌面端继续使用共享编辑器。
+- `Resources/i18n.js`：系统语言匹配、手动选择、显式 UI 文案绑定、地区数字/日期格式及 RTL 方向；不扫描或翻译用户文稿。`Resources/locales/*.json` 是译文来源，`catalogs.js` 在构建时生成并离线加载。
+- `Sources/DOTMDLocalization/`：macOS/iOS/Quick Look 共用的原生文案和英文回退。`Support/Localization/locales.json` 记录 50 项商店语言映射；打包脚本生成系统可识别的 `.lproj/InfoPlist.strings`。
 
-`DOTMD-iPad.xcodeproj` 的历史名称和 `app.dotmd.ipad` 标识保持不变；目标同时支持 iPhone 与 iPad。Swift Package 构建 macOS 应用及命令行工具，Xcode 工程构建 iOS 应用。`Sources/DOTMDiPad/PDFRenderer.swift` 使用 UIKit 打印格式器生成带边距的分页 PDF。
+`DOTMD-iPad.xcodeproj` 的历史名称、内部 DOTMD 模块和 `app.dotmd.ipad` 标识保持不变；目标同时支持 iPhone 与 iPad。对外名称统一为 `md any where`，原生应用与归档产物分别为 `md any where.app`、`md any where.xcarchive`，当前版本 `1.0.0 (3)`。Swift Package 构建 macOS 应用及命令行工具，Xcode 工程构建 iOS 应用。`Sources/DOTMDiPad/PDFRenderer.swift` 使用 UIKit 打印格式器生成带边距的分页 PDF。
 
 iOS 图标从同一品牌矢量稿生成，扩展背景到整个正方形并移除 Alpha 通道，由系统应用外部圆角。重新生成命令：`xcrun swift scripts/render-ios-icon.swift Sources/DOTMD/Resources/Brand/DOT-MD-Mark.svg Support/iPad/Assets.xcassets/AppIcon.appiconset/AppIcon.png`。
 
@@ -27,6 +29,8 @@ iOS 图标从同一品牌矢量稿生成，扩展背景到整个正方形并移�
 `CodeMirror change` 更新标签状态并将最新文本同步给原生端；预览渲染经过短暂防抖。大文稿延长渲染间隔，选中高亮使用上一次渲染建立的节点索引。批量打开文件在原生端合并为一次桥调用，JavaScript 只渲染最终激活的标签页。
 
 编辑操作记录按用户设置保留最近 5–100 步，默认 10 步。每步是完整文本快照，便于可靠地跳转到指定操作；因此很大的文稿仍会随步数增加而占用更多内存。改动这部分结构时必须同时验证回退、前进、跨标签切换和未保存提示。
+
+语言选择由 `dotmd.interfaceLanguage` 保存。原生在页面加载前注入偏好和系统语言列表；网页更改通过 `changeInterfaceLanguage` 通知原生，原生回传不再次触发通知。翻译时只更新控件文案，不能重置 Agent 配置、输入框或文稿状态。文稿预览根据内容决定方向，代码、公式和编辑区维持从左到右；UI 方向单独处理。
 
 系统选择器是文件权限边界。应用不能自行扫描桌面、文稿或下载目录；WebView 不加载远程图片与网页。只允许选定 Agent 端点上的主动请求，不加入遥测或后台联网。
 
@@ -49,3 +53,5 @@ iOS 的文稿恢复副本保存在应用私有的 `Application Support/DocumentR
 运行 `node scripts/test-fuzzy-search.cjs` 检查模糊匹配，`node scripts/test-bridge-contract.cjs` 检查跨语言接口和 DOCX DOM ID，`node scripts/test-agent-console.cjs` 检查 MCP 握手与工具目录，使用 `node --check Sources/DOTMD/Resources/*.js` 检查自己的 JavaScript，并运行 `./scripts/build-app.sh` 构建。构建脚本自动使用本机 macOS SDK 和架构，不要求固定 SDK 路径。涉及 DOCX 的变更应以 Word/WPS 或 LibreOffice 打开实际产物，检查文字、公式、表格和图片。
 
 移动端使用 `./scripts/build-ios.sh simulator` 构建，`./scripts/test-mobile-layout.sh` 检查实际 WebKit 在手机、平板及键盘压缩视口下的布局。`tests/fixtures/mobile-demo.md` 是不含个人数据的演示文稿，可用于真机导入、编辑保存、公式/流程图预览及导出检查。WebKit 布局测试不能代替真机键盘、系统文件选择器和系统分享测试。
+
+本地化运行 `node scripts/test-localization.cjs`、`node scripts/test-locale-runtime.cjs`、`./scripts/test-native-localization.sh`、`./scripts/test-localized-editor.sh`，分别检查目录完整性、语言解析与偏好、原生格式及打包，以及 50 项语言切换的状态保留和 27 组 WebKit 布局。商店字段另用 `python3 Docs/AppStore/validate-localizations.py` 检查，详见 [多语言说明](Docs/Localization.md)。

@@ -4,7 +4,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
-const app = process.env.DOT_MD_APP_PATH || path.join(root, 'dist', 'DOT MD.app');
+const app = process.env.DOT_MD_APP_PATH || path.join(root, 'dist', 'md any where.app');
 const extension = path.join(app, 'Contents', 'PlugIns', 'DOTMDQuickLook.appex');
 const thumbnailExtension = path.join(app, 'Contents', 'PlugIns', 'DOTMDThumbnail.appex');
 const info = path.join(extension, 'Contents', 'Info.plist');

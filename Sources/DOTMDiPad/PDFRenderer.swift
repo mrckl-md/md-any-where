@@ -1,3 +1,6 @@
+#if canImport(DOTMDLocalization)
+import DOTMDLocalization
+#endif
 import UIKit
 import WebKit
 
@@ -38,15 +41,15 @@ final class MobilePDFRenderer: UIPrintPageRenderer {
         addPrintFormatter(formatter, startingAtPageAt: 0)
         let pageCount = numberOfPages
         guard pageCount > 0 else {
-            throw IPadDocumentStore.fileError(422, "没有可导出的预览内容。")
+            throw IPadDocumentStore.fileError(422, L("native.pdf.empty"))
         }
         guard pageCount <= 2_000 else {
-            throw IPadDocumentStore.fileError(413, "PDF 超过 2,000 页，请拆分文稿后导出。")
+            throw IPadDocumentStore.fileError(413, L("native.pdf.tooLong"))
         }
         prepare(forDrawingPages: NSRange(location: 0, length: pageCount))
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = [kCGPDFContextTitle as String: title,
-                               kCGPDFContextCreator as String: "DOT MD"]
+                               kCGPDFContextCreator as String: "md any where"]
         let renderer = UIGraphicsPDFRenderer(bounds: pageBounds, format: format)
         return renderer.pdfData { context in
             for pageIndex in 0..<pageCount {

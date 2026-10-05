@@ -141,7 +141,7 @@ final class MobileLayoutTest: NSObject, WKNavigationDelegate {
           window.dotmd.setMode('editor');
           window.dotmd.preparePrint();
           expect(visible(document.getElementById('preview-pane')), 'PDF preview must be visible from editor mode');
-          expect(document.getElementById('preview').textContent.includes('DOT MD · 随身写作'), 'PDF preview is missing document content');
+          expect(document.getElementById('preview').textContent.includes('md any where'), 'PDF preview is missing document content');
           expect(getComputedStyle(body).backgroundColor === 'rgb(255, 255, 255)',
             'PDF must have a white background in Dark Mode; got ' + getComputedStyle(body).backgroundColor);
           if (diagram) expect(rect(diagram).width <= rect(document.getElementById('preview')).width + 1,

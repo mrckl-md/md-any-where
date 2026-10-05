@@ -2,9 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleIdentifier</key><string>app.dotmd.editor.agent</string>
-  <key>CFBundleName</key><string>dotmd-agent</string>
-  <key>CFBundleVersion</key><string>1.0.0</string>
+  <key>CFBundleDisplayName</key><string>md any where Agent</string>
+  <key>CFBundleName</key><string>md any where Agent</string>
+  <key>CFBundleVersion</key><string>3</string>
   <key>CFBundleShortVersionString</key><string>1.0.0</string>
 </dict>
 </plist>

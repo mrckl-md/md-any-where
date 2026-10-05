@@ -11,6 +11,8 @@ trap 'rm -rf "$test_dir"' EXIT
 CLANG_MODULE_CACHE_PATH="$module_cache" SWIFT_MODULECACHE_PATH="$module_cache" \
   swiftc -sdk "$sdk_path" -target "$(uname -m)-apple-macos13.0" -swift-version 5 \
   "$project_dir/Sources/DOTMDQuickLook/PreviewProvider.swift" \
+  "$project_dir/Sources/DOTMDLocalization/InterfaceLocalization.swift" \
+  "$project_dir/Sources/DOTMDLocalization/EnglishFallback.swift" \
   "$project_dir/Sources/DOTMDQuickLook/NativeMarkdownPreview.swift" \
   "$project_dir/scripts/test-quicklook-native.swift" \
   -o "$test_dir/quicklook-test" -framework AppKit -framework QuickLookUI

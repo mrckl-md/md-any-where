@@ -6,6 +6,7 @@ test_dir="$(mktemp -d /private/tmp/dot-md-docx-flowchart.XXXXXXXX)"
 trap 'rm -rf "$test_dir"' EXIT
 module_cache="${TMPDIR:-/private/tmp}/dot-md-docx-flowchart-module-cache"
 cp -R "$project_dir/Sources/DOTMD/Resources" "$test_dir/Editor"
+python3 "$project_dir/scripts/bundle-editor-localizations.py" "$test_dir/Editor"
 cp "$project_dir/tests/fixtures/mobile-demo.md" "$test_dir/Editor/mobile-demo.md"
 python3 - "$test_dir/Editor/index.html" <<'PY'
 from pathlib import Path
@@ -15,7 +16,9 @@ html = page.read_text().replace('</head>', '<link rel="stylesheet" href="ipad.cs
 page.write_text(html.replace('</body>', '<script src="ipad.js"></script>\n</body>'))
 PY
 CLANG_MODULE_CACHE_PATH="$module_cache" SWIFT_MODULECACHE_PATH="$module_cache" \
-  xcrun swiftc -swift-version 5 "$project_dir/Sources/DOTMD/DocxExporter.swift" \
+  xcrun swiftc -swift-version 5 "$project_dir/Sources/DOTMDLocalization/InterfaceLocalization.swift" \
+  "$project_dir/Sources/DOTMDLocalization/EnglishFallback.swift" \
+  "$project_dir/Sources/DOTMD/DocxExporter.swift" \
   "$project_dir/scripts/test-docx-flowchart.swift" -o "$test_dir/test-flowchart" -framework AppKit -framework WebKit
 "$test_dir/test-flowchart" "$test_dir/Editor" "$test_dir/flowchart.docx"
 python3 - "$test_dir/flowchart.docx" <<'PY'

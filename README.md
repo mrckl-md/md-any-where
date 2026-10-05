@@ -1,12 +1,14 @@
-# DOT MD
+# md any where
 
-DOT MD 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 Agent 写作工作台。编辑与预览在本机进行，可选 Agent 在用户确认后连接自己配置的服务。项目自有源码采用 [MIT 许可证](LICENSE)，第三方组件保留各自许可。
+md any where 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 AI 写作工作台。macOS 可通过 MCP / CLI 接入 Codex、Claude Code、Cursor 等 AI 编辑器；iPhone/iPad 使用内置 Agent 完成润色、校对、总结与文字工作流。编辑与预览在本机进行，可选 Agent 在用户确认后连接自己配置的服务。项目自有源码采用 [MIT 许可证](LICENSE)，第三方组件保留各自许可。
 
-公开仓库：[mrckl-md/DOT-MD](https://github.com/mrckl-md/DOT-MD)。iPhone/iPad 版本已完成本地部署与核心功能测试，App Store 分发包已在本机生成；尚未提交 Apple 审核。已知限制和提交前事项见 [App Store 发布准备](Docs/App-Store-Release.md)。
+项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。当前版本为 `md any where 1.0.0 (3)`，已完成 macOS、iOS 模拟器和真机构建，以及 iPhone/iPad 安装。多语言自动化检查已通过，实际设备验收范围和发行状态见 [App Store 发布准备](Docs/App-Store-Release.md)；尚未提交 Apple 审核。
 
 ## 已实现
 
-核心编辑器由三个平台共用；移动版使用系统“文件”选择器、分享面板、触摸工具栏和草稿恢复。窗口拖动、Finder Quick Look、本机 MCP 控制台与液态玻璃窗口材质属于 macOS 功能。移动端目前以简体中文界面为主，英文商店文案不表示应用已经完整英文化。
+核心编辑器由三个平台共用；移动版使用系统“文件”选择器、分享面板、触摸工具栏、内置 Agent 和草稿恢复。窗口拖动、Finder Quick Look、本机 MCP / CLI 控制台与液态玻璃窗口材质属于 macOS 功能。移动端的 Agent 调用不表示手机或平板能运行桌面 IDE/MCP 宿主。
+
+三端界面覆盖 Apple 当前的 50 个商店语言/地区项，离线打包 47 份语言目录，每份 583 条界面与原生提示。默认跟随系统，也可在设置中手动选择语言；阿拉伯语、希伯来语和乌尔都语使用从右到左界面。切换语言保留文稿、撤销记录和未保存的设置输入。译文已做重点语义检查，尚未完成全部语言的母语审校；详见 [多语言实现与验证](Docs/Localization.md)。语言支持不等于所有国家/地区已获准发行。
 
 - CodeMirror 编辑器：撤销/重做、精确/忽略大小写/模糊查找、替换当前/全部替换、自动补括号、列表回车延续、行号与软换行
 - 每标签页独立的滚动操作时间线：顶部回退/前进、操作记录列表、指定步骤跳转；设置中可选择保留 5–100 步，默认 10 步
@@ -17,7 +19,7 @@ DOT MD 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 Agent �
 - 修复“仅预览”模式进入零宽网格列而不可见的问题；三种视图与大纲开关可任意组合
 - Markdown 实时预览：表格、任务列表、脚注、本地相对链接、代码高亮；出于隐私与安全考虑，不渲染原始 HTML，也不自动识别或打开外部网页链接
 - 离线 Mermaid 风格流程图：支持 `flowchart` / `graph`、TD/TB/BT/LR/RL 方向、常用节点与分支标签；按文档层级排版，连线从节点边缘进出，循环边绕行，不加载网页脚本。当前是常用流程图语法子集，不包含 Mermaid 的所有图种和高级指令
-- 内置沙盒化 Quick Look 预览扩展；Finder 使用 AppKit 原生文本排版，不再依赖沙盒中可能崩溃的 WebKit 子进程。普通标题、段落、列表、引用与行内样式可读；复杂流程图在 Quick Look 中显示源码与提示，完整图形请在 DOT MD 内查看
+- 内置沙盒化 Quick Look 预览扩展；Finder 使用 AppKit 原生文本排版，不再依赖沙盒中可能崩溃的 WebKit 子进程。普通标题、段落、列表、引用与行内样式可读；复杂流程图在 Quick Look 中显示源码与提示，完整图形请在 md any where 内查看
 - 离线 KaTeX：`$...$`、`$$...$$`、`\(...\)`、`\[...\]`，支持矩阵、对齐、宏等常用 LaTeX
 - 标题大纲、同步滚动、字数/字符数、光标位置
 - 原生打开、保存、另存为与已打开文件自动保存
@@ -67,7 +69,7 @@ DOT MD 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 Agent �
 
 ## Agent 配置与集群
 
-在 Mac 打开“DOT MD → 设置… → Agent 与模型”，在 iPhone/iPad 打开“文稿 → 设置与 Agent…”，勾选需要使用的服务并填写模型、端点和 API Key，保存后返回 Agent 编辑台运行任务。密钥通过系统 Keychain 保存，不进入工程、Markdown 或 `UserDefaults`。OpenAI 使用 Responses API 且请求设置 `store: false`；DeepSeek、GLM、Grok 和本地服务使用 OpenAI-compatible Chat Completions；Anthropic 与 Gemini 使用各自原生协议。
+在 Mac 打开“md any where → 设置… → Agent 与模型”，在 iPhone/iPad 打开“文稿 → 设置与 Agent…”，勾选需要使用的服务并填写模型、端点和 API Key，保存后返回 Agent 编辑台运行任务。密钥通过系统 Keychain 保存，不进入工程、Markdown 或 `UserDefaults`。OpenAI 使用 Responses API 且请求设置 `store: false`；DeepSeek、GLM、Grok 和本地服务使用 OpenAI-compatible Chat Completions；Anthropic 与 Gemini 使用各自原生协议。
 
 - **单 Agent**：只调用第一个已勾选的 Agent。
 - **并行评审**：同时调用所有已勾选 Agent，分别展示结果。
@@ -77,7 +79,7 @@ DOT MD 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 Agent �
 
 在“设置 → Agent 控制台”中明确启用，并选择“仅读取”或“读取与编辑”。界面会按所选平台生成可复制的 MCP 接入命令或 JSON。对 Agent 平台仍使用标准 MCP stdio；主应用与随包辅助程序之间只在控制台启用期间绑定 `127.0.0.1:57361`，不监听局域网或互联网地址，关闭控制台即停止监听。
 
-它只列出和操作已经由用户在 DOT MD 中打开的标签页，不能扫描磁盘，也不能绕过系统文件选择器。未保存的新文稿仍需用户通过“另存为”选择位置。除状态检查外，每次控制台操作都会在 DOT MD 内显示确认框；本机连接的进程身份无法可靠核验，因此只应批准自己发起的操作。提供的 MCP 工具有状态检查、文稿列表、受限读取、新建文稿、全文替换、追加、流程图插入、字面查找替换和保存；读工具与写工具带有相应 MCP 注解，方便宿主 Agent 应用审批策略。完整命令及安全模型见 [Agent 控制台文档](Docs/Agent-Console.md)。
+它只列出和操作已经由用户在 md any where 中打开的标签页，不能扫描磁盘，也不能绕过系统文件选择器。未保存的新文稿仍需用户通过“另存为”选择位置。除状态检查外，每次控制台操作都会在 md any where 内显示确认框；本机连接的进程身份无法可靠核验，因此只应批准自己发起的操作。提供的 MCP 工具有状态检查、文稿列表、受限读取、新建文稿、全文替换、追加、流程图插入、字面查找替换和保存；读工具与写工具带有相应 MCP 注解，方便宿主 Agent 应用审批策略。完整命令及安全模型见 [Agent 控制台文档](Docs/Agent-Console.md)。
 
 ## 公式复制
 
@@ -107,7 +109,7 @@ Mermaid 流程图可在应用内、HTML 和 PDF 中显示，并在 DOCX 中以�
 
 ## macOS 构建
 
-`Sources/`、`Support/`、`Package.swift` 与 `scripts/` 是完整的编译前源码，修改功能时只编辑这些文件；`.build/` 和 `dist/` 是随时可以删除并重新生成的编译产物。应用自己的 Swift、HTML、CSS 和 JavaScript 均以未压缩源码保存，构建脚本不会把它们压缩或混淆。`vendor/` 内带 `.min` 的文件是第三方项目官方发布包，并非 DOT MD 业务源码，其对应许可证完整保留。
+`Sources/`、`Support/`、`Package.swift` 与 `scripts/` 是完整的编译前源码，修改功能时只编辑这些文件；`.build/` 和 `dist/` 是随时可以删除并重新生成的编译产物。应用自己的 Swift、HTML、CSS 和 JavaScript 均以未压缩源码保存，构建脚本不会把它们压缩或混淆。`vendor/` 内带 `.min` 的文件是第三方项目官方发布包，并非 md any where 业务源码，其对应许可证完整保留。
 
 本机需要 macOS 13 或以上、Swift 6 和 Apple Command Line Tools 或 Xcode。构建脚本使用本机架构；若安装了已验证的 macOS 15.4 SDK，会优先使用它以规避当前预览版 SDK 的编译问题，否则使用系统默认 SDK。可用 `DOT_MD_SDK_PATH` 覆盖。运行：
 
@@ -115,14 +117,14 @@ Mermaid 流程图可在应用内、HTML 和 PDF 中显示，并在 DOCX 中以�
 ./scripts/build-app.sh
 ```
 
-产物位于 `dist/DOT MD.app`。打包先在临时目录完成并验证签名，原有同名产物会重命名保留，不会直接删除。当前构建使用 ad-hoc 签名，交给其他 Mac 前应使用团队的 Apple Developer 证书进行签名与公证。已打开的旧版应用不会被构建脚本自动退出，请先保存文稿并正常退出，再启动新版。
+产物位于 `dist/md any where.app`。打包先在临时目录完成并验证签名，原有同名产物会重命名保留，不会直接删除。当前构建使用 ad-hoc 签名，交给其他 Mac 前应使用团队的 Apple Developer 证书进行签名与公证。已打开的旧版应用不会被构建脚本自动退出，请先保存文稿并正常退出，再启动新版。
 
 图标主稿是 `Sources/DOTMD/Resources/Brand/DOT-MD-Mark.svg`。`scripts/build-icon.sh` 使用 AppKit 从矢量稿分别渲染 16–1024 px 的 macOS 图标尺寸，并生成 `AppIcon.icns`；`build-app.sh` 会自动先执行该步骤。现有 `.icns` 兼容 macOS 13 起的开发包；正式提交新版系统应用图标时，发布团队还可从同一矢量稿制作 Icon Composer 的分层和外观变体。
 
 可运行 `node scripts/test-fuzzy-search.cjs` 验证有界模糊查找，`node scripts/test-mermaid-flowchart.cjs` 检查离线流程图解析与 SVG，`node scripts/test-bridge-contract.cjs` 检查 Swift/JavaScript 消息桥和导出界面的 DOM ID，`node scripts/test-agent-console.cjs` 检查 MCP 握手与工具目录，`node scripts/test-quicklook-contract.cjs` 检查打包后的 Quick Look 扩展、文件类型与签名，`./scripts/test-quicklook-native.sh` 检查原生预览控制器确实生成内容，`node scripts/test-workflow.cjs` 检查文字工作流，`node scripts/test-docx-fonts.cjs` 测试字体设置迁移与一句话识别，`./scripts/test-docx-fonts.sh` 构造并检查实际 DOCX 字体 XML，`./scripts/test-docx-flowchart.sh` 在真实 WebKit 中导出公开示例并检查 DOCX 流程图图片、公式、表格及失败回退，`node --check Sources/DOTMD/Resources/*.js` 检查应用 JavaScript；`scripts/format-css.mjs` 用于机械格式化项目 CSS。源码组件、消息桥和性能边界见 [ARCHITECTURE.md](ARCHITECTURE.md)，社区贡献的命名与验证流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-在 Finder 中双击项目根目录的 `启动 DOT MD.command` 可一键启动应用；若 `/Applications/DOT MD.app` 已安装，会优先打开它，避免生成重复副本；否则在尚未构建时先自动执行构建脚本。
-若目录中有单独打包的 `dist/DOT MD 更新版.app`，请先保存文稿并正常退出旧版，再双击 `安装 DOT MD 更新版.command`。脚本会先确认应用未运行、核对更新版签名、备份原应用，然后安装并打开新版；若无法读取进程状态则拒绝替换。
+在 Finder 中双击项目根目录的 `启动 md any where.command` 可一键启动应用；若 `/Applications/md any where.app` 已安装，会优先打开它，避免生成重复副本；否则在尚未构建时先自动执行构建脚本。
+若目录中有单独打包的 `dist/md any where 更新版.app`，请先保存文稿并正常退出旧版，再双击 `安装 md any where 更新版.command`。脚本会先确认应用未运行、核对更新版签名、备份原应用，然后安装并打开新版；若无法读取进程状态则拒绝替换。
 
 ## iPhone / iPad 构建与本机部署
 
@@ -134,7 +136,7 @@ Mermaid 流程图可在应用内、HTML 和 PDF 中显示，并在 DOCX 中以�
 ./scripts/build-ios.sh simulator
 ```
 
-产物为 `.build/ios/simulator/Build/Products/Debug-iphonesimulator/DOT MD.app`。脚本只编译；在 Xcode 打开工程并选择 iPhone 或 iPad 模拟器即可运行。
+产物为 `.build/ios/simulator/Build/Products/Debug-iphonesimulator/md any where.app`。脚本只编译；在 Xcode 打开工程并选择 iPhone 或 iPad 模拟器即可运行。
 
 真机首次部署前，在 Xcode 的“Settings → Apple Accounts”登录并确认开发签名团队；通过线缆连接目标设备、解锁并信任 Mac。在设备的“设置 → 隐私与安全性 → 开发者模式”开启后按提示重启确认。在 Xcode 的“Open Developer Tool → Device Hub”（旧版为“Window → Devices and Simulators”）选中目标 iPhone/iPad，复制 Identifier（UDID），替换下面占位值：
 
@@ -144,7 +146,7 @@ export DOT_MD_DEVICE_UDID='目标iPhone或iPad的UDID'
 ./scripts/deploy-ios.sh
 ```
 
-脚本要求显式 UDID，不会自动选择其他设备。它允许 Xcode 更新开发描述文件和注册指定设备，再通过 `devicectl` 安装并启动。只构建真机应用可运行 `./scripts/build-ios.sh device`。产物在 `.build/ios/device/Build/Products/Debug-iphoneos/DOT MD.app`，日志在 `.build/ios/logs/`。开发者模式的开启和重启确认必须在设备端完成；签名到期后需要重新部署。
+脚本要求显式 UDID，不会自动选择其他设备。它允许 Xcode 更新开发描述文件和注册指定设备，再通过 `devicectl` 安装并启动。只构建真机应用可运行 `./scripts/build-ios.sh device`。产物在 `.build/ios/device/Build/Products/Debug-iphoneos/md any where.app`，日志在 `.build/ios/logs/`。开发者模式的开启和重启确认必须在设备端完成；签名到期后需要重新部署。
 
 旧 `build-ipad.sh` / `deploy-ipad.sh` 及 `DOT_MD_IPAD_UDID` 保留兼容，使用独立 `.build/ipad/` 目录；新操作推荐通用 iOS 脚本。安装更新前先保存文稿。移动设备上的 localhost 指向设备自身，不能直接调用相连 Mac 的 Ollama/LM Studio。
 
@@ -158,4 +160,4 @@ export DOT_MD_DEVICE_UDID='目标iPhone或iPad的UDID'
 
 项目自有代码采用 [MIT](LICENSE)；依赖许可和版权说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。公开前仅提交源码、资源和文档，不提交个人文稿、证书、描述文件、API Key、设备日志或构建目录。
 
-[App Store 发布准备](Docs/App-Store-Release.md)、[中英文元数据](Docs/AppStore/README.md) 和 [实际界面截图](Docs/AppStore/Screenshots/README.md) 已提供。版本 `1.0.0 (1)` 已通过本地 Release 归档及 Apple Distribution 签名导出。仍须由发行者完成真实支持联系方式、第三方隐私核对、适龄问卷、剩余发布验收及 App Store Connect 操作；尚未上传或提交审核。
+[App Store 发布准备](Docs/App-Store-Release.md)、[50 项商店本地化文案](Docs/AppStore/Localization.md) 和 [截图清单](Docs/AppStore/Screenshots/README.md) 已提供。旧构建 `1.0.0 (1)` 的截图只作为历史验证记录，当前多语言构建号为 `3`。商店售价已确定为免费，销售地区包括中国大陆；备案资料、AI 发布范围、隐私和适龄问卷仍待确认。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权署名为 `© 2026 陈科霖`；审核私有联系人不写入源码。尚未上传或提交审核。

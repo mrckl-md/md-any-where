@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "Markdown và viết cùng AI",
+  "promotional_text": "Viết trên iPhone và iPad, xem trước công thức rồi xuất tài liệu. Tác nhân tùy chọn xin phép trước khi gửi nội dung.",
+  "keywords": "markdown,latex,viết,ghi chú,công thức,trình sửa",
+  "description": "md any where là trình soạn thảo Markdown cho văn bản và công thức trên macOS, iPhone và iPad. Chỉnh sửa và xem trước ngoại tuyến, tìm văn bản, rồi xuất HTML, PDF và DOCX. Không cần tài khoản ứng dụng. Bản di động mở tài liệu qua Tệp và khôi phục bản nháp cục bộ.\n\nCấu hình dịch vụ AI tương thích bằng địa chỉ, mô hình và khóa API của bạn để hiệu đính, tóm tắt và chạy quy trình. Các tác nhân mặc định tắt. Mỗi lần gửi đều hiển thị bên nhận và phạm vi văn bản, đồng thời yêu cầu bạn đồng ý. Nhà cung cấp có thể thu phí và giữ yêu cầu theo chính sách riêng. Khóa được lưu trong chuỗi khóa của hệ thống. Ứng dụng không kèm tín dụng sử dụng mô hình AI và không cần bật tác nhân để chỉnh sửa cục bộ.\n\nBản macOS kết nối với trình biên tập AI qua MCP hoặc CLI. iPhone/iPad sử dụng tác nhân tích hợp, không chạy IDE máy tính. Ứng dụng không có dịch vụ đồng bộ đám mây riêng. Mã nguồn gốc dùng giấy phép MIT.",
+  "review_notes": "Chỉnh sửa, xem trước và xuất cục bộ không cần đăng nhập. Hãy tạo tài liệu có tiêu đề và công thức rồi xuất. Tác nhân cần sự đồng ý. Phải cung cấp quyền thử nghiệm có giới hạn qua mục riêng tư của App Store Connect trước khi gửi xét duyệt.",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

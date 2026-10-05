@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const resourceDirectory = path.resolve(__dirname, '..', 'Sources', 'DOTMD', 'Resources');
-const appDirectory = path.join(process.env.DOT_MD_APP_PATH || path.resolve(__dirname, '..', 'dist', 'DOT MD.app'), 'Contents', 'Resources', 'Editor');
+const appDirectory = path.join(process.env.DOT_MD_APP_PATH || path.resolve(__dirname, '..', 'dist', 'md any where.app'), 'Contents', 'Resources', 'Editor');
 const fixture = fs.readFileSync(path.resolve(__dirname, '..', '示例-复杂公式与流程图.md'), 'utf8');
 
 function testPackagedRenderer(directory) {

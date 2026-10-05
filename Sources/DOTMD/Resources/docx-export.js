@@ -1,5 +1,9 @@
 (() => {
   'use strict';
+  const t = (key, args) => (globalThis.DotMDI18n || (typeof require === 'function' ? require('./i18n.js') : null))?.t(key, args) ?? key;
+  const bindText = (element, render) => globalThis.DotMDI18n.bindText(element, render);
+  const bindAttribute = (element, attribute, render) => globalThis.DotMDI18n.bindAttribute(element, attribute, render);
+
 
   const defaultLayoutSettings = {
     bodyCjkFont: '宋体', bodyLatinFont: 'Times New Roman',
@@ -133,7 +137,7 @@
     const settings = readLayoutControls();
     const page = elementByID('docx-page-preview');
     const title = page.querySelector('h3');
-    renderMixedFontSample(title, editorBridge?.getTitle()?.replace(/\.md$/i, '') || '文稿标题',
+    renderMixedFontSample(title, editorBridge?.getTitle()?.replace(/\.md$/i, '') || t("web.5c4f95ad79"),
       settings.headingCjkFont, settings.headingLatinFont);
     title.style.fontSize = `${Math.min(settings.bodySize * settings.headingScale * 1.35, 27)}px`;
     title.style.textAlign = settings.headingAlign;
@@ -142,15 +146,14 @@
     page.style.textAlign = settings.bodyAlign;
     page.style.padding = `${Math.min(settings.marginTop, 40)}px ${Math.min(settings.marginLeft, 40)}px`;
     page.querySelectorAll('p').forEach(p => {
-      p.dataset.previewText ||= p.textContent;
-      renderMixedFontSample(p, p.dataset.previewText,
+      const sampleText = t(p.classList.contains('docx-math-sample') ? 'web.27cbea00ec' : 'web.ed52dba279');
+      renderMixedFontSample(p, sampleText,
         p.classList.contains('docx-math-sample') ? settings.mathCjkFont : settings.bodyCjkFont,
         p.classList.contains('docx-math-sample') ? settings.mathLatinFont : settings.bodyLatinFont);
       p.style.marginBottom = `${settings.paragraphAfter}px`;
       p.style.textIndent = `${settings.firstLineIndent}px`;
     });
-    elementByID('docx-layout-summary').textContent =
-      `${settings.pageSize.toUpperCase()} · 正文中文 ${settings.bodyCjkFont} / 英文 ${settings.bodyLatinFont} · 公式中文 ${settings.mathCjkFont} / 英文 ${settings.mathLatinFont} · ${settings.bodySize} pt · ${settings.lineSpacing} 倍行距`;
+    bindText(elementByID('docx-layout-summary'), () => t("web.fa010e6a66", { p0: settings.pageSize.toUpperCase(), p1: settings.bodyCjkFont, p2: settings.bodyLatinFont, p3: settings.mathCjkFont, p4: settings.mathLatinFont, p5: settings.bodySize, p6: settings.lineSpacing }));
     localStorage.docxLayout = JSON.stringify(settings);
   }
 
@@ -288,7 +291,7 @@
     host.innerHTML = window.dotmdMermaid.renderSVG(source);
     const svg = host.querySelector('svg');
     const [, , width, height] = svg.getAttribute('viewBox').split(/\s+/).map(Number);
-    if (![width, height].every(value => Number.isFinite(value) && value > 0)) throw new Error('流程图尺寸无效');
+    if (![width, height].every(value => Number.isFinite(value) && value > 0)) throw new Error(t("web.bc1eb82882"));
     svg.removeAttribute('style');
     svg.setAttribute('width', width);
     svg.setAttribute('height', height);
@@ -307,9 +310,9 @@
     try {
       const image = await new Promise((resolve, reject) => {
         const image = new Image();
-        const timer = setTimeout(() => { image.src = ''; reject(new Error('流程图转换超时')); }, 5000);
+        const timer = setTimeout(() => { image.src = ''; reject(new Error(t("web.69d0b81f9e"))); }, 5000);
         image.onload = () => { clearTimeout(timer); resolve(image); };
-        image.onerror = () => { clearTimeout(timer); reject(new Error('流程图转换失败')); };
+        image.onerror = () => { clearTimeout(timer); reject(new Error(t("web.83b187b231"))); };
         image.src = imageURL;
       });
       // Bound canvas memory even for long graphs; native export fits the page.
@@ -318,12 +321,12 @@
       canvas.width = Math.max(1, Math.round(width * scale));
       canvas.height = Math.max(1, Math.round(height * scale));
       const context = canvas.getContext('2d');
-      if (!context) throw new Error('无法创建流程图画布');
+      if (!context) throw new Error(t("web.b48af5c687"));
       context.fillStyle = '#fff';
       context.fillRect(0, 0, canvas.width, canvas.height);
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
       const result = canvas.toDataURL('image/png');
-      if (!result.startsWith('data:image/png;base64,')) throw new Error('无法编码流程图');
+      if (!result.startsWith('data:image/png;base64,')) throw new Error(t("web.f0e298df73"));
       return result;
     } finally {
       URL.revokeObjectURL(imageURL);
@@ -338,7 +341,7 @@
       try {
         const image = document.createElement('img');
         image.src = await rasterizeFlowchart(diagram.getAttribute('data-mermaid-source'));
-        image.alt = 'Mermaid 流程图';
+        image.alt = t("web.716c18b72b");
         diagram.replaceWith(image);
       } catch (_) {
         fallbackCount += 1;
@@ -352,27 +355,27 @@
     host.replaceChildren();
     try {
       const start = raw.indexOf('{'), end = raw.lastIndexOf('}');
-      if (start < 0 || end <= start) throw new Error('没有可解析的设置');
+      if (start < 0 || end <= start) throw new Error(t("web.669676e349"));
       const parsed = JSON.parse(raw.slice(start, end + 1));
       const suggestion = parsed.settings || parsed.layout || parsed;
       const currentSettings = readLayoutControls();
       pendingLayoutSuggestion = normalizeLayoutSettings({ ...currentSettings, ...suggestion });
       const changed = Object.keys(layoutControlIDs).filter(key => pendingLayoutSuggestion[key] !== currentSettings[key]);
-      if (!changed.length) throw new Error('没有识别到可应用的排版调整');
+      if (!changed.length) throw new Error(t("web.20db4dc81e"));
       const reason = typeof parsed.reason === 'string' ? parsed.reason.slice(0, 400) : '';
       const paragraph = document.createElement('div');
-      paragraph.textContent = `${label}建议修改 ${changed.length} 项：${changed.map(key => `${key} → ${pendingLayoutSuggestion[key]}`).join('，')}${reason ? `。说明：${reason}` : ''}`;
+      bindText(paragraph, () => t("web.39dd1ab316", { p0: label, p1: changed.length, p2: changed.map(key => `${key} → ${pendingLayoutSuggestion[key]}`).join('，'), p3: reason ? t("web.b7a39573eb", { p0: reason }) : '' }));
       const apply = document.createElement('button');
-      apply.type = 'button'; apply.textContent = '应用这些设置';
+      apply.type = 'button'; bindText(apply, () => t("web.8aeb60b405"));
       apply.onclick = () => {
         applyLayoutToControls(pendingLayoutSuggestion);
         pendingLayoutSuggestion = null;
-        host.textContent = '已应用设置；请检查右侧预览和参数，再点击导出。';
+        bindText(host, () => t("web.1477fb5d00"));
       };
       host.append(paragraph, apply);
     } catch (error) {
       pendingLayoutSuggestion = null;
-      host.textContent = `${label}未生成可用设置：${error.message}`;
+      bindText(host, () => t("web.1cc521f3d8", { p0: label, p1: error.message }));
     }
   }
 
@@ -421,7 +424,7 @@
     select.replaceChildren();
     const agents = editorBridge?.getAgents()?.filter(profile => profile.enabled) || [];
     if (!agents.length) {
-      const option = new Option('未启用 Agent（可在 Agent 编辑台配置）', '');
+      const option = new Option(t("web.c9aee5190c"), '');
       select.add(option);
       elementByID('docx-agent-run').disabled = true;
     } else {
@@ -444,14 +447,14 @@
     };
     elementByID('docx-local-parse').onclick = () => {
       const prompt = elementByID('docx-request').value.trim();
-      if (!prompt) { elementByID('docx-agent-proposal').textContent = '先输入排版要求。'; return; }
-      showLayoutProposal(JSON.stringify({ settings: parseLocalLayoutInstruction(prompt) }), '本机识别');
+      if (!prompt) { bindText(elementByID('docx-agent-proposal'), () => t("web.455f888087")); return; }
+      showLayoutProposal(JSON.stringify({ settings: parseLocalLayoutInstruction(prompt) }), t("web.838b672342"));
     };
     elementByID('docx-agent-run').onclick = () => {
       const prompt = elementByID('docx-request').value.trim();
       const profileID = elementByID('docx-agent-select').value;
-      if (!prompt || !profileID) { elementByID('docx-agent-proposal').textContent = '先输入要求并启用一个 Agent。'; return; }
-      elementByID('docx-agent-proposal').textContent = 'Agent 正在生成设置…';
+      if (!prompt || !profileID) { bindText(elementByID('docx-agent-proposal'), () => t("web.c4fd06e454")); return; }
+      bindText(elementByID('docx-agent-proposal'), () => t("web.65a4a0e0c0"));
       setAgentLayoutBusy(true);
       editorBridge.post('agentFormat', { profileID, prompt, settings: readLayoutControls() });
     };
@@ -462,17 +465,21 @@
       const request = { id: editorBridge.getID(), title: editorBridge.getTitle(), settings: readLayoutControls() };
       try {
         const { blocks, fallbackCount } = await prepareDocxBlocks(editorBridge.getArticle());
-        if (request.id !== editorBridge.getID()) { editorBridge.showToast('文稿已切换，请重新导出'); return; }
-        if (!blocks.length) { editorBridge.showToast('文稿没有可导出的内容'); return; }
-        if (fallbackCount) editorBridge.showToast(`${fallbackCount} 个流程图无法转换，已保留可编辑源码`);
+        if (request.id !== editorBridge.getID()) { editorBridge.showToast(t("web.b91d132a70")); return; }
+        if (!blocks.length) { editorBridge.showToast(t("web.9bd47f977d")); return; }
+        if (fallbackCount) editorBridge.showToast(t("web.70f03f9389", { p0: fallbackCount }));
         editorBridge.post('exportDOCX', { ...request, blocks });
       } catch (_) {
-        editorBridge.showToast('无法准备 DOCX，请重新尝试');
+        editorBridge.showToast(t("web.32b6ec9601"));
       } finally {
         button.disabled = false;
       }
     };
   }
+
+  window.addEventListener?.('dotmdlanguagechange', () => {
+    if (editorBridge && exportDialog().open) updateLayoutPreview();
+  });
 
   function openExportDialog() {
     if (!editorBridge) return;
@@ -483,18 +490,18 @@
 
   function setAgentLayoutBusy(value) {
     elementByID('docx-agent-run').disabled = value || !elementByID('docx-agent-select').value;
-    elementByID('docx-agent-run').textContent = value ? 'Agent 设置中…' : '✦ Agent 生成设置';
+    bindText(elementByID('docx-agent-run'), () => value ? t("web.8a40bed311") : t("web.e3adab4931"));
   }
 
   function receiveAgentLayoutSuggestion(text, error) {
     setAgentLayoutBusy(false);
-    if (error) { elementByID('docx-agent-proposal').textContent = `Agent 无法生成设置：${error}`; return; }
+    if (error) { bindText(elementByID('docx-agent-proposal'), () => t("web.4747d9186f", { p0: error })); return; }
     showLayoutProposal(text, 'Agent');
   }
 
   function notifyDocumentExported() {
     exportDialog().close();
-    editorBridge?.showToast('已导出可在 Word / WPS 编辑的 DOCX');
+    editorBridge?.showToast(t("web.23a317d838"));
   }
 
   // These keys are the stable JavaScript bridge consumed by app.js/AppDelegate.

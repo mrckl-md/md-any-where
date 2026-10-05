@@ -15,6 +15,8 @@ fi
 CLANG_MODULE_CACHE_PATH="$temporary_dir/module-cache" \
 SWIFT_MODULECACHE_PATH="$temporary_dir/module-cache" \
 swiftc -sdk "$sdk_path" \
+  "$project_dir/Sources/DOTMDLocalization/InterfaceLocalization.swift" \
+  "$project_dir/Sources/DOTMDLocalization/EnglishFallback.swift" \
   "$project_dir/Sources/DOTMD/DocxExporter.swift" \
   "$project_dir/scripts/test-docx-fonts.swift" \
   -o "$temporary_dir/docx-fixture"

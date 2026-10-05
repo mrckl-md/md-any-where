@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+// These assertions intentionally exercise the Simplified Chinese error catalog.
+require('../Sources/DOTMD/Resources/i18n.js').setLanguage('zh-Hans');
 const workflow = require('../Sources/DOTMD/Resources/workflow-core.js');
 
 const twoAgents = ['first', 'second'];

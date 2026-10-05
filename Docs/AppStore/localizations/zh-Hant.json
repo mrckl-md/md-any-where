@@ -1,0 +1,10 @@
+{
+  "name": "md any where",
+  "subtitle": "AI 編輯與三端 Markdown 寫作",
+  "promotional_text": "在 iPhone 和 iPad 編輯 Markdown、預覽公式並匯出文件。選用 Agent 使用您設定的服務，每次遠端傳送前都會徵求同意。",
+  "keywords": "markdown,latex,寫作,公式,筆記,文件,編輯器,排版",
+  "description": "md any where 是支援 macOS、iPhone 和 iPad 的 Markdown 與 AI 寫作編輯器。不必建立應用程式帳號，即可離線編輯、預覽公式、搜尋文字，並匯出 HTML、PDF 和 DOCX。行動版可透過系統「檔案」開啟與分享文件，並復原本機草稿。\n\n自行設定相容服務的端點、模型及 API Key，即可使用選用 Agent 潤飾、校對、摘要或執行文字工作流程。所有 Agent 預設停用；每次遠端傳送前會顯示接收方與傳送範圍，經您同意才傳送。服務商可能收費並依其政策保留請求。Key 儲存於系統鑰匙圈。 應用程式不附帶模型使用額度，本機編輯不必啟用 Agent。\n\nmacOS 版可透過 MCP 或 CLI 接入 Codex、Claude Code、Cursor 等相容 AI 編輯器。iPhone/iPad 使用內建 Agent，不執行桌面 IDE 或 macOS 命令列宿主。文件可透過系統檔案服務在裝置間移動，應用程式不提供自營雲端同步。原始碼採 MIT 授權，第三方元件保留各自授權。",
+  "review_notes": "離線編輯、預覽與匯出無須登入。請建立含標題與公式的文件，再測試匯出。選用 Agent 須經同意；維護者須在送審前透過 App Store Connect 私人審查資訊提供有效且受限的測試服務。",
+  "support_email": "longshenggdgz@163.com",
+  "copyright": "© 2026 陈科霖"
+}

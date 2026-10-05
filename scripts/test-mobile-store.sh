@@ -19,6 +19,8 @@ trap 'rm -rf "$temporary_dir"' EXIT
 
 xcrun swiftc -swift-version 5 -parse-as-library -sdk "$sdk_path" \
   -module-cache-path "$temporary_dir/module-cache" \
+  "$project_dir/Sources/DOTMDLocalization/InterfaceLocalization.swift" \
+  "$project_dir/Sources/DOTMDLocalization/EnglishFallback.swift" \
   "$project_dir/Sources/DOTMDiPad/DocumentStore.swift" \
   "$project_dir/scripts/test-mobile-store.swift" \
   -o "$temporary_dir/mobile-store-tests"
