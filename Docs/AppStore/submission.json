@@ -1,14 +1,14 @@
 {
-  "status": "multilingual_build_3_archived_ipa_export_blocked_not_uploaded_or_submitted",
-  "last_checked": "2026-10-05",
+  "status": "build_4_development_signed_ipad_installed_launch_unconfirmed_iphone_connection_failed_app_store_distribution_pending",
+  "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
     "iPhone",
     "iPad"
   ],
   "minimum_os": "17.0",
-  "bundle_id": "app.dotmd.ipad",
-  "scheme": "DOTMD-iPad",
+  "bundle_id": "app.mdanywhere.ios",
+  "scheme": "MDAnyWhere-iOS",
   "version": "1.0.0",
   "primary_locale": "zh-Hans",
   "primary_category_suggestion": "PRODUCTIVITY",
@@ -24,39 +24,85 @@
   "public_support_contact": "longshenggdgz@163.com",
   "price": 0,
   "territories": {
-    "must_include": [
+    "release_intent": "all_available_territories_except_china_mainland",
+    "must_exclude": [
       "CHN"
     ],
-    "remaining_selection_pending": true
+    "mainland_deferred": true,
+    "mainland_filing_applicability": "not_determined",
+    "app_store_selection_saved": true,
+    "eu_trader_status_confirmation_pending": true,
+    "selected_territory_count": 174,
+    "excluded_territory_count": 1,
+    "auto_include_future_territories": false,
+    "saved_selection_scope": "Saved on record 6819302567, whose binding to app.mdanywhere.ios is now confirmed."
   },
   "final_age_rating": null,
   "privacy_answers_finalized": false,
   "review_service_access_ready": false,
-  "screenshots_ready": false,
+  "screenshots_ready": true,
   "release_acceptance_complete": false,
   "copyright_owner_for_store": "陈科霖",
   "release_mode_suggestion": "manual",
   "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
-  "build_number": "3",
-  "screenshots_uploaded": false,
+  "build_number": "4",
+  "screenshots_uploaded": true,
   "screenshots": {
-    "locale": "zh-Hans",
-    "source": "historical_pre_rename_simulator_ui",
+    "status": "build_4_zh_Hans_uploaded_and_old_images_removed_en_US_ready_not_uploaded",
+    "source": "actual_build_4_simulator_ui_with_public_fixture",
     "manifest": "Screenshots/README.md",
+    "source_build": "1.0.0 (4)",
     "iphone_6_9": {
       "count": 2,
       "width": 1320,
       "height": 2868,
-      "format": "JPEG"
+      "format": "JPEG",
+      "status": "zh_Hans_uploaded_en_US_ready_not_uploaded",
+      "count_per_locale": 1,
+      "uploaded_count": 1,
+      "verified_zh_Hans_store_count": "1/10"
     },
     "ipad_13": {
       "count": 2,
       "width": 2064,
       "height": 2752,
-      "format": "JPEG"
+      "format": "JPEG",
+      "status": "zh_Hans_uploaded_en_US_ready_not_uploaded",
+      "count_per_locale": 1,
+      "uploaded_count": 1,
+      "verified_zh_Hans_store_count": "1/10"
     },
-    "new_brand_recapture_required": true,
-    "source_build": "1.0.0 (1)"
+    "new_brand_recapture_required": false,
+    "english_recapture_pending": false,
+    "locales_prepared": [
+      "zh-Hans",
+      "en-US"
+    ],
+    "locales_uploaded": [
+      "zh-Hans"
+    ],
+    "historical_assets_retired": true,
+    "total_count": 4,
+    "legacy_identifiers_visible": false,
+    "alpha_present": false,
+    "files": [
+      "Screenshots/zh-Hans/iphone-01-editor-build4.jpg",
+      "Screenshots/zh-Hans/ipad-01-split-build4.jpg",
+      "Screenshots/en-US/iphone-01-editor-build4.jpg",
+      "Screenshots/en-US/ipad-01-split-build4.jpg"
+    ],
+    "uploaded_count": 2,
+    "all_prepared_uploaded": false,
+    "old_zh_Hans_images_removed_from_store": true,
+    "store_record_id": "6819302567",
+    "uploaded_files": [
+      "Screenshots/zh-Hans/iphone-01-editor-build4.jpg",
+      "Screenshots/zh-Hans/ipad-01-split-build4.jpg"
+    ],
+    "pending_upload_files": [
+      "Screenshots/en-US/iphone-01-editor-build4.jpg",
+      "Screenshots/en-US/ipad-01-split-build4.jpg"
+    ]
   },
   "display_name": "md any where",
   "price_model": "free",
@@ -64,12 +110,11 @@
   "copyright": "© 2026 陈科霖",
   "review_contact_provided_privately": true,
   "review_contact_saved_in_app_store_connect": true,
-  "app_store_record_status": "created_zh_Hans_name_subtitle_categories_version_copy_and_private_review_contact_saved",
-  "ai_release_scope_confirmed": false,
+  "app_store_record_status": "record_6819302567_saved_with_app_mdanywhere_ios_bundle_binding",
+  "ai_release_scope_confirmed": true,
   "historical_distribution": {
     "release_archive_created": true,
     "app_store_ipa_exported": true,
-    "artifact_directory": ".build/ios/app-store/20261005-214601/",
     "certificate_type": "Apple Distribution",
     "get_task_allow": false,
     "device_families": [
@@ -82,26 +127,28 @@
     "uploaded": false,
     "testflight_distributed": false,
     "submitted_for_review": false,
-    "brand": "DOT MD",
-    "scope": "Historical build 1; not evidence for the renamed multilingual build 3."
+    "scope": "Historical version 1.0.0 build 1 only; does not verify the new identifiers or build 4."
   },
   "local_distribution": {
     "version": "1.0.0",
-    "build": "3",
+    "build": "4",
+    "bundle_id": "app.mdanywhere.ios",
     "app_filename": "md any where.app",
     "archive_filename": "md any where.xcarchive",
-    "release_archive_created": true,
+    "release_archive_created": false,
     "app_store_ipa_exported": false,
     "server_validation_completed": false,
     "uploaded": false,
     "testflight_distributed": false,
     "submitted_for_review": false,
-    "artifact_directory": ".build/ios/app-store/20261005-232647/",
-    "archive_signature_verified": true,
-    "archive_sources_match": true,
-    "export_status": "blocked_missing_xcode_account_and_distribution_signing_identity",
-    "last_export_attempt_directory": ".build/ios/app-store/20261005-231707/",
-    "final_corrected_archive_export_attempted": false
+    "published": false,
+    "artifact_directory": null,
+    "archive_signature_verified": false,
+    "archive_sources_match": false,
+    "export_status": "pending_app_store_distribution_archive_and_export_development_signing_already_succeeded",
+    "final_corrected_archive_export_attempted": false,
+    "last_export_exit_code": null,
+    "scope": "All fields refer to the new identifiers and build 4, not historical artifacts."
   },
   "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",
@@ -115,12 +162,119 @@
     "mobile_layout_viewports_passed": 9,
     "docx_flowchart_regression_passed": true,
     "independent_review_blockers": 0,
-    "scope": "Checks performed before rebranding and localization; do not certify multilingual build 3 or App Store review.",
+    "scope": "Historical version 1.0.0 build 1 checks only; does not verify the new identifiers, build 4, or App Store review.",
     "ipad_final_build_install_and_launch_passed": true,
     "macos_final_build_passed": true,
     "source_build": "1.0.0 (1)"
   },
   "verification": {
+    "source_build": "1.0.0 (4)",
+    "status": "build_4_development_signed_strict_verified_ipad_installed_physical_launch_and_iphone_install_pending",
+    "bundle_id": "app.mdanywhere.ios",
+    "macos_bundle_id": "app.mdanywhere.editor",
+    "macos_build_passed": true,
+    "macos_signature_verified": true,
+    "simulator_build_passed": true,
+    "simulator_install_and_launch_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "device_build_passed": true,
+    "device_install_passed": [
+      "iPad"
+    ],
+    "ipad_launch_passed": false,
+    "iphone_launch_status": "not_attempted_successfully_installation_not_completed",
+    "manual_multilingual_device_acceptance_complete": false,
+    "offline_catalogs_verified": 47,
+    "locale_state_preservation_cases_passed": 50,
+    "localized_webkit_layout_cases_passed": 27,
+    "runtime_native_store_locale_sets_match": true,
+    "workflow_adoption_then_language_change_regression_passed": true,
+    "independent_review_blockers_remaining": null,
+    "release_archive_verified": false,
+    "scope": "Current build 4 regressions, macOS, simulator and development-signed arm64 Release verified. iPad installation succeeded but launch is unconfirmed due to CoreDevice XPC availability; iPhone installation failed with a connection error. No completed physical interaction acceptance, App Store distribution archive, server validation or submission is implied.",
+    "macos_signature_kind": "ad-hoc",
+    "macos_strict_deep_signature_verified": true,
+    "macos_extension_bundle_ids_verified": [
+      "app.mdanywhere.editor.quicklook",
+      "app.mdanywhere.editor.thumbnail",
+      "app.mdanywhere.editor.agent"
+    ],
+    "simulator_device_families_verified": [
+      1,
+      2
+    ],
+    "system_language_directories_verified": 51,
+    "javascript_regression_suites_passed": 7,
+    "agent_package_regression_passed": true,
+    "quicklook_package_regression_passed": true,
+    "mermaid_regression_passed": true,
+    "native_localization_regression_passed": true,
+    "remaining_regressions": [],
+    "device_build_configuration": "development-signed arm64 Release",
+    "device_build_signed": true,
+    "mobile_store_regressions_passed": 9,
+    "mobile_layout_viewports_passed": 9,
+    "docx_webkit_regressions_passed": true,
+    "physical_device_acceptance_pending": true,
+    "development_signing_status": "automatic_local_existing_profile_succeeded_without_allow_provisioning_updates",
+    "automatic_signing_provisioning_updates_enabled": false,
+    "device_strict_signature_verified": true,
+    "ipad_launch_status": "not_confirmed_coredevice_xpc_unavailable",
+    "iphone_install_status": "failed_coredevice_4016_connection_error",
+    "development_signed_app_path": ".build/ios/local-device/Build/Products/Release-iphoneos/md any where.app",
+    "device_retry_requires_rebuild": false,
+    "device_retry_note": "Unlock and reconnect the authorized devices, then reuse the signed build 4 package for iPad launch and iPhone install/launch. No personal device or certificate identifiers are stored here."
+  },
+  "subtitle": "AI 编辑与三端 Markdown 写作",
+  "secondary_category_suggestion": "UTILITIES",
+  "localizations": {
+    "manifest": "localizations/manifest.json",
+    "metadata_locale_count": 50,
+    "all_metadata_files_prepared": true,
+    "structural_validation_passed": true,
+    "native_speaker_review_completed": false,
+    "uploaded_to_app_store_connect": false,
+    "app_ui_validation_status": "build_4_47_catalogs_51_lproj_native_localization_and_50_locale_27_layout_webkit_checks_passed",
+    "territory_availability_confirmed": false,
+    "ui_catalog_count": 47,
+    "strings_per_catalog": 583,
+    "system_and_manual_language_selection": true,
+    "right_to_left_ui_languages": [
+      "ar-SA",
+      "he",
+      "ur-PK"
+    ],
+    "saved_store_locales": [
+      "zh-Hans"
+    ],
+    "english_name_conflict": true,
+    "english_name_resolution_pending": true,
+    "saved_store_locales_scope": "Saved on record 6819302567, now confirmed bound to app.mdanywhere.ios; other 49 locales remain local drafts."
+  },
+  "ai_release_scope": "existing_user_configured_optional_AI_services",
+  "price_saved_in_app_store_connect": true,
+  "privacy_policy_url_saved_in_app_store_connect": true,
+  "historical_build_3_distribution": {
+    "version": "1.0.0",
+    "build": "3",
+    "app_filename": "md any where.app",
+    "archive_filename": "md any where.xcarchive",
+    "release_archive_created": true,
+    "app_store_ipa_exported": false,
+    "server_validation_completed": false,
+    "uploaded": false,
+    "testflight_distributed": false,
+    "submitted_for_review": false,
+    "archive_signature_verified": true,
+    "archive_sources_match": true,
+    "export_status": "export_process_cannot_access_account_or_distribution_identity_login_state_unconfirmed",
+    "final_corrected_archive_export_attempted": true,
+    "last_export_exit_code": 70,
+    "scope": "Historical version 1.0.0 build 3 archive and failed export only; does not verify the new identifiers or build 4."
+  },
+  "historical_build_3_verification": {
     "source_build": "1.0.0 (3)",
     "macos_build_passed": true,
     "macos_signature_verified": true,
@@ -144,32 +298,45 @@
     "runtime_native_store_locale_sets_match": true,
     "workflow_adoption_then_language_change_regression_passed": true,
     "independent_review_blockers_remaining": 0,
-    "scope": "Source checks, WebKit automation, builds, installations and simulator snapshots; does not certify native-speaker quality, all physical-device interactions or App Store review.",
+    "scope": "Historical version 1.0.0 build 3 checks only; all new identifiers and build 4 still require verification.",
     "release_archive_verified": true
   },
-  "subtitle": "AI 编辑与三端 Markdown 写作",
-  "secondary_category_suggestion": "UTILITIES",
-  "localizations": {
-    "manifest": "localizations/manifest.json",
-    "metadata_locale_count": 50,
-    "all_metadata_files_prepared": true,
-    "structural_validation_passed": true,
-    "native_speaker_review_completed": false,
-    "uploaded_to_app_store_connect": false,
-    "app_ui_validation_status": "50_locale_state_preservation_and_27_webkit_layouts_passed",
-    "territory_availability_confirmed": false,
-    "ui_catalog_count": 47,
-    "strings_per_catalog": 583,
-    "system_and_manual_language_selection": true,
-    "right_to_left_ui_languages": [
-      "ar-SA",
-      "he",
-      "ur-PK"
-    ],
-    "saved_store_locales": [
-      "zh-Hans"
-    ],
-    "english_name_conflict": true,
-    "english_name_resolution_pending": true
-  }
+  "historical_screenshots": {
+    "status": "retired_from_current_release_materials_preserve_historical_evidence",
+    "build_1": {
+      "count": 4,
+      "scope": "Historical UI only; not eligible for the current submission."
+    },
+    "build_3": {
+      "locales_prepared": [
+        "zh-Hans",
+        "en-US"
+      ],
+      "count": 4,
+      "locales_previously_uploaded": [
+        "zh-Hans"
+      ],
+      "scope": "Historical zh-Hans uploads were removed from both store device groups and replaced with build 4 images. Historical English files remain retired. Current upload evidence is recorded separately under screenshots."
+    },
+    "source_files": "Removed from current public release materials and retained in an ignored historical backup. Historical images are not current release inputs."
+  },
+  "macos_bundle_id": "app.mdanywhere.editor",
+  "project": "MDAnyWhere-iOS.xcodeproj",
+  "app_store_record_bundle_update_pending": false,
+  "app_store_record_bundle_binding_verified": true,
+  "app_store_record_note": "Apple Developer registration of app.mdanywhere.ios and saved App Store Connect binding on record 6819302567 are confirmed. The non-editable SKU retains a historical internal identifier; its disposition is pending. No complete cloud-internal-field rename is claimed.",
+  "saved_app_store_settings_scope": "Record 6819302567 is now confirmed bound to app.mdanywhere.ios. Free price, 174-territory selection, policy URL, zh-Hans text and private review contact were previously saved on this same record.",
+  "privacy_assessment_new_identifier_review_pending": true,
+  "age_assessment_new_identifier_review_pending": true,
+  "developer_bundle_id_registered": true,
+  "app_store_sku": {
+    "value": null,
+    "editable": false,
+    "historical_internal_identifier_remains": true,
+    "resolution_pending": true,
+    "scope": "Do not publish the historical value or claim it has been renamed. Publisher decision remains pending."
+  },
+  "all_cloud_internal_identifiers_renamed": false,
+  "all_prepared_screenshots_uploaded": false,
+  "screenshots_uploaded_scope": "Build 4 primary locale zh-Hans only; both device groups verified at 1/10. English screenshots remain local and unuploaded."
 }

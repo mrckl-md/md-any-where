@@ -7,11 +7,11 @@
   <key>CFBundleDisplayName</key>
   <string>md any where</string>
   <key>CFBundleExecutable</key>
-  <string>DOTMD</string>
+  <string>MDAnyWhere</string>
   <key>CFBundleIconFile</key>
   <string>AppIcon</string>
   <key>CFBundleIdentifier</key>
-  <string>app.dotmd.editor</string>
+  <string>app.mdanywhere.editor</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
@@ -23,7 +23,7 @@
   <key>CFBundleShortVersionString</key>
   <string>1.0.0</string>
   <key>CFBundleVersion</key>
-  <string>3</string>
+  <string>4</string>
   <key>NSAppTransportSecurity</key>
   <dict>
     <key>NSAllowsLocalNetworking</key>
@@ -58,7 +58,7 @@
       <key>LSHandlerRank</key>
       <string>None</string>
       <key>LSItemContentTypes</key>
-      <array><string>app.dotmd.agent-command</string></array>
+      <array><string>app.mdanywhere.agent-command</string></array>
     </dict>
   </array>
   <key>UTImportedTypeDeclarations</key>
@@ -86,9 +86,9 @@
       <key>UTTypeDescription</key>
       <string>md any where Agent Command</string>
       <key>UTTypeIdentifier</key>
-      <string>app.dotmd.agent-command</string>
+      <string>app.mdanywhere.agent-command</string>
       <key>UTTypeTagSpecification</key>
-      <dict><key>public.filename-extension</key><string>dotmd-agent-command</string></dict>
+      <dict><key>public.filename-extension</key><string>md-any-where-agent-command</string></dict>
     </dict>
   </array>
 </dict>

@@ -3,13 +3,13 @@
 <plist version="1.0"><dict>
   <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleDisplayName</key><string>md any where Markdown Preview</string>
-  <key>CFBundleExecutable</key><string>DOTMDQuickLook</string>
-  <key>CFBundleIdentifier</key><string>app.dotmd.editor.quicklook</string>
+  <key>CFBundleExecutable</key><string>MDAnyWhereQuickLook</string>
+  <key>CFBundleIdentifier</key><string>app.mdanywhere.editor.quicklook</string>
   <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
   <key>CFBundleName</key><string>md any where Markdown Preview</string>
   <key>CFBundlePackageType</key><string>XPC!</string>
   <key>CFBundleShortVersionString</key><string>1.0.0</string>
-  <key>CFBundleVersion</key><string>3</string>
+  <key>CFBundleVersion</key><string>4</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>NSExtension</key><dict>
     <key>NSExtensionAttributes</key><dict>
@@ -18,6 +18,6 @@
       <key>QLSupportsSearchableItems</key><false/>
     </dict>
     <key>NSExtensionPointIdentifier</key><string>com.apple.quicklook.preview</string>
-    <key>NSExtensionPrincipalClass</key><string>DOTMDQuickLook.PreviewViewController</string>
+    <key>NSExtensionPrincipalClass</key><string>MDAnyWhereQuickLook.MDAnyWherePreviewViewController</string>
   </dict>
 </dict></plist>

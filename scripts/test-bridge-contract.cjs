@@ -6,20 +6,20 @@ const path = require('node:path');
 
 const projectRoot = path.resolve(__dirname, '..');
 const readSource = relativePath => fs.readFileSync(path.join(projectRoot, relativePath), 'utf8');
-const nativeSource = readSource('Sources/DOTMD/AppDelegate.swift');
-const editorSource = readSource('Sources/DOTMD/Resources/app.js');
-const docxSource = readSource('Sources/DOTMD/Resources/docx-export.js');
-const editorHTML = readSource('Sources/DOTMD/Resources/index.html');
-const entitlements = readSource('Support/DOTMD.entitlements');
+const nativeSource = readSource('Sources/MDAnyWhere/AppDelegate.swift');
+const editorSource = readSource('Sources/MDAnyWhere/Resources/app.js');
+const docxSource = readSource('Sources/MDAnyWhere/Resources/docx-export.js');
+const editorHTML = readSource('Sources/MDAnyWhere/Resources/index.html');
+const entitlements = readSource('Support/MDAnyWhere.entitlements');
 
-const editorBridge = editorSource.split('window.dotmd = {')[1]?.split('\n  };')[0];
-const docxBridge = docxSource.split('window.dotmdDocx = {')[1]?.split('\n  };')[0];
+const editorBridge = editorSource.split('window.mdAnyWhere = {')[1]?.split('\n  };')[0];
+const docxBridge = docxSource.split('window.mdAnyWhereDocx = {')[1]?.split('\n  };')[0];
 assert.ok(editorBridge, 'Editor JavaScript bridge must exist');
 assert.ok(docxBridge, 'DOCX JavaScript bridge must exist');
 
 for (const [, functionName] of nativeSource.matchAll(/invokeEditorJavaScript\("([A-Za-z][A-Za-z0-9]*)"/g)) {
   assert.match(editorBridge, new RegExp(`\\b${functionName}\\b\\s*(?:[:,(])`),
-    `Native command ${functionName} must remain on window.dotmd`);
+    `Native command ${functionName} must remain on window.mdAnyWhere`);
 }
 
 for (const functionName of ['bind', 'open', 'updateAgents', 'receiveAgent', 'exported']) {
@@ -89,12 +89,12 @@ for (const handler of ['runAgents', 'runAgentWorkflow', 'planAgentWorkflow', 'su
 }
 assert.ok(htmlIDs.has('privacy-policy') && htmlIDs.has('open-privacy-policy'),
   'Privacy policy must be reachable from Settings');
-const agentEntitlements = readSource('Support/DOTMDAgent.entitlements');
+const agentEntitlements = readSource('Support/MDAnyWhereAgent.entitlements');
 assert.match(agentEntitlements, /com\.apple\.security\.app-sandbox/,
   'The independently launched Agent helper must have its own sandbox');
 console.log('Swift/JavaScript bridge and DOCX DOM contract tests passed.');
 
-for (const file of ['Sources/DOTMD/AppDelegate.swift', 'Sources/DOTMDiPad/AppDelegate.swift']) {
+for (const file of ['Sources/MDAnyWhere/AppDelegate.swift', 'Sources/MDAnyWhereMobile/AppDelegate.swift']) {
   const changeLanguage = readSource(file).split('case "changeInterfaceLanguage":')[1]?.split('case "change":')[0] || '';
   assert.match(changeLanguage, /setLanguage/);
   assert.doesNotMatch(changeLanguage, /sendAgentProfiles|configureAgents/,

@@ -40,14 +40,14 @@ final class DocxFlowchartTest: NSObject, WKNavigationDelegate, WKScriptMessageHa
             let script = #"""
             void (async () => {
               const expect = (condition, message) => { if (!condition) throw new Error(message); };
-              window.dotmd.setContent(\#(json)[0]);
-              window.dotmd.setMode('editor');
+              window.mdAnyWhere.setContent(\#(json)[0]);
+              window.mdAnyWhere.setMode('editor');
               const article = document.getElementById('preview');
               const original = article.innerHTML;
-              const synchronous = window.dotmdDocx.collectBlocks(article);
+              const synchronous = window.mdAnyWhereDocx.collectBlocks(article);
               expect(synchronous.some(block => block.type === 'code' && block.text.includes('A[写作]')),
                 'Synchronous export must retain editable diagram source');
-              const result = await window.dotmdDocx.prepareBlocks(article);
+              const result = await window.mdAnyWhereDocx.prepareBlocks(article);
               expect(result.fallbackCount === 0, 'Valid flowchart must rasterize in WebKit');
               const images = result.blocks.flatMap(block => block.runs || []).filter(run => run.kind === 'image');
               expect(images.length === 1 && images[0].source.startsWith('data:image/png;base64,'), 'Fixture needs exactly one PNG');
@@ -57,16 +57,16 @@ final class DocxFlowchartTest: NSObject, WKNavigationDelegate, WKScriptMessageHa
               expect(result.blocks.slice(chartIndex + 1).some(block => block.type === 'table'), 'Table after chart must survive');
               const broken = document.createElement('article');
               const diagram = document.createElement('div');
-              diagram.className = 'dotmd-mermaid';
+              diagram.className = 'mdanywhere-mermaid';
               diagram.dataset.mermaidSource = 'unsupported syntax and important user content';
               broken.append(diagram);
-              const fallback = await window.dotmdDocx.prepareBlocks(broken);
+              const fallback = await window.mdAnyWhereDocx.prepareBlocks(broken);
               expect(fallback.fallbackCount === 1 && fallback.blocks[0].text === diagram.dataset.mermaidSource,
                 'Invalid flowchart must preserve its exact source');
               const nested = document.createElement('article');
               nested.innerHTML = '<ul><li>Nested diagram</li></ul>';
-              nested.querySelector('li').append(article.querySelector('.dotmd-mermaid').cloneNode(true));
-              const nestedResult = await window.dotmdDocx.prepareBlocks(nested);
+              nested.querySelector('li').append(article.querySelector('.mdanywhere-mermaid').cloneNode(true));
+              const nestedResult = await window.mdAnyWhereDocx.prepareBlocks(nested);
               expect(nestedResult.blocks[0].runs.some(run => run.kind === 'image'), 'List must preserve its nested diagram');
               // Exercise the button, fresh preview render and native message contract.
               await document.getElementById('docx-export').onclick();

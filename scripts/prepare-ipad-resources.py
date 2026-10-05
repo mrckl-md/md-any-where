@@ -7,7 +7,7 @@ import subprocess
 
 project = Path(__file__).resolve().parent.parent
 destination = Path(sys.argv[1]) / "Editor"
-source = project / "Sources" / "DOTMD" / "Resources"
+source = project / "Sources" / "MDAnyWhere" / "Resources"
 destination.mkdir(parents=True, exist_ok=True)
 shutil.copytree(source, destination, dirs_exist_ok=True,
                 ignore=shutil.ignore_patterns(".DS_Store", "AppIcon.icns"))

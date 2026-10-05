@@ -8,8 +8,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
 const manifest = read('Docs/AppStore/localizations/manifest.json');
-const source = read('Sources/DOTMD/Resources/locales/en.json');
-const chinese = read('Sources/DOTMD/Resources/locales/zh-Hans.json');
+const source = read('Sources/MDAnyWhere/Resources/locales/en.json');
+const chinese = read('Sources/MDAnyWhere/Resources/locales/zh-Hans.json');
 const failures = [];
 const check = (condition, message) => { if (!condition) failures.push(message); };
 const keys = Object.keys(source).sort();
@@ -23,7 +23,7 @@ for (const entry of manifest.locales) {
   const code = entry.ui_catalog_locale;
   if (!checked.has(code)) {
     checked.add(code);
-    const relative = `Sources/DOTMD/Resources/locales/${code}.json`;
+    const relative = `Sources/MDAnyWhere/Resources/locales/${code}.json`;
     if (!fs.existsSync(path.join(root, relative))) { failures.push(`${code}: missing catalog`); continue; }
     const catalog = read(relative);
     check(JSON.stringify(Object.keys(catalog).sort()) === JSON.stringify(keys), `${code}: catalog key coverage differs from English`);

@@ -10,8 +10,8 @@ usage() {
 
 simulator  构建未签名的 iOS 模拟器应用（默认）。
 device     为指定 iPhone 或 iOS 构建并自动签名，必须设置：
-           DOT_MD_TEAM_ID       Xcode 中的 Apple Developer Team ID
-           DOT_MD_DEVICE_UDID     目标 iPhone 或 iPad 的 UDID
+           MD_ANY_WHERE_TEAM_ID       Xcode 中的 Apple Developer Team ID
+           MD_ANY_WHERE_DEVICE_UDID     目标 iPhone 或 iPad 的 UDID
 
 产物与构建日志位于 .build/ios/；本脚本不安装应用。
 USAGE
@@ -34,23 +34,23 @@ signing_arguments=(CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_ID
 build_actions=(build)
 
 if [[ "$build_mode" == "device" ]]; then
-  if [[ -z "${DOT_MD_TEAM_ID:-}" || -z "${DOT_MD_DEVICE_UDID:-}" ]]; then
-    print -u2 -- "真机构建需要 DOT_MD_TEAM_ID 和 DOT_MD_DEVICE_UDID；不会自动选择设备。"
+  if [[ -z "${MD_ANY_WHERE_TEAM_ID:-}" || -z "${MD_ANY_WHERE_DEVICE_UDID:-}" ]]; then
+    print -u2 -- "真机构建需要 MD_ANY_WHERE_TEAM_ID 和 MD_ANY_WHERE_DEVICE_UDID；不会自动选择设备。"
     print -u2 -- "在 Xcode → Settings → Apple Accounts 查看团队；在 Xcode → Open Developer Tool → Device Hub 复制目标 iPhone 或 iPad 的 Identifier（旧版在 Window → Devices and Simulators）。"
     exit 2
   fi
-  if [[ ! "$DOT_MD_TEAM_ID" =~ '^[A-Za-z0-9]{10}$' ]]; then
-    print -u2 -- "DOT_MD_TEAM_ID 应为 10 位字母或数字。"
+  if [[ ! "$MD_ANY_WHERE_TEAM_ID" =~ '^[A-Za-z0-9]{10}$' ]]; then
+    print -u2 -- "MD_ANY_WHERE_TEAM_ID 应为 10 位字母或数字。"
     exit 2
   fi
-  if [[ ! "$DOT_MD_DEVICE_UDID" =~ '^([A-Fa-f0-9]{8}-[A-Fa-f0-9]{16}|[A-Fa-f0-9]{40})$' ]]; then
-    print -u2 -- "DOT_MD_DEVICE_UDID 应为真实设备的 UDID，不使用设备名称或 CoreDevice UUID。"
+  if [[ ! "$MD_ANY_WHERE_DEVICE_UDID" =~ '^([A-Fa-f0-9]{8}-[A-Fa-f0-9]{16}|[A-Fa-f0-9]{40})$' ]]; then
+    print -u2 -- "MD_ANY_WHERE_DEVICE_UDID 应为真实设备的 UDID，不使用设备名称或 CoreDevice UUID。"
     exit 2
   fi
   sdk="iphoneos"
-  destination="platform=iOS,id=$DOT_MD_DEVICE_UDID"
+  destination="platform=iOS,id=$MD_ANY_WHERE_DEVICE_UDID"
   signing_arguments=(-allowProvisioningUpdates -allowProvisioningDeviceRegistration
-    CODE_SIGN_STYLE=Automatic "DEVELOPMENT_TEAM=$DOT_MD_TEAM_ID")
+    CODE_SIGN_STYLE=Automatic "DEVELOPMENT_TEAM=$MD_ANY_WHERE_TEAM_ID")
   # Provisioning updates and the packaged web resources must receive a fresh seal.
   # Xcode can otherwise reuse an old signature during an incremental device build.
   build_actions=(clean build)
@@ -65,8 +65,8 @@ fi
 mkdir -p "$build_root/logs"
 log_path="$build_root/logs/build-$build_mode.log"
 if ! xcrun xcodebuild \
-  -project "$project_dir/DOTMD-iPad.xcodeproj" \
-  -scheme DOTMD-iPad -configuration Debug \
+  -project "$project_dir/MDAnyWhere-iOS.xcodeproj" \
+  -scheme MDAnyWhere-iOS -configuration Debug \
   -sdk "$sdk" -destination "$destination" \
   -derivedDataPath "$derived_data" \
   "${signing_arguments[@]}" "${build_actions[@]}" 2>&1 | tee "$log_path"; then
@@ -88,7 +88,7 @@ for resource in Info.plist Editor/index.html Editor/app.js Editor/ipad.js Editor
   fi
 done
 bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app_path/Info.plist")"
-if [[ "$bundle_id" != "app.dotmd.ipad" ]]; then
+if [[ "$bundle_id" != "app.mdanywhere.ios" ]]; then
   print -u2 -- "构建产物的 Bundle ID 不匹配：$bundle_id"
   exit 1
 fi

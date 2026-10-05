@@ -308,7 +308,7 @@
   ],
   "translation_method": "AI-authored translations with technical/structural checks; native-speaker review not completed",
   "native_speaker_review_completed": false,
-  "app_ui_validation_status": "separate_work_in_progress",
+  "app_ui_validation_status": "build_4_47_catalogs_51_lproj_native_localization_and_50_locale_27_layout_webkit_checks_passed",
   "validator": "../validate-localizations.py",
   "product_fact_review": {
     "checked_at": "2026-10-05",
@@ -324,5 +324,8 @@
       "no developer-operated cloud sync",
       "no all-territory or completed-UI-localization claim"
     ]
-  }
+  },
+  "target_build": "1.0.0 (4)",
+  "app_store_record_bundle_update_pending": false,
+  "app_store_record_bundle_binding_verified": true
 }

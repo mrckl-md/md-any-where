@@ -12,7 +12,7 @@ project = Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('resources', type=Path, help='Application or extension resource directory')
 parser.add_argument('--kind', choices=('application', 'preview', 'thumbnail'), default='application')
-parser.add_argument('--catalogs', type=Path, default=project / 'Sources/DOTMD/Resources/locales')
+parser.add_argument('--catalogs', type=Path, default=project / 'Sources/MDAnyWhere/Resources/locales')
 args = parser.parse_args()
 locales = json.loads((project / 'Support/Localization/locales.json').read_text())
 english = json.loads((project / 'Support/Localization/native-en.json').read_text())

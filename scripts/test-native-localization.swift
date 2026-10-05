@@ -38,7 +38,7 @@ struct NativeLocalizationTests {
         try require(L("native.save") == (expected == "zh-Hans" ? "保存" : "Save"), "Bundled native catalog was not loaded")
         try require(L("native.close.title", "a{0}😀.md").contains("a{0}😀.md"), "Filename interpolation corrupted content")
         try require(L("native.error.unknown") == "Unknown error", "Compiled English fallback failed")
-        try require(InterfaceLocalization.initialJavaScript.contains("dotmdLocalePreferences"), "Initial native preferences missing")
+        try require(InterfaceLocalization.initialJavaScript.contains("mdAnyWhereLocalePreferences"), "Initial native preferences missing")
         try require(InterfaceLocalization.synchronizationJavaScript.contains("setInterfaceLanguage"), "Language synchronization bridge missing")
         print("Native localization passed: \(expected), 50 exact locales, region aliases, fallback, safe interpolation, bundle resources.")
     }

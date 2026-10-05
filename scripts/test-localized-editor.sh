@@ -2,11 +2,11 @@
 set -euo pipefail
 
 project_dir="${0:A:h:h}"
-test_dir="$(mktemp -d /private/tmp/dot-md-localized-editor.XXXXXXXX)"
+test_dir="$(mktemp -d /private/tmp/md-any-where-localized-editor.XXXXXXXX)"
 trap 'rm -rf "$test_dir"' EXIT
-module_cache="${TMPDIR:-/private/tmp}/dot-md-localized-editor-module-cache"
+module_cache="${TMPDIR:-/private/tmp}/md-any-where-localized-editor-module-cache"
 
-cp -R "$project_dir/Sources/DOTMD/Resources" "$test_dir/Editor"
+cp -R "$project_dir/Sources/MDAnyWhere/Resources" "$test_dir/Editor"
 python3 "$project_dir/scripts/bundle-editor-localizations.py" "$test_dir/Editor"
 cp "$project_dir/tests/fixtures/mobile-demo.md" "$test_dir/Editor/mobile-demo.md"
 python3 - "$test_dir/Editor/index.html" <<'PY'

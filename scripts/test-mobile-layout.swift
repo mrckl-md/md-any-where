@@ -34,7 +34,7 @@ final class MobileLayoutTest: NSObject, WKNavigationDelegate {
         do {
             let fixture = try String(contentsOf: resourceURL.appendingPathComponent("mobile-demo.md"), encoding: .utf8)
             let json = String(data: try JSONSerialization.data(withJSONObject: [fixture]), encoding: .utf8)!
-            evaluate("window.dotmd.configureAgents([{id:'layout-test',name:'测试 Agent',kind:'openai-chat',endpoint:'https://example.invalid/v1',model:'test-model',enabled:true,keyPresent:false}]); window.dotmd.setContent(\(json)[0]); true") { self.testSize(at: 0) }
+            evaluate("window.mdAnyWhere.configureAgents([{id:'layout-test',name:'测试 Agent',kind:'openai-chat',endpoint:'https://example.invalid/v1',model:'test-model',enabled:true,keyPresent:false}]); window.mdAnyWhere.setContent(\(json)[0]); true") { self.testSize(at: 0) }
         } catch { finish(error.localizedDescription) }
     }
 
@@ -83,7 +83,7 @@ final class MobileLayoutTest: NSObject, WKNavigationDelegate {
             formatTools.scrollLeft = 0;
           }
           ['editor', 'preview', 'split'].forEach(mode => {
-            window.dotmd.setMode(mode);
+            window.mdAnyWhere.setMode(mode);
             const editor = document.getElementById('editor-pane');
             const preview = document.getElementById('preview-pane');
             expect(visible(editor) === (mode !== 'preview'), mode + ': editor visibility');
@@ -93,12 +93,12 @@ final class MobileLayoutTest: NSObject, WKNavigationDelegate {
               expect(rect(pane).height >= 40, mode + ': writing area is too short');
             });
           });
-          window.dotmd.setMode('preview');
+          window.mdAnyWhere.setMode('preview');
           const previewPane = document.getElementById('preview-pane');
-          const diagram = document.querySelector('.dotmd-flowchart-svg');
+          const diagram = document.querySelector('.mdanywhere-flowchart-svg');
           expect(!!diagram, 'public fixture flowchart must render');
           if (diagram) {
-            const chart = diagram.closest('.dotmd-mermaid');
+            const chart = diagram.closest('.mdanywhere-mermaid');
             expect(rect(diagram).width <= chart.clientWidth + 1, 'flowchart must fit without clipping nodes');
             expect(chart.scrollWidth <= chart.clientWidth + 1, 'flowchart requires unexpected horizontal scrolling');
           }
@@ -138,15 +138,15 @@ final class MobileLayoutTest: NSObject, WKNavigationDelegate {
             }
             dialog.close();
           });
-          window.dotmd.setMode('editor');
-          window.dotmd.preparePrint();
+          window.mdAnyWhere.setMode('editor');
+          window.mdAnyWhere.preparePrint();
           expect(visible(document.getElementById('preview-pane')), 'PDF preview must be visible from editor mode');
           expect(document.getElementById('preview').textContent.includes('md any where'), 'PDF preview is missing document content');
           expect(getComputedStyle(body).backgroundColor === 'rgb(255, 255, 255)',
             'PDF must have a white background in Dark Mode; got ' + getComputedStyle(body).backgroundColor);
           if (diagram) expect(rect(diagram).width <= rect(document.getElementById('preview')).width + 1,
             'printed flowchart is wider than the page');
-          window.dotmd.finishPrint();
+          window.mdAnyWhere.finishPrint();
           return problems;
         })();
         """#

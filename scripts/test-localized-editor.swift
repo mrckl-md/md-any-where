@@ -36,7 +36,7 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
         do {
             let fixture = try String(contentsOf: resourceURL.appendingPathComponent("mobile-demo.md"), encoding: .utf8)
             let json = String(data: try JSONSerialization.data(withJSONObject: [fixture]), encoding: .utf8)!
-            evaluate("window.dotmd.configureAgents([{id:'layout-test',name:'测试 Agent',kind:'openai-chat',endpoint:'https://example.invalid/v1',model:'test-model',enabled:true,keyPresent:false}]); window.dotmd.setContent(\(json)[0]); true") { self.evaluate(self.dataPreservationSetup) { self.testSize(at: 0) } }
+            evaluate("window.mdAnyWhere.configureAgents([{id:'layout-test',name:'测试 Agent',kind:'openai-chat',endpoint:'https://example.invalid/v1',model:'test-model',enabled:true,keyPresent:false}]); window.mdAnyWhere.setContent(\(json)[0]); true") { self.evaluate(self.dataPreservationSetup) { self.testSize(at: 0) } }
         } catch { finish(error.localizedDescription) }
     }
 
@@ -72,10 +72,10 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
           const visible = element => !!element && rect(element).width > 0 && rect(element).height > 0 && getComputedStyle(element).visibility !== 'hidden';
           const fitsWidth = (element, container) => rect(element).left >= rect(container).left - 1 && rect(element).right <= rect(container).right + 1;
           const body = document.body;
-          window.DotMDI18n.setLanguage('\#(locale)');
+          window.MDAnyWhereI18n.setLanguage('\#(locale)');
           expect(document.documentElement.lang === '\#(locale)', 'document locale is incorrect');
           expect(document.documentElement.dir === (/^(ar|he|ur)/.test('\#(locale)') ? 'rtl' : 'ltr'), 'interface direction is incorrect');
-          expect(window.dotmd.getContent() === window.__localizationDocument, 'language switch changed document text');
+          expect(window.mdAnyWhere.getContent() === window.__localizationDocument, 'language switch changed document text');
           expect(JSON.stringify(document.querySelector('.CodeMirror').CodeMirror.getHistory()) === window.__localizationHistory, 'language switch changed undo history');
           expect(document.querySelector('#agent-profiles .key').value === 'localization-test-placeholder', 'language switch cleared an unsaved agent field');
           expect(getComputedStyle(document.querySelector('.CodeMirror')).direction === 'ltr', 'code editor inherited interface RTL direction');
@@ -92,7 +92,7 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
             formatTools.scrollLeft = 0;
           }
           ['editor', 'preview', 'split'].forEach(mode => {
-            window.dotmd.setMode(mode);
+            window.mdAnyWhere.setMode(mode);
             const editor = document.getElementById('editor-pane');
             const preview = document.getElementById('preview-pane');
             expect(visible(editor) === (mode !== 'preview'), mode + ': editor visibility');
@@ -102,12 +102,12 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
               expect(rect(pane).height >= 40, mode + ': writing area is too short');
             });
           });
-          window.dotmd.setMode('preview');
+          window.mdAnyWhere.setMode('preview');
           const previewPane = document.getElementById('preview-pane');
-          const diagram = document.querySelector('.dotmd-flowchart-svg');
+          const diagram = document.querySelector('.mdanywhere-flowchart-svg');
           expect(!!diagram, 'public fixture flowchart must render');
           if (diagram) {
-            const chart = diagram.closest('.dotmd-mermaid');
+            const chart = diagram.closest('.mdanywhere-mermaid');
             expect(rect(diagram).width <= chart.clientWidth + 1, 'flowchart must fit without clipping nodes');
             expect(chart.scrollWidth <= chart.clientWidth + 1, 'flowchart requires unexpected horizontal scrolling');
           }
@@ -149,15 +149,15 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
             }
             dialog.close();
           });
-          window.dotmd.setMode('editor');
-          window.dotmd.preparePrint();
+          window.mdAnyWhere.setMode('editor');
+          window.mdAnyWhere.preparePrint();
           expect(visible(document.getElementById('preview-pane')), 'PDF preview must be visible from editor mode');
           expect(document.getElementById('preview').textContent.includes('md any where'), 'PDF preview is missing document content');
           expect(getComputedStyle(body).backgroundColor === 'rgb(255, 255, 255)',
             'PDF must have a white background in Dark Mode; got ' + getComputedStyle(body).backgroundColor);
           if (diagram) expect(rect(diagram).width <= rect(document.getElementById('preview')).width + 1,
             'printed flowchart is wider than the page');
-          window.dotmd.finishPrint();
+          window.mdAnyWhere.finishPrint();
           return problems;
         })();
         """#
@@ -175,25 +175,25 @@ final class LocalizedEditorTest: NSObject, WKNavigationDelegate {
           // Accepting a suggestion clears pending state while its hidden UI remains
           // mounted; language bindings must not read that cleared state again.
           document.getElementById('workflow-goal').value = 'Keep my workflow goal {p0}';
-          window.dotmd.showWorkflowProposal(JSON.stringify({title:'My preserved workflow',stages:[{
+          window.mdAnyWhere.showWorkflowProposal(JSON.stringify({title:'My preserved workflow',stages:[{
             title:'My step',prompt:'Preserve this user instruction {0}',mode:'single',profileIDs:['layout-test']
           }]}), '');
           document.querySelector('#workflow-proposal button').click();
           const savedWorkflow = localStorage.getItem('agentWorkflow.v1');
           if (!savedWorkflow || JSON.parse(savedWorkflow).stages[0].prompt !== 'Preserve this user instruction {0}') problems.push('Workflow suggestion was not accepted');
-          const expected = window.DotMDI18n.languages.map(item => item.code);
+          const expected = window.MDAnyWhereI18n.languages.map(item => item.code);
           for (const locale of expected) {
-            window.DotMDI18n.setLanguage(locale);
-            const catalog = window.DotMDLocaleCatalogs[locale] || (locale.startsWith('en-') ? window.DotMDLocaleCatalogs.en : null);
+            window.MDAnyWhereI18n.setLanguage(locale);
+            const catalog = window.MDAnyWhereLocaleCatalogs[locale] || (locale.startsWith('en-') ? window.MDAnyWhereLocaleCatalogs.en : null);
             if (!catalog) { problems.push(locale + ': missing shipped translation'); continue; }
             if (document.getElementById('interface-language').getAttribute('aria-label') !== catalog['language.label']) problems.push(locale + ': language control was not translated');
-            if (window.dotmd.getContent() !== window.__localizationDocument) problems.push(locale + ': document was modified');
+            if (window.mdAnyWhere.getContent() !== window.__localizationDocument) problems.push(locale + ': document was modified');
             if (JSON.stringify(editor.getHistory()) !== window.__localizationHistory) problems.push(locale + ': undo history was modified');
             if (localStorage.getItem('agentWorkflow.v1') !== savedWorkflow) problems.push(locale + ': accepted workflow was modified');
             if (document.getElementById('workflow-goal').value !== 'Keep my workflow goal {p0}') problems.push(locale + ': workflow goal was modified');
             if (document.querySelector('#agent-profiles .key').value !== 'localization-test-placeholder') problems.push(locale + ': unsaved API Key was cleared');
           }
-          window.DotMDI18n.setLanguage('en-US');
+          window.MDAnyWhereI18n.setLanguage('en-US');
           return problems;
         })();
         """#

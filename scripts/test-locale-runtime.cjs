@@ -4,17 +4,17 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const resources = path.resolve(__dirname, '../Sources/DOTMD/Resources');
+const resources = path.resolve(__dirname, '../Sources/MDAnyWhere/Resources');
 const source = fs.readFileSync(path.join(resources, 'i18n.js'), 'utf8');
 const catalog = code => JSON.parse(fs.readFileSync(path.join(resources, 'locales', `${code}.json`), 'utf8'));
 
 function createRuntime({stored, native, languages = ['en-US'], failStorage = false} = {}) {
-  const storage = new Map(stored ? [['dotmd.interfaceLanguage', stored]] : []);
+  const storage = new Map(stored ? [['mdanywhere.interfaceLanguage', stored]] : []);
   const messages = [];
   const context = {
     Intl, console, navigator:{languages},
-    DotMDLocaleCatalogs:{en:catalog('en'), 'zh-Hans':catalog('zh-Hans')},
-    dotmdLocalePreferences:native,
+    MDAnyWhereLocaleCatalogs:{en:catalog('en'), 'zh-Hans':catalog('zh-Hans')},
+    mdAnyWhereLocalePreferences:native,
     localStorage:{
       getItem(key) { if (failStorage) throw Error('unavailable'); return storage.get(key); },
       setItem(key,value) { if (failStorage) throw Error('unavailable'); storage.set(key,value); }
@@ -23,7 +23,7 @@ function createRuntime({stored, native, languages = ['en-US'], failStorage = fal
   };
   vm.createContext(context);
   vm.runInContext(source, context);
-  return {api:context.DotMDI18n, context, storage, messages};
+  return {api:context.MDAnyWhereI18n, context, storage, messages};
 }
 
 const r = createRuntime({languages:['xx-YY','zh-Hant-HK']});
@@ -50,7 +50,7 @@ assert.equal(createRuntime({stored:'../../secret',languages:['zh-CN']}).api.loca
 assert.equal(createRuntime({failStorage:true,languages:['ja']}).api.locale, 'ja');
 
 r.api.setLanguage('zh-Hans', {notify:true});
-assert.equal(r.storage.get('dotmd.interfaceLanguage'), 'zh-Hans');
+assert.equal(r.storage.get('mdanywhere.interfaceLanguage'), 'zh-Hans');
 assert.equal(r.messages.length, 1);
 assert.equal(r.messages[0].type, 'changeInterfaceLanguage');
 r.context.setInterfaceLanguage('system', ['de-DE']);

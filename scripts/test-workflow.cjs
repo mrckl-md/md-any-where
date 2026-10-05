@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 // These assertions intentionally exercise the Simplified Chinese error catalog.
-require('../Sources/DOTMD/Resources/i18n.js').setLanguage('zh-Hans');
-const workflow = require('../Sources/DOTMD/Resources/workflow-core.js');
+require('../Sources/MDAnyWhere/Resources/i18n.js').setLanguage('zh-Hans');
+const workflow = require('../Sources/MDAnyWhere/Resources/workflow-core.js');
 
 const twoAgents = ['first', 'second'];
 const normal = workflow.normalize(workflow.template(twoAgents, '润色摘要'), twoAgents);

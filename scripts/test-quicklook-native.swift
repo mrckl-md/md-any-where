@@ -24,7 +24,7 @@ precondition(text.contains("测试.md") && text.contains("标题"))
 precondition(text.contains("粗体") && !text.contains("**粗体**"))
 precondition(text.contains(L("native.quicklook.flowchart")) && text.contains("flowchart LR"))
 precondition(!text.contains("<html"))
-let file = FileManager.default.temporaryDirectory.appendingPathComponent("dotmd-quicklook-\(UUID().uuidString).md")
+let file = FileManager.default.temporaryDirectory.appendingPathComponent("mdanywhere-quicklook-\(UUID().uuidString).md")
 try! source.write(to: file, atomically: true, encoding: .utf8)
 defer { try? FileManager.default.removeItem(at: file) }
 let controller = PreviewViewController()
@@ -34,7 +34,7 @@ controller.preparePreviewOfFile(at: file) { previewError = $0 }
 precondition(previewError == nil)
 let textView = (controller.view as? NSScrollView)?.documentView as? NSTextView
 precondition(textView?.string.contains("标题") == true, "Quick Look controller must show content")
-if let samplePath = ProcessInfo.processInfo.environment["DOT_MD_QUICKLOOK_SAMPLE"] {
+if let samplePath = ProcessInfo.processInfo.environment["MD_ANY_WHERE_QUICKLOOK_SAMPLE"] {
     let sampleController = PreviewViewController()
     sampleController.loadView()
     var sampleError: Error?

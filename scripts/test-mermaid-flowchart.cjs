@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 // These assertions intentionally exercise the Simplified Chinese error catalog.
-require('../Sources/DOTMD/Resources/i18n.js').setLanguage('zh-Hans');
-const renderer = require('../Sources/DOTMD/Resources/mermaid-flowchart.js');
+require('../Sources/MDAnyWhere/Resources/i18n.js').setLanguage('zh-Hans');
+const renderer = require('../Sources/MDAnyWhere/Resources/mermaid-flowchart.js');
 
 const source = `flowchart LR
   input[训练数据] --> forward[前向传播]
@@ -18,7 +18,7 @@ const svg = renderer.renderSVG(source);
 assert.match(svg, /^<svg/);
 assert.match(svg, /反向传播/);
 assert.doesNotMatch(svg, /<script/i);
-assert.match(svg, /<path class="dotmd-flow-edge" d="M [\d.]+ [\d.]+ C /,
+assert.match(svg, /<path class="mdanywhere-flow-edge" d="M [\d.]+ [\d.]+ C /,
   'Connections should be smoothly routed from node boundaries, not through labels');
 const referenceStyle = `flowchart TD
   raw[原始文稿] --> choice{值得保留？}

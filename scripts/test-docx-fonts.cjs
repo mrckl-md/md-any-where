@@ -3,11 +3,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const source = fs.readFileSync(path.join(__dirname, '../Sources/DOTMD/Resources/docx-export.js'), 'utf8');
+const source = fs.readFileSync(path.join(__dirname, '../Sources/MDAnyWhere/Resources/docx-export.js'), 'utf8');
 const context = { window: {}, document: {}, localStorage: {} };
 vm.runInNewContext(source, context);
 
-const { cleanSettings, preset, parseInstruction } = context.window.dotmdDocx;
+const { cleanSettings, preset, parseInstruction } = context.window.mdAnyWhereDocx;
 const defaults = cleanSettings({});
 assert.equal(defaults.bodyCjkFont, '宋体');
 assert.equal(defaults.bodyLatinFont, 'Times New Roman');

@@ -5,7 +5,7 @@ project_dir="${0:A:h:h}"
 
 usage() {
   cat <<'USAGE'
-用法：DOT_MD_TEAM_ID=你的团队ID DOT_MD_IPAD_UDID=你的iPadUDID ./scripts/deploy-ipad.sh
+用法：MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_IPAD_UDID=你的iPadUDID ./scripts/deploy-ipad.sh
 
 构建、自动签名、安装并启动指定 iPad 上的 md any where。
 必须显式指定 iPad UDID；不会自动选择附近的 iPhone 或无线设备。
@@ -17,7 +17,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   usage
   exit 0
 fi
-if (( $# > 0 )) || [[ -z "${DOT_MD_TEAM_ID:-}" || -z "${DOT_MD_IPAD_UDID:-}" ]]; then
+if (( $# > 0 )) || [[ -z "${MD_ANY_WHERE_TEAM_ID:-}" || -z "${MD_ANY_WHERE_IPAD_UDID:-}" ]]; then
   usage >&2
   exit 2
 fi
@@ -41,14 +41,14 @@ report_device_failure() {
   print -u2 -- "设备操作失败，日志：$log_path"
 }
 
-if ! xcrun devicectl device install app --device "$DOT_MD_IPAD_UDID" "$app_path" \
+if ! xcrun devicectl device install app --device "$MD_ANY_WHERE_IPAD_UDID" "$app_path" \
   2>&1 | tee "$log_directory/install.log"; then
   report_device_failure "$log_directory/install.log"
   exit 1
 fi
-if ! xcrun devicectl device process launch --device "$DOT_MD_IPAD_UDID" app.dotmd.ipad \
+if ! xcrun devicectl device process launch --device "$MD_ANY_WHERE_IPAD_UDID" app.mdanywhere.ios \
   2>&1 | tee "$log_directory/launch.log"; then
   report_device_failure "$log_directory/launch.log"
   exit 1
 fi
-print -r -- "md any where 已安装并启动于指定 iPad：$DOT_MD_IPAD_UDID"
+print -r -- "md any where 已安装并启动于指定 iPad：$MD_ANY_WHERE_IPAD_UDID"

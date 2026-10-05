@@ -1,46 +1,50 @@
 # App Store 发布准备
 
-核对日期：2026-10-05。当前品牌为 **md any where**，目标版本 `1.0.0 (3)`，发布 iPhone/iPad 的 iOS App Store 版本；macOS 源码仍可独立构建并通过 MCP / CLI 接入 AI 编辑器。移动端提供内置 Agent，不运行桌面 IDE。本文件是准备清单，不是已提交、已通过审核或已完成全部测试的声明。
+核对日期：2026-10-06。当前品牌精确为 **md any where**，目标版本 `1.0.0 (4)`。iPhone/iPad 应用标识为 `app.mdanywhere.ios`，macOS 主应用标识为 `app.mdanywhere.editor`；工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。新标识已完成 macOS 与 iOS 模拟器构建，适用源码回归和 arm64 Release 开发签名严格验签也已通过。iPad 已安装但启动未确认，iPhone 安装因连接异常失败，App Store 发行归档仍待完成；当前构建尚未上传、送审或发布。
 
-## 当前已准备的内容
+## 当前准备状态
 
-- [源码仓库](https://github.com/mrckl-md/md-any-where)采用新仓库名；完成重命名及推送后复核 README、MIT 许可证与隐私政策链接。保留七份第三方许可证及版本/哈希清单。
-- iOS 工程、系统文件选择/分享、草稿恢复、Keychain 与逐次远程 Agent 发送确认。
-- [完整隐私政策](../PRIVACY.md)及应用内隐私说明，覆盖移动端草稿、备份与第三方处理。
-- [中英文名称、副标题、描述、关键词及审核备注](AppStore/README.md)。另有[全部 50 个商店本地化项](AppStore/Localization.md)的文案草稿，界面语言验证独立进行。
-- 本地开发构建与设备部署脚本。它们使用开发签名，不等于 App Store 分发归档。
-- 多语言构建 `1.0.0 (3)` 的 macOS、iOS 模拟器及真机构建通过；包内包含 47 份离线语言目录及 50 项商店语言对应的系统语言资源。50 项语言切换状态保留、27 组 WebKit 布局、语言别名与桥接检查通过。iPhone/iPad 安装成功，iPad 启动成功；iPhone 因锁屏尚未完成新构建启动与人工交互验收。
-- **当前归档：** 最终修复后的 `1.0.0 (3)` Release 归档成功，保存在被 Git 忽略的 `.build/ios/app-store/20261005-232647/md any where.xcarchive`。严格签名验证通过；设备族 `1,2`、47 × 583 条文案、51 个语言资源目录及最终脚本与源码一致。此前同构建号的导出尝试报 `No Accounts` 及无可用的分发证书私钥；本次未重复导出。需恢复 Xcode 发行账号/分发签名后导出并进行服务器 Validate，不能把此归档称为可提交的已验证 IPA。
-- **历史归档：** 改名前的 `1.0.0 (1)` 曾成功完成本地 App Store `.ipa` 导出，并检查 Apple Distribution 签名、`get-task-allow = false`、设备族 `1,2` 及资源。产物保留在 `.build/ios/app-store/20261005-214601/`，没有上传，不替代当前构建的发行导出。
-- **截图待重拍：** [当前四张简体中文截图](AppStore/Screenshots/README.md)是改名前的历史模拟器 UI，iPhone/iPad 各两张、无个人资料。尺寸已核对，但不能用于新品牌版本的最终送审，需用新构建重拍。
-- 已确认商店售价免费、销售地区包括中国大陆；公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权为 `© 2026 陈科霖`。审核联系人已由发行者提供，只应录入 App Store Connect 私有栏目，公开文件不保留其姓名/电话。
+- [源码仓库](https://github.com/mrckl-md/md-any-where)、MIT 许可、七份第三方许可证及版本/哈希清单保留；文档、源模块、工具及资源路径统一使用新命名。
+- 现有功能包含系统文件选择/分享、草稿恢复、Keychain、逐次远程 Agent 发送确认和离线本地化资源。现有行为评估可以作为检查依据，但不能替代新标识构建的代码、资源和功能复验。
+- [完整隐私政策](../PRIVACY.md)、[隐私草案](AppStore/Privacy-Assessment.md)、[年龄草案](AppStore/Age-Rating-Assessment.md)与[全部 50 项商店文案](AppStore/Localization.md)已准备。文案不是已完成审核或最终问卷。
+- **构建 `4` 已验证：** macOS 构建成功，`app.mdanywhere.editor` 及 Quick Look、缩略图、Agent 的新标识已核对，严格深层 ad-hoc 签名检查通过。iOS 模拟器构建成功，标识 `app.mdanywhere.ios`、设备族 `1,2`、47 份 catalog 和 51 个语言目录已核对；目标 iPhone/iPad 模拟器均安装并启动成功。七组 JavaScript 检查及 Agent 打包、Quick Look、Mermaid、原生本地化回归已通过。移动存储 9 项、视口布局 9 项、50 项语言状态保留与 27 组 WebKit 布局、WebKit DOCX 全套回归已通过；arm64 Release 开发签名构建及严格验签也已通过。
+- **截图已准备：** 构建 `4` 的简体中文、英文各两张图片已经从实际模拟器应用捕获，展示 iPhone 编辑和 iPad 分栏。尺寸、无 Alpha 通道、无历史标识已核验；简体中文两张已在记录 `6819302567` 替换旧图并上传，iPhone 6.9 英寸与 iPad 13 英寸组各核验为 `1/10`，英文两张尚未上传，详见[截图清单](AppStore/Screenshots/README.md)。历史版本图片已移出当前公开素材，保留于忽略的历史备份。
+- **开发签名与真机进度：** 手动描述文件配置先前被拒绝后，本机 Automatic 使用已存描述文件成功完成 Release 构建与开发签名，无需 `-allowProvisioningUpdates`，严格验签通过。产物为 `.build/ios/local-device/Build/Products/Release-iphoneos/md any where.app`。iPad 新标识安装成功，但启动遇到 CoreDevice XPC 服务不可用，尚未确认启动；iPhone 安装因 CoreDevice `4016` 连接异常失败。用户解锁重连后可直接复用此包重试，不需重建。开发签名成功不等于 App Store 分发验证，当前仍无经验证的构建 `4` 发行归档或 IPA。
+- **新标识已注册并绑定：** Apple Developer 已注册 `app.mdanywhere.ios`，App Store Connect 记录 `6819302567` 已实际保存绑定。该记录的 SKU 不可编辑，仍保留历史内部编号；其处理方式待用户决定，不在公开材料写出其值，也不宣称云端全部内部字段已完成改名。
+- **既有记录的已保存设置：** 免费价格、简体中文名称/副标题/分类/版本文案、政策 URL、私有审核联系人，以及 174 个发行地区；唯一排除中国大陆，香港、澳门、台湾保留，未来新增地区不自动加入（`futureautoinclude = false`）。这些设置此前保存在同一记录，该记录现已成功绑定新标识；已选择地区不等于已获准销售。
+- 公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权为 `© 2026 陈科霖`。私人审核联系人及凭证不进入公开文件。
 
-**改名前构建的验证记录：** iPhone 17 Pro Max（iOS 27.0.1）的安装、启动、公开示例导入、触控编辑保存和导出通过；同一通用开发构建也已安装并启动于 iPad，保留原有数据。PDF 是两页白底原生分页，目视确认公式、全部三个流程图节点、表格与尾文完整。真机 DOCX 内含 1884 × 480 白底流程图 PNG，三个节点完整；XML 检查确认 OMML 公式、表格、图片关系和尾文存在。Quick Look 能显示正文、图片与表格，但不显示 OMML；本轮没有用 Word/WPS 实际验证公式显示。新品牌构建需另行核验，不沿用旧构建作为通过证明。
+## 历史证据的适用范围
 
-移动文稿存储九项回归、九种视口 WebKit 布局回归及 DOCX 图像回归均通过，独立代码审查未发现阻塞项。预览滚动时观察到的空白已通过真机截图确认为 Device Hub 镜像延迟，不是应用缺陷。这些结果只覆盖已说明的范围，不能替代以下完整发布验收；本地归档/导出成功也不等于 Apple 服务器 Validate、上传或审核通过。
+历史版本 `1` 曾完成本地 App Store IPA 导出，检查过 Apple Distribution 签名、`get-task-allow = false` 和设备族 `1,2`，但没有上传。该版本真机 PDF 为两页白底，公式、三个流程图节点、表格与尾文目视完整；DOCX 包含 1884 × 480 白底流程图 PNG，XML 中有 OMML、表格、图片关系和尾文。Quick Look 显示正文、图片和表格但不显示 OMML；没有用 Word/WPS 完成公式目视验证。移动存储、布局及 DOCX 图像回归结果仅属于当时版本。
 
-## 尚需维护者或发行账号完成
+历史版本 `3` 曾完成三端编译、47 × 583 条文案及 50 项语言映射检查、50 项语言切换状态保留、27 组 WebKit 布局，以及 iPhone/iPad 安装；当时 iPhone 启动受到锁屏影响。该版本归档成功，但后续分发导出报 `No Accounts` 与 `No signing certificate`，退出码 `70`。这些错误只说明当时导出进程无法访问所需账号或发行身份，不能证明用户退出登录。成功与失败使用同一本机用户和 Xcode 路径，没有切换 HOME 的证据；具体发行身份取得方式尚未确定。
 
-1. 用有权限的 Apple Developer Program 账号确认团队、协议和发行主体。App Store Connect 应用记录 `6819302567` 已建立；当前 Bundle ID 是 `app.dotmd.ipad`，工程/scheme 保留 `DOTMD-iPad` 历史名称。参见 [App 信息](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)。
-2. 审核联系人已写入私有栏目，简体中文名称 `md any where`、副标题、分类及版本文案已保存。英文新增时后台提示名称已被使用，须确定英文商店名称后继续；其余 49 项本地文案不能视为已保存到后台。公开 [支持入口](https://github.com/mrckl-md/md-any-where/issues)、邮箱及 [政策 URL](https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md) 随开源资料核验。参见 [版本元数据](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/)。
-3. 按下文核对第三方留存、隐私标签、年龄评级、加密和销售地区要求。不要从 MIT 开源许可推导出 API 服务使用授权或审核豁免。
-4. 多语言构建号 `3` 已归档；恢复发行签名后导出、完成验收，再在 Organizer 执行 Apple 服务器 Validate。之后的 Upload、TestFlight 邀请、提交审核和正式发布仍待执行。可用 `DOT_MD_TEAM_ID=你的团队ID DOT_MD_BUILD_NUMBER=3 ./scripts/archive-ios.sh all` 重建本地归档和导出包；脚本不上传。
+历史简体中文两张截图曾在既有记录的 iPhone 6.9 英寸和 iPad 13 英寸组各核验为 `1/10`，英文两张仅在本地准备。这两张历史中文图片现已从对应后台设备组删除，并实际替换为构建 `4` 图片；当前上传状态依据新文件名及各 `1/10` 单独核验，英文历史图片继续退休。所有历史结果都不认证构建 `4` 的新应用标识、桥协议、钥匙串范围、安装、资源打包或发行签名。
+
+## 尚需完成
+
+1. 设备解锁重连后，使用已经严格验签的 Release 开发签名包重试 iPad 启动与 iPhone 安装/启动，无需先重建；之后完成物理设备交互验收。标识变化可能形成独立应用容器，不宣称历史草稿或 Keychain 自动迁移；先将需要保留的文稿保存为文件，不删除历史安装数据。
+2. 新 Bundle ID 已注册并绑定，接下来处理不可编辑历史 SKU 的选择，以及英文名称冲突、DSA 交易商身份、目标年龄和最终问卷；这些事项由发行者确认，不将成功改绑重新列为待办。记录信息见 [submission.json](AppStore/submission.json)。
+3. 简体中文构建 `4` 两张已完成替换、上传及数量核验；英文两张仍待上传到相应语言与设备组并核实。不要将部分完成写成全部四张已上传，也不再上传退休历史图片。
+4. 完成新标识的发行归档、导出和签名验证，再执行 Apple 服务器 Validate。如遇账号/签名访问错误，先查看 Xcode 的“Settings → Apple Accounts”状态再处理，不预先删除账号或重新登录。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=4 ./scripts/archive-ios.sh all` 准备本地归档；脚本不上传。
+5. 继续按现有可选、用户自配的 Agent 准备审核访问和隐私/年龄事实答案，不要求重新决定是否保留 AI。完成具体待核实项后，再进行构建上传、TestFlight（如采用）、提交审核及正式发布；这些步骤当前均未完成。
 
 ## 设备验收与截图
 
 发布前至少覆盖：小屏 iPhone 竖屏及横屏；键盘显示/收起；iPad 分栏；文稿菜单和各设置/公式/Agent/DOCX 对话框；中文输入、撤销、复制粘贴；Files 打开/保存/另存；后台及重启恢复；文件提供商冲突；DOCX/PDF/HTML 实际打开；拒绝 Agent 发送时无请求；清除 Key。使用 `tests/fixtures/mobile-demo.md` 这类公开示例，不能用个人文稿或真实 Key 拍摄。
 
-本仓库当前保留改名前 iPhone 6.9 英寸组两张 1320 × 2868 JPEG，以及 iPad 13 英寸组两张 2064 × 2752 JPEG，均无 Alpha 通道，详见[截图清单](AppStore/Screenshots/README.md)。新品牌截图待重拍；旧图不是新构建验收或送审证据，尚未上传 App Store Connect。
+构建 `4` 已从真实模拟器应用完成四张截图：简体中文和英文各有 iPhone 编辑模式 1320 × 2868 JPEG、iPad 分栏模式 2064 × 2752 JPEG。四张均无 Alpha 通道且无历史标识；简体中文两张已上传到记录 `6819302567` 并删除对应旧图，两个设备组各为 `1/10`，英文两张尚未上传。截图证明对应模拟器画面，不证明物理设备部署或所有交互通过。历史图片已退出当前公开素材，详见[截图清单](AppStore/Screenshots/README.md)。
 
 Apple 每个设备组接受 1–10 张 PNG/JPEG；当前也接受这些组的其他列明尺寸。若不提供 6.9 英寸组，则需符合规则的 6.5 英寸组；支持 iPad 时必须提供 13 英寸组。不能把窄屏截图简单拉伸成另一设备 UI。参见 [截图规格](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/) 和 [上传规则](https://developer.apple.com/help/app-store-connect/manage-app-information/upload-app-previews-and-screenshots/)。
 
-现有截图展示编辑、分栏及预览；可按商店呈现需要补充文件与草稿、导出设置、第三方 Agent 的明确同意界面。iPhone/iPad 各拍对应布局，不以 Mac 截图代替。截图必须展示实际功能，描述中不承诺无损导出所有 Markdown/Mermaid 语法。
+新截图应展示实际编辑与分栏，可按商店呈现需要补充纯预览、文件与草稿、导出设置、第三方 Agent 的明确同意界面。iPhone/iPad 各拍对应布局，不以 Mac 截图代替。截图必须展示实际功能，描述中不承诺无损导出所有 Markdown/Mermaid 语法。
 
 ## 隐私标签与隐私清单
 
-应用没有自营文稿服务器、广告或分析 SDK，但第三方 Agent 可能处理并保留用户内容。不能直接选择“Data Not Collected”。本机处理通常不属于 Apple 定义的收集；离设备后保留超过实时请求所需时间则应评估收集，用户自愿启用不自动满足可选披露条件。通用文稿可按 `Other User Content`、用途 `App Functionality` 核对；是否关联用户须考虑 API 账户。提供商/代理的日志、IP及认证信息需按真实用途和留存分别核对，不能凭猜测填“未关联”。参见 [App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/)。
+应用没有自营文稿服务器、广告或分析 SDK；可选 Agent 由用户配置并直接请求第三方服务。无自营服务器、BYOK 和默认关闭不自动等于“Data Not Collected”。当前预设 API 的已知内容留存支持准备 `Yes`、`Other User Content`、`App Functionality` 的候选答案；本机处理不因此变成远程收集。账号关联、标识、用量、诊断及 IP 类别按实际留存和用途分别判断，不因连接或发送凭证就全部勾选。参见 [App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/)。
 
-[privacy-answer-draft.json](AppStore/privacy-answer-draft.json) 是待核实的填写依据，不能自动上传为最终答案。需要记录所支持提供商或代理的实际政策、保留期限、是否训练、与账户关联情况和删除渠道，再由发行者作最终申报。
+[privacy-answer-draft.json](AppStore/privacy-answer-draft.json) 与 [Privacy-Assessment.md](AppStore/Privacy-Assessment.md) 区分代码事实、候选答案及条件项，不能自动上传为最终答案。不要求先查明所有未来用户自选端点的日志，也不为未知服务承诺零留存。先准备有依据的答案，对会影响申报的具体服务行为或披露边界继续核实；必要时向 App Review 说明实际架构。某个条件项的不确定不应阻止其他已明确字段的准备。
 
 当前 `Support/PrivacyInfo.xcprivacy` 包含 UserDefaults 的 `CA92.1` 原因，且收集类型数组为空；这不是“第三方没有收集”的证据。发布前须根据最终二进制和已确认数据实践审查、必要时更新。原生 macOS 控制台使用 `fstat`，若单独准备 Mac App Store 版，还需单独检查该目标的文件元数据 API 原因；不要把 macOS 检查结论直接套到 iOS。参见 [必需理由 API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api) 和 [第三方 SDK 要求](https://developer.apple.com/support/third-party-SDK-requirements/)。
 
@@ -52,13 +56,13 @@ Apple 每个设备组接受 1–10 张 PNG/JPEG；当前也接受这些组的其
 
 ## 年龄评级
 
-完成当前 App Store Connect 问卷，由系统生成各地区结果，不预先承诺 4+。当前没有应用内广告、赌博、用户间聊天、内容社区或不受限网页浏览；本地私有文稿并不等同于广泛传播 UGC。应用也没有自建年龄验证或家长控制，不应勾选为已有能力。可选的自定义 AI 端点可能生成不同年龄适宜性的内容，须实际评估能出现的内容并如实作答，必要时提高评级或限制功能；不要因为默认关闭就一律填“无”。本版本不申报 Kids 类别。参见 [评级定义](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/) 和 [填写年龄评级](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)。
+按实际用途和提供内容填写问卷，由系统计算各地区评级，不预先承诺 4+ 或一律提高为 18+。当前无广告、赌博、用户间聊天、内容社区、不受限网页浏览、年龄验证或家长控制；这些能力题有源码依据。随包示例与预设内容未发现敏感题材，相应 `None` 仅是据该范围准备的候选；实际 Agent 体验仍应纳入最终评估，不把尚未测试写成已验证无敏感输出，也不因通用模型理论上可生成就全部填“频繁”。目标年龄、EULA 最低年龄、Kids 类别及是否主动提高评级由发行者确认，不由本材料代定。详见 [年龄评级事实草稿](AppStore/Age-Rating-Assessment.md)、[Apple 评级定义](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/) 和 [填写流程](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)。
 
 ## 加密与地区
 
 当前原生网络使用 Apple URLSession/HTTPS，凭证用系统 Keychain，未发现随包提供自有加密算法。按这个实现，可能符合“加密仅限 Apple 操作系统提供”的文档豁免，但发行者仍要完成加密问题并确认最终依赖；不能把“使用 HTTPS”填写成“完全不使用加密”。只有确认不含非豁免加密后才设置 `ITSAppUsesNonExemptEncryption = NO`。参见 [加密文档要求](https://developer.apple.com/help/app-store-connect/reference/app-information/export-compliance-documentation-for-encryption) 和 [该键说明](https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption)。
 
-售价已确定为免费，发行地区明确包括中国大陆；其余地区清单仍需后台确认。中国大陆备案资料尚未提供，实际适用的备案及内容/AI 相关资质须完成核对，不能宣称已取得。若包括欧盟，还需完成适用的经营者身份和联系信息申报。AI 发布范围问题仍待发行者答复，隐私与年龄问卷不能先定稿。参见 [Apple App 信息中的地区要求](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)；提交时复核 App Store Connect 的实际问题。
+免费价格和 174 个发行地区已在既有 App Store Connect 记录保存，唯一排除中国大陆，香港、澳门、台湾保留；未来新增地区不自动加入。同一记录现在已绑定 `app.mdanywhere.ios`。已选定地区仍须满足适用要求，不等于已经获准销售。后续如进入中国大陆，先按实际功能确认本应用是否属于 App 备案适用范围，再决定是否办理；没有自营服务器、用户自行填写 API 地址并不自动构成豁免。工信部通知以境内从事互联网信息服务的 App 主办者为对象，本次查阅的官方资料未明确界定 BYOK 通用客户端，不将尚未提供备案号列为本次首发的确定缺项。参见 [工信部备案通知](https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2023/art_920db564162e4312916a01bed6540ad8.html)。欧盟 DSA 交易商身份待用户确认，再据实完成对应信息申报，不由源码或免费价格推断。本次继续按现有可选 Agent 准备，不再以重新选择是否保留 AI 为前置条件；隐私和年龄答案仍按各自事实与待确认项处理。参见 [Apple App 信息中的地区要求](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)；提交时复核实际后台问题。
 
 ## 源码公开边界
 

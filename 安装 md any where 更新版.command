@@ -3,24 +3,19 @@ set -euo pipefail
 
 project_dir="${0:A:h}"
 installed_app="$project_dir/dist/md any where.app"
-legacy_installed_app="$project_dir/dist/DOT MD.app"
 update_app="$project_dir/dist/md any where 更新版.app"
 
-# Accept a previously named update package without changing identifiers or data.
-if [[ ! -d "$update_app" && -d "$project_dir/dist/DOT MD 更新版.app" ]]; then
-  update_app="$project_dir/dist/DOT MD 更新版.app"
-fi
 if [[ ! -d "$update_app" ]]; then
   print -u2 -- "找不到更新版：$update_app"
   exit 1
 fi
-if [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$update_app/Contents/Info.plist" 2>/dev/null)" != "app.dotmd.editor" ]]; then
+if [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$update_app/Contents/Info.plist" 2>/dev/null)" != "app.mdanywhere.editor" ]]; then
   print -u2 -- "更新包的应用标识不匹配，未执行安装。"
   exit 1
 fi
 
-for app in "$installed_app" "$legacy_installed_app" "$update_app" "/Applications/md any where.app" "/Applications/DOT MD.app"; do
-  candidate="$app/Contents/MacOS/DOTMD"
+for app in "$installed_app" "$update_app" "/Applications/md any where.app"; do
+  candidate="$app/Contents/MacOS/MDAnyWhere"
   process_status=0
   /usr/bin/pgrep -f -x "$candidate" >/dev/null || process_status=$?
   case "$process_status" in
@@ -37,9 +32,6 @@ done
 /usr/bin/codesign --verify --deep --strict "$update_app"
 
 replacement_app="$installed_app"
-if [[ ! -e "$replacement_app" && -e "$legacy_installed_app" ]]; then
-  replacement_app="$legacy_installed_app"
-fi
 if [[ -e "$replacement_app" ]]; then
   backup_app="${replacement_app%.app}-before-$(date +%Y%m%d-%H%M%S).app"
   if [[ -e "$backup_app" ]]; then
@@ -59,7 +51,7 @@ if ! /bin/mv "$update_app" "$installed_app"; then
 fi
 
 print -r -- "已安装：$installed_app"
-if ! /usr/bin/pluginkit -a "$installed_app/Contents/PlugIns/DOTMDQuickLook.appex"; then
+if ! /usr/bin/pluginkit -a "$installed_app/Contents/PlugIns/MDAnyWhereQuickLook.appex"; then
   print -u2 -- "应用已安装，但 Quick Look 扩展登记失败；可稍后重启 Finder 再试。"
 fi
 if ! /usr/bin/qlmanage -r >/dev/null; then

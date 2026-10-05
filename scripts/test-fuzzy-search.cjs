@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const { findInLine, boundedEditDistance } = require('../Sources/DOTMD/Resources/fuzzy-search.js');
+const { findInLine, boundedEditDistance } = require('../Sources/MDAnyWhere/Resources/fuzzy-search.js');
 
 assert.equal(boundedEditDistance('formula', 'formla', 2), 1);
 assert.equal(boundedEditDistance('markdown', 'unrelated', 2), 3);

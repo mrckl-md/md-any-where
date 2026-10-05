@@ -1,7 +1,7 @@
 import Foundation
 import Darwin
 
-// Compiled with Sources/DOTMDiPad/DocumentStore.swift. These tests exercise the
+// Compiled with Sources/MDAnyWhereMobile/DocumentStore.swift. These tests exercise the
 // production store directly; no storage or conflict logic is reimplemented here.
 private struct StoreTestFailure: LocalizedError {
     let message: String
@@ -16,11 +16,11 @@ private func expectFileError(_ expectedCode: Int, operation: () throws -> Void) 
     do {
         try operation()
     } catch let error as NSError {
-        try require(error.domain == "DOTMD.File" && error.code == expectedCode,
-                    "Expected DOTMD.File \(expectedCode), received \(error)")
+        try require(error.domain == "MDAnyWhere.File" && error.code == expectedCode,
+                    "Expected MDAnyWhere.File \(expectedCode), received \(error)")
         return
     }
-    throw StoreTestFailure(message: "Expected DOTMD.File \(expectedCode), but operation succeeded")
+    throw StoreTestFailure(message: "Expected MDAnyWhere.File \(expectedCode), but operation succeeded")
 }
 
 private final class SaveCompletions: @unchecked Sendable {
@@ -62,17 +62,17 @@ private enum MobileStoreTests {
 
     private static func checkStore(at root: URL) throws {
         let directory = root.appendingPathComponent("recovery", isDirectory: true)
-        let store = try IPadDocumentStore(directory: directory)
+        let store = try MDAnyWhereDocumentStore(directory: directory)
         try require(try store.load() == nil, "A new store should not contain a session")
-        let draft = IPadDocument(id: "draft", title: "草稿.md",
+        let draft = MDAnyWhereDocument(id: "draft", title: "草稿.md",
             content: "# 尚未保存\n\n数学：α + β，表情 📝，组合字 e\u{301}\n", isDirty: true)
-        let saved = IPadDocument(id: "saved", title: "已保存.md", content: "Saved text\n",
+        let saved = MDAnyWhereDocument(id: "saved", title: "已保存.md", content: "Saved text\n",
                                 isDirty: false, lastSavedContent: "Saved text\n")
-        let original = IPadSession(documents: [draft, saved], activeDocumentID: draft.id)
+        let original = MDAnyWhereSession(documents: [draft, saved], activeDocumentID: draft.id)
         try store.flush(original)
 
         // A new store instance proves that recovery comes from disk, not retained objects.
-        let restored = try IPadDocumentStore(directory: directory).load()
+        let restored = try MDAnyWhereDocumentStore(directory: directory).load()
         try require(restored?.documents.first?.content == draft.content,
                     "Unicode draft text did not survive restart")
         try require(restored?.documents.first?.title == draft.title,
@@ -91,13 +91,13 @@ private enum MobileStoreTests {
         for revision in 0..<8 {
             var olderDraft = draft
             olderDraft.content = "Queued revision \(revision)\n"
-            store.save(IPadSession(documents: [olderDraft], activeDocumentID: draft.id)) {
+            store.save(MDAnyWhereSession(documents: [olderDraft], activeDocumentID: draft.id)) {
                 completions.record($0)
             }
         }
         var latestDraft = draft
         latestDraft.content += "最新修改\n"
-        let latest = IPadSession(documents: [latestDraft, saved], activeDocumentID: draft.id)
+        let latest = MDAnyWhereSession(documents: [latestDraft, saved], activeDocumentID: draft.id)
         try store.flush(latest)
         try completions.verify(count: 8)
         try require(try store.load()?.documents.first?.content == latestDraft.content,
@@ -117,7 +117,7 @@ private enum MobileStoreTests {
             .filter { $0.lastPathComponent.hasPrefix("unreadable-") }
         try require(backups.count == 1, "Damaged recovery backup is missing")
         try require(try Data(contentsOf: backups[0]) == corruptBytes, "Damaged backup bytes were changed")
-        try require(try IPadDocumentStore(directory: directory).load()?.documents.first?.content == latestDraft.content,
+        try require(try MDAnyWhereDocumentStore(directory: directory).load()?.documents.first?.content == latestDraft.content,
                     "Fresh drafts could not recover after preserving the damaged session")
         print("PASS 4: damaged recovery is preserved byte-for-byte and new recovery remains usable")
 
@@ -126,7 +126,7 @@ private enum MobileStoreTests {
         unsupported.version = 99
         try encoder.encode(unsupported).write(to: sessionURL)
         try expectFileError(422) { _ = try store.load() }
-        let duplicateIDs = IPadSession(documents: [draft, draft], activeDocumentID: draft.id)
+        let duplicateIDs = MDAnyWhereSession(documents: [draft, draft], activeDocumentID: draft.id)
         try encoder.encode(duplicateIDs).write(to: sessionURL)
         try expectFileError(422) { _ = try store.load() }
         try store.flush(latest)
@@ -136,36 +136,36 @@ private enum MobileStoreTests {
         let originalText = "# Original\n\n中文正文\n"
         let editedText = "# Saved\n\n修改后正文\n"
         try originalText.write(to: file, atomically: true, encoding: .utf8)
-        try require(try IPadDocumentStore.read(file) == originalText, "Coordinated read changed the document")
-        try IPadDocumentStore.write(editedText, to: file, expectedPreviousContent: originalText)
-        try require(try IPadDocumentStore.read(file) == editedText, "Coordinated save did not persist the edit")
+        try require(try MDAnyWhereDocumentStore.read(file) == originalText, "Coordinated read changed the document")
+        try MDAnyWhereDocumentStore.write(editedText, to: file, expectedPreviousContent: originalText)
+        try require(try MDAnyWhereDocumentStore.read(file) == editedText, "Coordinated save did not persist the edit")
         print("PASS 6: coordinated reads and saves preserve UTF-8 document contents")
 
         try expectFileError(409) {
-            try IPadDocumentStore.write("Stale edit", to: file, expectedPreviousContent: originalText)
+            try MDAnyWhereDocumentStore.write("Stale edit", to: file, expectedPreviousContent: originalText)
         }
-        try require(try IPadDocumentStore.read(file) == editedText,
+        try require(try MDAnyWhereDocumentStore.read(file) == editedText,
                     "A rejected stale save overwrote the external version")
         print("PASS 7: external-change conflict rejects stale writes without modifying the file")
 
         let invalidUTF8 = Data([0xff, 0xfe, 0x80])
         try invalidUTF8.write(to: file)
-        try expectFileError(422) { _ = try IPadDocumentStore.read(file) }
+        try expectFileError(422) { _ = try MDAnyWhereDocumentStore.read(file) }
         try expectFileError(422) {
-            try IPadDocumentStore.write("Overwrite", to: file, expectedPreviousContent: editedText)
+            try MDAnyWhereDocumentStore.write("Overwrite", to: file, expectedPreviousContent: editedText)
         }
         try require(try Data(contentsOf: file) == invalidUTF8, "Invalid external bytes were overwritten")
         print("PASS 8: invalid UTF-8 is rejected on open and before overwrite")
 
         let byteLimit = 16 * 1024 * 1024
         try Data(repeating: 65, count: byteLimit).write(to: file)
-        try require(try IPadDocumentStore.read(file).utf8.count == byteLimit,
+        try require(try MDAnyWhereDocumentStore.read(file).utf8.count == byteLimit,
                     "An exactly 16 MiB UTF-8 document should be accepted")
         let handle = try FileHandle(forWritingTo: file)
         try handle.seekToEnd()
         try handle.write(contentsOf: Data([65]))
         try handle.close()
-        try expectFileError(413) { _ = try IPadDocumentStore.read(file) }
+        try expectFileError(413) { _ = try MDAnyWhereDocumentStore.read(file) }
         print("PASS 9: the 16 MiB boundary is accepted and one excess byte is rejected")
     }
 }

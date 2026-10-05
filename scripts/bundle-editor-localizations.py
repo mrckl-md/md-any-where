@@ -24,4 +24,4 @@ if 'en' not in catalogs:
 # inspect/embed during tooling; the application loads it as an external script.
 encoded = json.dumps(catalogs, ensure_ascii=False, separators=(',', ':'))
 encoded = encoded.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029').replace('</', '<\\/')
-(args.editor / 'catalogs.js').write_text('/* Generated from locales/*.json; no network requests. */\nwindow.DotMDLocaleCatalogs = ' + encoded + ';\n')
+(args.editor / 'catalogs.js').write_text('/* Generated from locales/*.json; no network requests. */\nwindow.MDAnyWhereLocaleCatalogs = ' + encoded + ';\n')

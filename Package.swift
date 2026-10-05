@@ -2,20 +2,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "DOTMD",
+    name: "MDAnyWhere",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name: "DOTMD", targets: ["DOTMD"]),
-        .executable(name: "dotmd-agent", targets: ["DOTMDAgent"])
+        .executable(name: "MDAnyWhere", targets: ["MDAnyWhere"]),
+        .executable(name: "md-any-where-agent", targets: ["MDAnyWhereAgent"])
     ],
     targets: [
         .executableTarget(
-            name: "DOTMD",
-            dependencies: ["DOTMDLocalization"],
-            path: "Sources/DOTMD",
+            name: "MDAnyWhere",
+            dependencies: ["MDAnyWhereLocalization"],
+            path: "Sources/MDAnyWhere",
             resources: [.copy("Resources")]
         ),
-        .target(name: "DOTMDLocalization", path: "Sources/DOTMDLocalization"),
-        .executableTarget(name: "DOTMDAgent", dependencies: ["DOTMDLocalization"], path: "Sources/DOTMDAgent")
+        .target(name: "MDAnyWhereLocalization", path: "Sources/MDAnyWhereLocalization"),
+        .executableTarget(name: "MDAnyWhereAgent", dependencies: ["MDAnyWhereLocalization"], path: "Sources/MDAnyWhereAgent")
     ]
 )

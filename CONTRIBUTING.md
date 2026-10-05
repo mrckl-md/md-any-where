@@ -1,6 +1,6 @@
 # 参与 md any where 开发
 
-欢迎改进编辑体验、学术公式、可访问性和隐私保护。项目自有代码位于 `Sources/DOTMD/`、`Support/` 和 `scripts/`；`Resources/vendor/` 是保留上游许可证的第三方发布文件，不应直接修改。`.build/`、`dist/` 为可重建产物。
+欢迎改进编辑体验、学术公式、可访问性和隐私保护。项目自有代码位于 `Sources/MDAnyWhere/`、`Support/` 和 `scripts/`；`Resources/vendor/` 是保留上游许可证的第三方发布文件，不应直接修改。`.build/`、`dist/` 为可重建产物。
 
 ## 易读的命名
 
@@ -11,14 +11,14 @@
 
 ## 保持消息桥兼容
 
-原生层通过 `invokeEditorJavaScript` 调用 `window.dotmd`，网页层通过 `sendNativeMessage` 发送消息。DOCX 设置和数学节点还使用 Swift/JavaScript 共用的 JSON 字段。内部函数可以改名，但桥对象应显式保留原有属性名；如果确需变更协议，应同时修改两侧、说明迁移方式并增加验证。
+原生层通过 `invokeEditorJavaScript` 调用 `window.mdAnyWhere`，网页层通过 `sendNativeMessage` 发送消息。DOCX 设置和数学节点还使用 Swift/JavaScript 共用的 JSON 字段。修改内部函数或桥协议时，须核对当前公开属性名，同时更新调用两侧及契约测试；当前协议使用统一的新命名，不保留历史品牌别名。
 
 ## 提交前验证
 
 ```sh
-node --check Sources/DOTMD/Resources/app.js
-node --check Sources/DOTMD/Resources/docx-export.js
-node --check Sources/DOTMD/Resources/fuzzy-search.js
+node --check Sources/MDAnyWhere/Resources/app.js
+node --check Sources/MDAnyWhere/Resources/docx-export.js
+node --check Sources/MDAnyWhere/Resources/fuzzy-search.js
 node scripts/test-fuzzy-search.cjs
 node scripts/test-bridge-contract.cjs
 ./scripts/build-app.sh

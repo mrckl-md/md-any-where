@@ -4,15 +4,15 @@ md any where's original code is licensed under the [MIT License](LICENSE). Bundl
 
 ## Bundled runtime components
 
-Full license texts are already present in `Sources/DOTMD/Resources/Licenses/`. Both packagers copy that directory into the application: `Contents/Resources/Editor/Licenses/` on macOS and `Editor/Licenses/` on iOS/iPadOS. Preserve these files when distributing applications or source archives.
+Full license texts are already present in `Sources/MDAnyWhere/Resources/Licenses/`. Both packagers copy that directory into the application: `Contents/Resources/Editor/Licenses/` on macOS and `Editor/Licenses/` on iOS/iPadOS. Preserve these files when distributing applications or source archives.
 
-- **CodeMirror 5.65.21** — MIT; Marijn Haverbeke and other contributors. Editor, Markdown/XML modes and bundled addons. [Upstream](https://github.com/codemirror/codemirror5), [license](Sources/DOTMD/Resources/Licenses/CodeMirror.txt).
-- **markdown-it** — MIT; Vitaly Puzrin, Alex Kocharin and other contributors. The bundled browser file does not identify its package version in a readable banner. [Upstream](https://github.com/markdown-it/markdown-it), [license](Sources/DOTMD/Resources/Licenses/markdown-it.txt).
-- **markdown-it-footnote 4.0.0** — MIT; Vitaly Puzrin, Alex Kocharin and other contributors. [Upstream](https://github.com/markdown-it/markdown-it-footnote), [license](Sources/DOTMD/Resources/Licenses/markdown-it-footnote.txt).
-- **markdown-it-task-lists 2.1.0** — ISC; Revin Guillen. [Upstream](https://github.com/revin/markdown-it-task-lists), [license](Sources/DOTMD/Resources/Licenses/markdown-it-task-lists.txt).
-- **markdown-it-texmath** — MIT; Stefan Goessner. The bundled source retains its original header; its exact package version is not recorded locally. [Upstream](https://github.com/goessner/markdown-it-texmath), [license](Sources/DOTMD/Resources/Licenses/markdown-it-texmath.txt).
-- **KaTeX 0.18.7** — MIT; Khan Academy and other contributors. Includes browser JavaScript, CSS and KaTeX fonts. [Upstream](https://github.com/KaTeX/KaTeX), [license](Sources/DOTMD/Resources/Licenses/KaTeX.txt).
-- **highlight.js 11.12.0** — BSD 3-Clause; Ivan Sagalaev and other contributors. Includes browser code and bundled light/dark styles. [Upstream](https://github.com/highlightjs/highlight.js), [license](Sources/DOTMD/Resources/Licenses/highlight.js.txt).
+- **CodeMirror 5.65.21** — MIT; Marijn Haverbeke and other contributors. Editor, Markdown/XML modes and bundled addons. [Upstream](https://github.com/codemirror/codemirror5), [license](Sources/MDAnyWhere/Resources/Licenses/CodeMirror.txt).
+- **markdown-it** — MIT; Vitaly Puzrin, Alex Kocharin and other contributors. The bundled browser file does not identify its package version in a readable banner. [Upstream](https://github.com/markdown-it/markdown-it), [license](Sources/MDAnyWhere/Resources/Licenses/markdown-it.txt).
+- **markdown-it-footnote 4.0.0** — MIT; Vitaly Puzrin, Alex Kocharin and other contributors. [Upstream](https://github.com/markdown-it/markdown-it-footnote), [license](Sources/MDAnyWhere/Resources/Licenses/markdown-it-footnote.txt).
+- **markdown-it-task-lists 2.1.0** — ISC; Revin Guillen. [Upstream](https://github.com/revin/markdown-it-task-lists), [license](Sources/MDAnyWhere/Resources/Licenses/markdown-it-task-lists.txt).
+- **markdown-it-texmath** — MIT; Stefan Goessner. The bundled source retains its original header; its exact package version is not recorded locally. [Upstream](https://github.com/goessner/markdown-it-texmath), [license](Sources/MDAnyWhere/Resources/Licenses/markdown-it-texmath.txt).
+- **KaTeX 0.18.7** — MIT; Khan Academy and other contributors. Includes browser JavaScript, CSS and KaTeX fonts. [Upstream](https://github.com/KaTeX/KaTeX), [license](Sources/MDAnyWhere/Resources/Licenses/KaTeX.txt).
+- **highlight.js 11.12.0** — BSD 3-Clause; Ivan Sagalaev and other contributors. Includes browser code and bundled light/dark styles. [Upstream](https://github.com/highlightjs/highlight.js), [license](Sources/MDAnyWhere/Resources/Licenses/highlight.js.txt).
 
 Versions above come from each bundled file's own version string or banner. [Third-Party-Inventory.json](Docs/Third-Party-Inventory.json) records principal file and license hashes for this source snapshot; it is not a complete transitive SBOM or a security certification. No vendor payload or retained license text was changed for this release preparation.
 

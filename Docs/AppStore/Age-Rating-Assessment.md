@@ -1,78 +1,81 @@
-# iPhone / iPad 年龄评级评估草稿
+# iPhone / iPad 年龄评级事实草稿
 
-核对日期：2026-10-05。范围：当前 iOS 源码、随包界面和公开演示文稿。状态：**能力题已有填写建议；Agent 内容频率仍待定稿；未在 App Store Connect 保存问卷。** 本文没有调用任何 Agent、发送文稿或测试第三方模型输出。
+修订日期：2026-10-06；官方定义核对日期：2026-10-05。范围：当前 iOS 源码、随包界面及公开演示文稿。本文提供 App Store Connect 问卷的代码事实与候选答案，**不是已保存或已获 Apple 确认的评级**。没有调用第三方模型、发送文稿、测试付费 API 或修改应用功能。
 
-## 建议结论
+当前目标为新标识 `app.mdanywhere.ios`、构建 `1.0.0 (4)`。业务数据流与内容评估沿用此前已核实的实现事实，重命名后的源码契约、资源、权限与实际运行仍须复核；历史验证不认证新包已通过。应用标识变化也不保证历史草稿或 Keychain 自动迁移。
 
-md any where 是个人文稿编辑器。当前没有网页浏览器、用户间聊天、公开内容社区、社交信息流或广告，这些能力可以据实答“否”。可以编辑任意 Markdown、通过系统分享面板发送文件，并不自动构成 Apple 所定义的广泛分发 UGC 或应用内用户间聊天。这是依据当前实现与 Apple 定义作出的判断，不是 Apple 的个案审核结论。[年龄评级定义](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/)
+## 填写原则
 
-**Agent 是实际存在的生成式 AI 功能，不能从评估中删去。** 用户可配置服务端点、模型和自由任务，回复未经本应用内容审核即显示。默认关闭、用户自带 Key、发送前同意以及“学术编辑”提示词，都不能证明回复不含敏感内容。因此，现有证据不足以把所有敏感内容题填成 None，也不足以虚构 Infrequent 或 Frequent。
+md any where 的实际用途是个人 Markdown 编辑、预览、导出及可选的文本 Agent 辅助。评级应反映提交版本实际提供的功能和内容。不能仅因用户可自行写入任意文字或配置通用模型，就认定应用频繁提供每种敏感内容；同样，未测试模型输出不能写成已证实所有输出安全。Apple 依据问卷中的能力、内容及频率计算评级，没有查到“通用 AI 或 BYOK 必须一律 18+”的规定。[Apple 年龄评级定义](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/)
 
-建议首版继续定位通用生产力工具，不选择 Made for Kids。若发行者决定主动限制到成年人，可在如实完成问卷后选择较高的 18+ override；这只是产品定位建议，并非“AI 必须 18+”的 Apple 规则，也不能替代真实的内容答案或解决不允许上架的内容。[设置与提高年龄评级](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)
+当前发布准备继续包含已有的可选、用户自配 Agent，无需再次确认是否保留该功能，也不将建立受控服务名单或统一内容过滤器设为填写所有答案的前提。若实际内容、产品定位或服务安排后来改变，应另行落实并重新评估；本次不代为删功能或限制用户年龄。
 
-## 代码证据
+## 可据源码填写的能力题
 
-- [iOS AppDelegate](../../Sources/DOTMDiPad/AppDelegate.swift)：`decidePolicyFor navigationAction` 只放行本地编辑器目录和 `about:blank`；`confirmTransfer` 展示接收服务与发送范围；分享使用系统 `UIActivityViewController`。没有联系人、用户账号、消息收件箱、公开帖子或社交流。
-- [app.js](../../Sources/DOTMD/Resources/app.js)：`requestAgentEdits` 接受自定义任务与文稿上下文；`showAgentResults` 使用 `textContent` 显示返回文本。这避免 HTML 执行，却不是敏感文本过滤。Markdown 外部网络链接受到限制。
-- [AgentService.swift](../../Sources/DOTMD/AgentService.swift)：`runSelectedAgents` 的系统提示要求学术编辑和不捏造引文，没有年龄或敏感内容规则；`requestAgentCompletion` 检查 URL 协议、响应大小和 JSON 格式，随后原样返回文本。远程端点可自定义为 HTTPS，本地 HTTP 限回环。没有统一内容审核器、强制受控服务名单或年龄校验。
-- [index.html](../../Sources/DOTMD/Resources/index.html)：预设写作/公式任务，同时提供自定义任务、可编辑端点和模型。没有面向儿童的家长密码、分龄开关、广告、抽奖、投注或竞赛。
-- [公开演示文稿](../../tests/fixtures/mobile-demo.md)：写作、数学公式、流程图及功能清单，没有敏感内容。这个结论仅覆盖随包示例，不能代表 Agent 全部可达输出。
+以下是当前实现对应的事实建议，英文名称供对照后台；实际题目或选项改变时应重新核对。
 
-## 能力题：可以定稿的建议
-
-以下是对本应用的逐项判断；英文名称用于对照后台，最终以实际问卷标签为准。
-
-- **Parental Controls：No。** 普通 Agent 启用开关不是由家长管理的内容或使用限制。
-- **Age Assurance：No。** 没有年龄估计、验证、声明年龄 API 或分龄访问机制。
-- **Unrestricted Web Access：No。** WKWebView 用来运行本地编辑器；自定义 API 请求不是让用户自由浏览任意网页。
-- **User-Generated Content：No。** 文稿保存在用户选择的文件或应用恢复副本中，没有应用内向广泛用户分发内容的功能。
-- **Social Media：No。** 没有可发现、扩散或互动的公开内容信息流。
-- **Social Media Disabled for Users Under 13：Not applicable。** 上题为 No 时不应把此条件项填成 Yes；应用也没有实现该项要求的年龄检查。如果后台强制显示布尔值，按“没有此能力”答 No。
-- **Messaging and Chat：No。** 用户与 AI 交互，不是应用内用户互相通信。系统分享文件不构成内建聊天服务。
+- **Parental Controls：No。** 没有由家长管理的内容、时长或访问控制。普通 Agent 开关不属于家长控制。
+- **Age Assurance：No。** 没有年龄验证、估计、声明年龄 API 或分龄访问机制。
+- **Unrestricted Web Access：No。** WKWebView 只加载本地编辑器；用户填写 API URL 不等于可以自由浏览网页。
+- **User-Generated Content：No。** 没有应用内向广泛用户分发文稿的功能。用户保存或用系统分享面板导出自己的文件，不自动构成此项。
+- **Social Media：No。** 没有公开信息流、关注或扩散内容的社交机制。
+- **Social Media Disabled for Users Under 13：Not applicable。** 没有社交媒体能力；如后台强制显示布尔值，按不存在该能力答 No，不能虚构分龄限制。
+- **Messaging and Chat：No。** 没有用户彼此通信的内建功能。用户与模型交互不等于用户间聊天。
 - **Advertising：No。** 没有广告展示或广告 SDK。
 
-截至核对日，Apple 官方公开类别页没有列出独立的通用“AI-generated content”年龄问卷项，也未查到“使用 AI 一律 18+”规定。**如果实际 App Store Connect 新增了“是否包含 AI 生成内容”或同义问题，应填 Yes，并说明文本生成、可配置服务与自定义任务。** 不应把“没有公开的独立字段”解释为可以忽略 AI 内容。
+这些判断采用 Apple 对网页浏览、广泛分发 UGC、社交媒体和用户间聊天的具体定义，而非把“联网”作为统一判断标准。[官方类别说明](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/)
 
-2026 年 9 月起，社交媒体新增问题已是提交新应用/更新的必答项；不能只沿用旧的 UGC/聊天三个答案。[Apple 关于新版社交媒体问卷的公告](https://developer.apple.com/news/?id=tlur8uvi)
+如实际后台出现独立的“AI 生成内容”或同义问题，当前功能的事实答案是 **Yes，包含可选文本生成**。所查公开类别页未列出这项独立字段，不据此忽略 Agent，也不虚构后台已出现该题。
 
-## 内容题：逐项建议与未决频率
+## 内容题的事实与候选答案
 
-这里的“待核验”是材料准备状态，**不是 App Store Connect 可选值**。它意味着当前不能代填或提交该项。随包示例没有下列内容；仍需把可选 Agent 的实际行为纳入最终答案。不能仅因用户可以自行键入、导入某种文字，就将普通编辑器所有内容题判为“有”。这里的未决依据是应用主动提供了可反复调用的生成服务，而且允许更换服务及任务。
+随包文稿、预设任务和界面围绕写作、公式、流程图及编辑功能，检查范围内未发现下列敏感内容。以下 `None` 是据该实际提供内容准备的**候选值**，不是对任意用户文稿或第三方模型所有可能输出的保证：
 
-- **Profanity or Crude Humor：待核验频率。** 自定义润色、创作或转写任务可以请求此类文字，当前没有本应用阻断。
-- **Horror/Fear Themes：待核验频率。** 没有预设恐怖内容，但自由创作路径未限制题材。
-- **Alcohol, Tobacco, or Drug Use or References：待核验频率。** 没有消费功能或相关默认内容；Agent 可讨论、改写或生成相关材料。
-- **Medical or Treatment Information：待核验频率。** 产品没有医疗诊断或治疗功能，也不提供医疗默认模板；自由任务仍可请求相关建议，现有提示词不限制回答。
-- **Health or Wellness Topics：待核验是否存在。** 没有健康/健身功能；若自由任务会生成健康生活建议，不能仅因产品分类是 Productivity 而忽略。若后台使用 Yes/No，则按实际输出与访问条件定稿。
-- **Mature or Suggestive Themes：待核验频率。** 自由任务可以包含成人议题、创伤、战争等；并非只有色情才属于本项。
-- **Sexual Content or Nudity：待核验频率。** 纯文字回复也可能包含性相关表达；没有图片生成器不是答 None 的充分依据。
-- **Graphic Sexual Content and Nudity：待核验，必须单独排查。** 未观察到实际输出，不能凭“任何端点理论上都可能返回”就宣称已经存在；也不能在没有验证或产品约束时宣称不存在。
-- **Cartoon or Fantasy Violence：待核验频率。** 没有内置暴力画面/游戏；自由写作可生成幻想打斗文本，应依据后台示例和实际输出判断。
-- **Realistic Violence：待核验频率。** 没有默认暴力内容；自由任务未对相关叙述作限制。
-- **Prolonged Graphic or Sadistic Realistic Violence：待核验，必须单独排查。** 当前没有审核或拒绝机制证据，不能自动填 None；也不能无实际依据判为已包含。
-- **Guns or Other Weapons：待核验频率。** 文稿和 Agent 任务可能涉及武器描述；没有武器商品销售功能并不解决内容描述题。
-- **Gambling：No。** 没有投注、金钱输赢或可兑换真实价值的筹码功能。
-- **Simulated Gambling：None / No。** 没有模拟投注玩法。Agent 解释相关概念不等于本应用提供模拟赌博；若以后加入可运行玩法须重新评估。
-- **Contests：None。** 没有用户之间的排名、奖励或竞赛。Agent 并行评审不是用户竞赛。
-- **Loot Boxes：No。** 没有购买随机虚拟物品的容器或机制。
+- **Profanity or Crude Humor：None 候选。** 无内置粗俗、侮辱或低俗幽默内容。
+- **Horror/Fear Themes：None 候选。** 无内置恐怖内容或相关默认任务。
+- **Alcohol, Tobacco, or Drug Use or References：None 候选。** 无内置相关内容或消费功能。
+- **Medical or Treatment Information：None 候选。** 不提供医疗诊断、治疗服务或相关默认模板。
+- **Health or Wellness Topics：No 候选。** 没有健康或健身指导功能及默认内容；以后台实际选项为准。
+- **Mature or Suggestive Themes：None 候选。** 无内置成人暗示或相关主题内容。
+- **Sexual Content or Nudity：None 候选。** 无内置性相关内容；纯文本仍可能属于内容题，不能仅凭没有图片生成功能排除该类别。
+- **Graphic Sexual Content and Nudity：None 候选。** 检查范围内未发现此内容，未观察或测试模型是否会产生此类输出。
+- **Cartoon or Fantasy Violence：None 候选。** 无内置幻想暴力内容或玩法。
+- **Realistic Violence：None 候选。** 无内置写实暴力内容。
+- **Prolonged Graphic or Sadistic Realistic Violence：None 候选。** 检查范围内未发现此内容，未作模型输出测试。
+- **Guns or Other Weapons：None 候选。** 无内置武器内容或相关功能。
 
-频率必须反映发布版本的可达体验。默认关闭或额外配置步骤不是自动等于“低频”；同样，没有真实使用或输出证据也不应把所有可想象题材一律填成“频繁”。应记录正常写作流程以及特定内容任务是否可反复获得相关结果，再按后台定义选择实际值。旧 API 枚举 `INFREQUENT_OR_MILD` / `FREQUENT_OR_INTENSE` 已弃用，新接口使用 `INFREQUENT` / `FREQUENT`。[Apple Age Ratings API](https://developer.apple.com/documentation/appstoreconnectapi/age-ratings)
+可选 Agent 接受用户任务、文稿上下文和自选模型，回复会在本地显示；代码没有统一的敏感文本过滤器。这是评估范围的一部分。**最终内容答案应考虑拟发布版本的实际 Agent 体验及已有证据**：如果默认流程、明确支持的内容用途或已观察到的输出包含某类内容，应据实调整该项及频率。没有这类证据时，不因“任何端点理论上都能返回”直接填 Infrequent 或 Frequent，也不据此将其余代码事实答案全部搁置。
 
-Apple 对露骨性内容和持续写实血腥/虐待暴力的评级可以是 Unrated，不能以“提高到 18+”解决。官方安全规则还明确覆盖露骨性**描述**，不仅是图片；评级答案应如实反映功能。[年龄评级定义](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/) [审核指南 1.1、2.3.6](https://developer.apple.com/app-store/review/guidelines/)
+当前未执行模型输出测试，因此不能将上述候选批量标记为“全应用全部内容已验证 None”。需要进一步验证时，应针对影响答案的具体功能或类别记录正常使用及可重复结果；不要求穷尽所有未来用户服务器，也不把未穷尽等同于已存在全部敏感内容。最终仍有解释分歧时，可以向 App Review 说明通用客户端的架构与范围，请其就具体题目给出意见。[如实填写年龄问卷](https://developer.apple.com/app-store/review/guidelines/#accurate-metadata)
 
-## 最少需要发行者确认的两点
+以下机制不存在，可以据源码准备相应答案：
 
-1. **首版 Agent 范围**：保留当前任意兼容端点、模型与自由任务，还是另做受控版本。默认按当前代码“保留”评估。若保留，少量默认模型测试不能代表用户可配置的全部服务；需要向 App Review 明确说明这一边界，不能由维护者承诺不存在某类输出。若要对 None 或低频作可靠承诺，需先明确并落实受控服务/内容策略；这将是另一个代码与验证任务，本次没有擅自修改。
-2. **目标年龄/EULA**：是否将首版定位为成人工具并在准确问卷之上主动提高至 18+，以及是否已有必须遵守的最低使用年龄条款。不要为了取得某个期望评级而反向修改内容答案。Apple 允许提高评级，且要求覆盖比计算评级更高的 EULA 年龄门槛。[设置年龄评级](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)
+- **Gambling：No。** 没有投注、金钱输赢或可兑换真实价值的筹码。
+- **Simulated Gambling：None / No。** 没有模拟投注玩法。文本讨论概念不等于提供赌博机制。
+- **Contests：None。** 没有用户竞赛、排名或奖励；Agent 并行评审不是用户竞赛。
+- **Loot Boxes：No。** 没有付费随机虚拟物品机制。
 
-此外还需要一次**执行验收**，不是再问发行者十几个猜测题：在拟发布范围内记录服务/模型版本、正常任务、各敏感类别的允许/拒绝结果及可重复性；若任意端点仍开放，向审核备注明确该限制，并依据实际后台题目与 Apple 个案反馈定稿。此评估没有获得调用用户付费服务的授权，因此没有产生 API 费用或伪造测试结论。
+提高评级不能替代准确的内容答案，也不能解决 Apple 不允许上架的内容；不得将“18+”当作所有内容的通用许可。[审核指南 1.1、2.3.6](https://developer.apple.com/app-store/review/guidelines/)
+
+## 需要发行者确认的内容
+
+1. **目标用户及最低年龄条款。** 是否面向儿童、是否有本应用 EULA 最低年龄，以及是否希望主动提高系统计算评级，均保留待确认。本文不替发行者选择 Made for Kids、成人定位或 18+ override；若 EULA 最低年龄高于计算评级，Apple 要求相应提高评级。[设置年龄评级](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)
+2. **源码之外的实际产品安排。** 现有可选 Agent 已纳入本次准备，不再询问是否保留。如另有未体现在源码的默认内容、服务约定或内容限制，请补充；没有新增安排时即可沿用本草稿事实，不要求先另选供应商。
+3. **事实验证和最终回答。** 发行者应确认影响内容题的实际体验，保留必要的验证记录或 Apple 个案解释，再批准最终答案。本次没有获得 API 访问凭证或产生调用费用，也没有伪造输出结果。
+
+第三方服务自己的年龄、地区或账户条件，应与本应用的 Apple 评级分别核对；提高评级不自动满足服务条款。DSA 交易商身份是另一项发行者法律声明，不能由本文件或源代码代为决定。
 
 ## 可供审核备注使用的事实说明
 
-> md any where is a private Markdown editor for iPhone and iPad. It has no public content feed, user-to-user messaging, advertising, or unrestricted in-app web browser. Optional Agent tools generate text through providers, HTTPS endpoints, and models configured by the user. Agent tools are disabled by default. Users may enter custom writing instructions. Before each remote run, the app asks for consent and identifies the destination and the document scope. The app does not implement a universal content-moderation layer across user-configured providers. Provider behavior and restrictions may differ. These optional generation capabilities are included in our age-rating assessment.
+> md any where is a private Markdown editor for iPhone and iPad. It has no public content feed, user-to-user messaging, advertising, or unrestricted in-app web browser. Optional Agent tools generate text through providers, HTTPS endpoints, and models configured by the user. These tools are disabled by default. Users can enter writing instructions. Before each remote run, the app identifies the destination and document scope and asks for consent. The app does not apply a universal content-moderation layer across user-configured providers. Provider behavior may differ. Our age-rating answers consider the editor's supplied content and its optional generation features.
 
-这是当前实现的客观说明；在敏感频率和最终评级未确认前，不附加“全部输出适合儿童”“所有供应商已安全过滤”等承诺。Apple 要求明确说明向第三方 AI 分享个人数据的位置，并在分享前取得明确同意；当前原生确认框是对应实现，但隐私同意不等于年龄验证或内容审核。[审核指南 5.1.2(i)](https://developer.apple.com/app-store/review/guidelines/)
+此段描述代码事实，不包含已获评级、所有输出适合儿童或全部供应商已过滤的承诺。远程数据分享同意不是年龄验证或内容审核；第三方 AI 分享要求另见 [审核指南 5.1.2(i)](https://developer.apple.com/app-store/review/guidelines/#data-use-and-sharing) 和 [隐私评估](Privacy-Assessment.md)。
 
-## 本次边界
+## 代码依据与本次范围
 
-本次只读检查代码及 Apple 官方材料，只新增本文。没有修改年龄限制、提示词、过滤机制、App Store 元数据 JSON 或发布状态；没有登录、保存或提交 App Store Connect 问卷。最终值仍应由发行者对实际提交版本确认，保留后台计算的各地区及旧系统评级结果，不能将建议 18+ 写成已获 Apple 评级。
+- [iOS AppDelegate](../../Sources/MDAnyWhereMobile/AppDelegate.swift)：本地页面导航限制、`confirmTransfer` 和系统分享面板。
+- [AgentService.swift](../../Sources/MDAnyWhere/AgentService.swift)：默认关闭的七个配置、自由端点和模型、学术编辑提示、原生 API 请求及响应处理。
+- [app.js](../../Sources/MDAnyWhere/Resources/app.js) 与 [index.html](../../Sources/MDAnyWhere/Resources/index.html)：预设/自定义任务、返回文字显示和本地编辑界面。
+- [公开示例](../../tests/fixtures/mobile-demo.md)：写作、公式、流程图与编辑功能的测试文稿。
+
+本次只修订评估材料，未修改功能、法律声明或后台问卷。最终应保存实际后台计算的地区和旧系统评级结果，不能将本文候选值当作已发布评级。

@@ -93,7 +93,7 @@
 					<key>UISceneConfigurationName</key>
 					<string>Editor</string>
 					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).IPadSceneDelegate</string>
+					<string>$(PRODUCT_MODULE_NAME).MDAnyWhereSceneDelegate</string>
 				</dict>
 			</array>
 		</dict>

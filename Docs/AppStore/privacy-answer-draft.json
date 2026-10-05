@@ -1,5 +1,5 @@
 {
-  "status": "code_and_official_policy_assessment_pending_publisher_ai_scope",
+  "status": "code_facts_and_conditional_answers_draft_not_finalized",
   "data_not_collected_claim_approved": false,
   "local_processing": [
     "Markdown editing and offline preview",
@@ -16,58 +16,58 @@
   "proposed_disclosures": [
     {
       "data_type": "Other User Content",
-      "recommendation": "Declare for retained API prompts, document text and forwarded answers",
+      "recommendation": "Candidate disclosure for prompt, document and forwarded-answer content retained by included preset service integrations",
       "purpose": [
         "App Functionality"
       ],
-      "linked_to_user_recommendation": true,
-      "tracking_recommendation": false,
+      "linked_to_user_recommendation": "Yes where the disclosed recipient retains account-linked requests; conditional, not a blanket fact about all endpoints",
+      "tracking_recommendation": "Candidate No for observed client behavior; verify actual in-scope partner use without inventing behavior for arbitrary endpoints",
       "final_confirmation": null,
-      "conditions": "API account linkage and actual recipients must be checked; evaluate Other Purposes for general model training. Unknown proxies are not certified."
+      "conditions": "App Functionality is supported by the editing purpose. Other Purposes depends on actual additional use such as general model training. Authentication alone does not establish content retention; no client de-identification guarantee exists."
     },
     {
       "data_type": "User ID",
-      "recommendation": "Conditional; declare retained account/project/key identifiers associated with requests",
+      "recommendation": "Conditional; declare only if an in-scope recipient actually retains account, project or key identifiers associated with requests",
       "purpose": [
         "App Functionality"
       ],
-      "linked_to_user_recommendation": true,
+      "linked_to_user_recommendation": "Yes if retained account identifiers are in scope; not established merely by sending a credential",
       "final_confirmation": null,
-      "conditions": "A token used only during the request and not retained is not automatically collected."
+      "conditions": "A credential used only during a request and not retained is not automatically collected. Do not publish raw credentials."
     },
     {
       "data_type": "Other Usage Data",
-      "recommendation": "Conditional; verify retained model, token and usage/account records",
+      "recommendation": "Conditional on actual retained model, token or usage records in the disclosed integration",
       "purpose": [
         "App Functionality"
       ],
       "final_confirmation": null,
-      "conditions": "Assess Product Interaction only for actually recorded actions; Analytics only for actual behavioral analysis."
+      "conditions": "No client interaction telemetry path found. Assess Product Interaction or Analytics only for actually recorded and used data; billing does not establish behavioral analytics."
     },
     {
       "data_type": "Other Diagnostic Data / Performance Data",
-      "recommendation": "Conditional; verify retained API errors, safety events and performance records",
+      "recommendation": "Conditional on actual collection of app-related diagnostic or performance data by an in-scope recipient",
       "purpose": [
         "App Functionality"
       ],
       "final_confirmation": null,
-      "conditions": "Do not infer crash telemetry or device tracking from ordinary API access."
+      "conditions": "No client crash or performance upload path found. An API error response or server connection alone does not establish diagnostic collection."
     },
     {
       "data_type": "IP-dependent category",
-      "recommendation": "Unresolved; classify by actual recipient use, not simply because a connection has an IP",
+      "recommendation": "Conditional; classify retained IP data by its actual use, not merely by the existence of a network connection",
       "final_confirmation": null,
-      "conditions": "Possible diagnostics, identifier or coarse location depending on actual processing; no client location access found."
+      "conditions": "No client location access found. Coarse location, identifier or diagnostic classifications require evidence of the relevant retained use."
     }
   ],
   "unresolved": [
-    "Publisher-approved first-release provider and custom-endpoint scope",
-    "Gemini paid/unpaid, age and territory compliance",
-    "DeepSeek/GLM and proxy API retention, training, account/IP/log purposes",
-    "Final account-ID, usage and diagnostic data classifications",
-    "Provider training opt-in/ZDR coverage across BYOK users",
-    "Consistency between final privacy manifest, consent UI, policy and App Store Connect answers",
-    "Private reviewer service access; never include credentials or private reviewer contact in public files"
+    "Any additional developer-operated services, contracts or processing arrangements outside the inspected source, if they exist; continuing the existing optional AI scope is already confirmed",
+    "Specific disclosure categories and purposes for the preset integrations, using relevant official policy evidence",
+    "Whether a material arbitrary-BYOK disclosure-boundary question requires App Review clarification",
+    "Publisher target audience and adopted minimum-age or third-party-service terms; do not infer them from source",
+    "Special retention or training promises only if the publisher chooses to make them; no universal ZDR promise is proposed",
+    "Consistency of policy, consent UI, applicable privacy manifest declarations and final App Store Connect answers",
+    "Private reviewer access to optional services; no credentials or private contacts in public files"
   ],
   "sources": [
     "https://developer.apple.com/app-store/app-privacy-details/",
@@ -85,8 +85,8 @@
   "app_name": "md any where",
   "finalized": false,
   "published_to_app_store_connect": false,
-  "ai_release_scope_confirmed": false,
-  "collects_data_recommendation": "Yes for the current online Agent feature set; not a finalized declaration",
+  "ai_release_scope_confirmed": true,
+  "collects_data_recommendation": "Candidate Yes for retained content in the current preset API integrations; BYOK and no developer server are not automatic exemptions. Final disclosure scope remains subject to the actual release and Apple definitions.",
   "provider_assessments": [
     {
       "provider": "OpenAI",
@@ -122,5 +122,48 @@
       "provider": "Local/custom endpoint",
       "finding": "Loopback may forward to cloud; official provider policies do not cover arbitrary proxies. No blanket retention, training or tracking claim is supportable."
     }
-  ]
+  ],
+  "code_confirmed_facts": {
+    "developer_operated_agent_relay_in_current_code": false,
+    "developer_document_or_telemetry_upload_path_found": false,
+    "preset_agent_profiles_disabled_by_default": true,
+    "user_can_configure_endpoint_model_and_credential": true,
+    "direct_native_urlsession_api_requests": true,
+    "remote_run_destination_and_scope_consent": true,
+    "loopback_requests_exempt_from_remote_confirmation": true,
+    "loopback_downstream_forwarding_proven_absent": false,
+    "keychain_persistence_does_not_prevent_credential_transmission": true,
+    "advertising_or_analytics_sdk_found": false,
+    "active_location_contacts_advertising_id_collection_found": false,
+    "off_device_processing_is_possible_only_when_optional_agent_is_run": "For the Agent path; system file providers, backups and user-initiated sharing are separate."
+  },
+  "scope_boundaries": [
+    "Separate developer processing, known preset service integrations and user-selected arbitrary endpoints.",
+    "Apple requires accurate disclosure of actual collection by the developer and third-party partners; reviewed guidance does not explicitly classify every arbitrary BYOK endpoint.",
+    "Do not require an exhaustive survey of every possible user-configured server before preparing supported answers.",
+    "Do not promise zero retention, zero training or no tracking for unknown endpoints, and do not invent collection by them.",
+    "Resolve material uncertainty about applicable recipients or a particular field using relevant policies or an architecture-specific App Review clarification.",
+    "A conditional data category does not block preparation of unrelated, evidence-backed answers."
+  ],
+  "not_prerequisites": [
+    "Exhaustively auditing every server any future user might configure",
+    "Removing all online functionality solely because it uses BYOK",
+    "Adding every hypothetical data type that might appear in a user document",
+    "Treating all network connections as retained location, diagnostic or tracking data",
+    "Choosing a DSA trader status or legal age declaration from code alone"
+  ],
+  "publisher_confirmations": {
+    "release_matches_assessed_feature_scope": true,
+    "additional_developer_processing_or_contracts": null,
+    "target_audience_and_eula_minimum_age": null,
+    "special_retention_or_training_commitments": null,
+    "private_review_access_arrangement": null
+  },
+  "age_rating_assessment_document": "Age-Rating-Assessment.md",
+  "ai_release_scope": "Current existing optional user-configured AI; preparation continues with the implemented feature set, without requiring another decision on whether to retain AI.",
+  "assessment_revised": "2026-10-06",
+  "target_build": "1.0.0 (4)",
+  "bundle_id": "app.mdanywhere.ios",
+  "new_identifier_runtime_verification_pending": true,
+  "code_fact_scope": "Behavioral assessment from the previously inspected implementation; new module, bridge, identifier, resource and permission behavior requires build 4 revalidation. Historical facts do not certify the new package or automatic data migration."
 }

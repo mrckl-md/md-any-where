@@ -7,22 +7,22 @@ md any where 的业务代码都是编译前源码。`Resources/vendor/` 是带�
 - `AppDelegate.swift`：macOS 窗口、菜单、用户选择的文件权限、保存和 JavaScript 消息桥。原生端保留每个标签页的最新文本，供自动保存和关闭确认使用。
 - `Resources/app.js`：CodeMirror 标签页、编辑操作记录、Markdown/KaTeX 实时预览、查找替换与 Agent UI。
 - `Resources/index.html` 与 `Resources/styles.css`：控件的语义结构和共享视觉样式。设置项按分组行排版；对话框按钮、输入框、开关、滑杆使用同一交互强调色，深色、降低透明度及降低动态效果另有适配。
-- `Resources/Brand/DOT-MD-Mark.svg`：标题栏和 Dock 图标共用的矢量主稿。`scripts/render-icon.swift` 从主稿直接绘制每个尺寸的 PNG，`scripts/build-icon.sh` 打包为 `.icns`；修改品牌时不要只替换编译后的应用资源。
+- `Resources/Brand/MD-Any-Where-Mark.svg`：标题栏和 Dock 图标共用的矢量主稿。`scripts/render-icon.swift` 从主稿直接绘制每个尺寸的 PNG，`scripts/build-icon.sh` 打包为 `.icns`；修改品牌时不要只替换编译后的应用资源。
 - `Resources/fuzzy-search.js`：独立、可用 Node 测试的有界模糊匹配。长行有计算上限，查询结果限量时会在界面明确提示。
 - `AgentService.swift`：各 Agent 的协议适配、并行请求和钥匙串读取。请求只在用户明确点击时发生；排版 Agent 不接收文稿正文。
-- `Sources/DOTMDAgent/main.swift`：独立的 `dotmd-agent` 命令行与 MCP stdio 服务。它不链接业务模型；所有操作通过仅限 `127.0.0.1:57361` 的长度分帧通道交由正在运行的主应用重新鉴权和执行。
+- `Sources/MDAnyWhereAgent/main.swift`：独立的 `md-any-where-agent` 命令行与 MCP stdio 服务。它不链接业务模型；所有操作通过仅限 `127.0.0.1:57362` 的长度分帧通道交由正在运行的主应用重新鉴权和执行。
 - `Resources/docx-export.js`：从预览 DOM 提取文稿结构和排版设置。正文、标题、公式的中英文字体分别保留在设置键中；旧版单字体设置只在读取时迁移。
 - `DocxExporter.swift`：将结构写为标准 OOXML `.docx`。正文和标题使用 `w:rFonts` 的西文/East Asian 槽，公式另有文档级 `m:mathFont` 和数学文字的中英文字体槽；图片只读取内嵌数据或当前文稿目录下的本地文件，并缩小到适合排版的尺寸。
 - `FormulaClipboard.swift`：公式多格式剪贴板。
-- `Sources/DOTMDiPad/AppDelegate.swift`：iPhone/iPad 共用的 UIKit Scene 与 WebKit 宿主，负责系统文件选择器、协调保存、分享、打印和 Agent 请求确认。
-- `Sources/DOTMDiPad/DocumentStore.swift`：移动端 UTF-8 文件读写、外部修改冲突检查与受保护的会话恢复数据。
+- `Sources/MDAnyWhereMobile/AppDelegate.swift`：iPhone/iPad 共用的 UIKit Scene 与 WebKit 宿主，负责系统文件选择器、协调保存、分享、打印和 Agent 请求确认。
+- `Sources/MDAnyWhereMobile/DocumentStore.swift`：移动端 UTF-8 文件读写、外部修改冲突检查与受保护的会话恢复数据。
 - `Resources/ipad.js` 与 `Resources/ipad.css`：移动端触控入口、窄屏布局和键盘视口适配。`scripts/prepare-ipad-resources.py` 只在 iOS 构建副本中加载这两份资源，桌面端继续使用共享编辑器。
 - `Resources/i18n.js`：系统语言匹配、手动选择、显式 UI 文案绑定、地区数字/日期格式及 RTL 方向；不扫描或翻译用户文稿。`Resources/locales/*.json` 是译文来源，`catalogs.js` 在构建时生成并离线加载。
-- `Sources/DOTMDLocalization/`：macOS/iOS/Quick Look 共用的原生文案和英文回退。`Support/Localization/locales.json` 记录 50 项商店语言映射；打包脚本生成系统可识别的 `.lproj/InfoPlist.strings`。
+- `Sources/MDAnyWhereLocalization/`：macOS/iOS/Quick Look 共用的原生文案和英文回退。`Support/Localization/locales.json` 记录 50 项商店语言映射；打包脚本生成系统可识别的 `.lproj/InfoPlist.strings`。
 
-`DOTMD-iPad.xcodeproj` 的历史名称、内部 DOTMD 模块和 `app.dotmd.ipad` 标识保持不变；目标同时支持 iPhone 与 iPad。对外名称统一为 `md any where`，原生应用与归档产物分别为 `md any where.app`、`md any where.xcarchive`，当前版本 `1.0.0 (3)`。Swift Package 构建 macOS 应用及命令行工具，Xcode 工程构建 iOS 应用。`Sources/DOTMDiPad/PDFRenderer.swift` 使用 UIKit 打印格式器生成带边距的分页 PDF。
+`MDAnyWhere-iOS.xcodeproj` 与 `MDAnyWhere-iOS` scheme 构建同时支持 iPhone/iPad 的应用，标识为 `app.mdanywhere.ios`；macOS 主应用标识为 `app.mdanywhere.editor`。共享模块与平台宿主使用 `MDAnyWhere`、`MDAnyWhereMobile`、`MDAnyWhereLocalization`、`MDAnyWhereQuickLook`、`MDAnyWhereThumbnail` 和 `MDAnyWhereAgent` 命名。对外名称精确为 `md any where`，原生应用与归档产物分别为 `md any where.app`、`md any where.xcarchive`，当前目标版本 `1.0.0 (4)`。Swift Package 构建 macOS 应用及命令行工具，Xcode 工程构建 iOS 应用。`Sources/MDAnyWhereMobile/PDFRenderer.swift` 使用 UIKit 打印格式器生成带边距的分页 PDF。新标识的 macOS 构建、ad-hoc 签名与 iOS 模拟器构建/安装启动已验证；arm64 Release 开发签名与严格验签、移动存储、布局、本地化、WebKit DOCX 回归也已通过。iPad 已安装但启动未确认，iPhone 因连接异常安装失败；物理交互验收和 App Store 发行归档仍待完成，不能沿用历史结果。
 
-iOS 图标从同一品牌矢量稿生成，扩展背景到整个正方形并移除 Alpha 通道，由系统应用外部圆角。重新生成命令：`xcrun swift scripts/render-ios-icon.swift Sources/DOTMD/Resources/Brand/DOT-MD-Mark.svg Support/iPad/Assets.xcassets/AppIcon.appiconset/AppIcon.png`。
+iOS 图标从同一品牌矢量稿生成，扩展背景到整个正方形并移除 Alpha 通道，由系统应用外部圆角。重新生成命令：`xcrun swift scripts/render-ios-icon.swift Sources/MDAnyWhere/Resources/Brand/MD-Any-Where-Mark.svg Support/iPad/Assets.xcassets/AppIcon.appiconset/AppIcon.png`。
 
 ## 数据流与性能约束
 
@@ -30,7 +30,7 @@ iOS 图标从同一品牌矢量稿生成，扩展背景到整个正方形并移�
 
 编辑操作记录按用户设置保留最近 5–100 步，默认 10 步。每步是完整文本快照，便于可靠地跳转到指定操作；因此很大的文稿仍会随步数增加而占用更多内存。改动这部分结构时必须同时验证回退、前进、跨标签切换和未保存提示。
 
-语言选择由 `dotmd.interfaceLanguage` 保存。原生在页面加载前注入偏好和系统语言列表；网页更改通过 `changeInterfaceLanguage` 通知原生，原生回传不再次触发通知。翻译时只更新控件文案，不能重置 Agent 配置、输入框或文稿状态。文稿预览根据内容决定方向，代码、公式和编辑区维持从左到右；UI 方向单独处理。
+语言选择由 `mdanywhere.interfaceLanguage` 保存。原生在页面加载前注入偏好和系统语言列表；网页更改通过 `changeInterfaceLanguage` 通知原生，原生回传不再次触发通知。翻译时只更新控件文案，不能重置 Agent 配置、输入框或文稿状态。文稿预览根据内容决定方向，代码、公式和编辑区维持从左到右；UI 方向单独处理。
 
 系统选择器是文件权限边界。应用不能自行扫描桌面、文稿或下载目录；WebView 不加载远程图片与网页。只允许选定 Agent 端点上的主动请求，不加入遥测或后台联网。
 
@@ -42,7 +42,7 @@ iOS 的文稿恢复副本保存在应用私有的 `Application Support/DocumentR
 
 自有源码中的内部标识使用英文完整词组和动词开头的函数名，例如 `openMarkdownFiles`、`writeDocumentToDisk`、`renderMarkdownPreview`、`collectDocxBlocks`。布尔变量以 `is`/`has` 开头；带单位或用途的数值写出用途，例如 `maxEdits`、`sourceMappedPreviewBlocks`。`DOCX`、`XML`、`MathML`、`CRC32` 等格式标准名可以保留缩写。
 
-`AppDelegate.swift` 的 `invokeEditorJavaScript` 调用 `window.dotmd`；网页编辑器通过 `sendNativeMessage` 向名为 `editor` 的 WebKit 消息处理器发送类型字符串。`window.dotmd`、`window.dotmdDocx` 的公开属性名，以及 `DocxRun`/`DocxMathNode`/`DocxLayout` 的 JSON 字段，是跨 Swift/JavaScript 的契约。重命名内部函数时，应在桥对象中显式映射旧属性名，或同步修改两侧并添加迁移测试；不要对序列化字段或 DOM ID 做无差别的文本替换。
+`AppDelegate.swift` 的 `invokeEditorJavaScript` 调用 `window.mdAnyWhere`；网页编辑器通过 `sendNativeMessage` 向名为 `editor` 的 WebKit 消息处理器发送类型字符串。`window.mdAnyWhere`、`window.mdAnyWhereDocx` 的公开属性名，以及 `DocxRun`/`DocxMathNode`/`DocxLayout` 的 JSON 字段，是跨 Swift/JavaScript 的契约。修改桥协议时，应同步修改两侧及契约测试；不要对序列化字段或 DOM ID 做无差别的文本替换。
 
 设置控件保留原生 HTML `input`、`select`、`button` 的语义和键盘操作；开关只是用 CSS 呈现为 macOS 风格，不要改写为无语义的点击区域。新增控件优先复用共享样式与 `--control-*` 变量，并检查深浅色、焦点、禁用状态及较窄窗口。
 
@@ -50,7 +50,7 @@ iOS 的文稿恢复副本保存在应用私有的 `Application Support/DocumentR
 
 ## 本机验证
 
-运行 `node scripts/test-fuzzy-search.cjs` 检查模糊匹配，`node scripts/test-bridge-contract.cjs` 检查跨语言接口和 DOCX DOM ID，`node scripts/test-agent-console.cjs` 检查 MCP 握手与工具目录，使用 `node --check Sources/DOTMD/Resources/*.js` 检查自己的 JavaScript，并运行 `./scripts/build-app.sh` 构建。构建脚本自动使用本机 macOS SDK 和架构，不要求固定 SDK 路径。涉及 DOCX 的变更应以 Word/WPS 或 LibreOffice 打开实际产物，检查文字、公式、表格和图片。
+运行 `node scripts/test-fuzzy-search.cjs` 检查模糊匹配，`node scripts/test-bridge-contract.cjs` 检查跨语言接口和 DOCX DOM ID，`node scripts/test-agent-console.cjs` 检查 MCP 握手与工具目录，使用 `node --check Sources/MDAnyWhere/Resources/*.js` 检查自己的 JavaScript，并运行 `./scripts/build-app.sh` 构建。构建脚本自动使用本机 macOS SDK 和架构，不要求固定 SDK 路径。涉及 DOCX 的变更应以 Word/WPS 或 LibreOffice 打开实际产物，检查文字、公式、表格和图片。
 
 移动端使用 `./scripts/build-ios.sh simulator` 构建，`./scripts/test-mobile-layout.sh` 检查实际 WebKit 在手机、平板及键盘压缩视口下的布局。`tests/fixtures/mobile-demo.md` 是不含个人数据的演示文稿，可用于真机导入、编辑保存、公式/流程图预览及导出检查。WebKit 布局测试不能代替真机键盘、系统文件选择器和系统分享测试。
 
