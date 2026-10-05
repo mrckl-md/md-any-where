@@ -39,6 +39,39 @@ struct AgentWorkflowResult: Codable, Sendable {
     var answers: [AgentAnswer]
 }
 
+/// Approval covers the configured endpoint only. A redirect must never forward
+/// the document or a provider-specific key to another URL (including loopback).
+final class AgentHTTPTransport: NSObject, URLSessionTaskDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask,
+                    willPerformHTTPRedirection response: HTTPURLResponse,
+                    newRequest request: URLRequest,
+                    completionHandler: @escaping (URLRequest?) -> Void) {
+        completionHandler(nil)
+    }
+
+    static func response(to request: URLRequest) async throws -> (Data, URLResponse) {
+        let session = URLSession(configuration: .ephemeral, delegate: AgentHTTPTransport(), delegateQueue: nil)
+        defer { session.invalidateAndCancel() }
+        let (bytes, response) = try await session.bytes(for: request)
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        guard !(300..<400).contains(status) else {
+            throw NSError(domain: "Agent", code: status,
+                          userInfo: [NSLocalizedDescriptionKey: "HTTP \(status)"])
+        }
+        let maximumResponseBytes = 4 * 1024 * 1024
+        var data = Data()
+        data.reserveCapacity(min(maximumResponseBytes, max(0, Int(response.expectedContentLength))))
+        for try await byte in bytes {
+            guard data.count < maximumResponseBytes else {
+                throw NSError(domain: "Agent", code: 413,
+                              userInfo: [NSLocalizedDescriptionKey: L("native.agent.responseTooLarge")])
+            }
+            data.append(byte)
+        }
+        return (data, response)
+    }
+}
+
 // Stateless wrapper: all mutable storage belongs to the system Keychain.
 final class KeychainStore: @unchecked Sendable {
     private let service = "app.mdanywhere.editor.agents"
@@ -253,18 +286,7 @@ final class AgentService: @unchecked Sendable {
                         ["role": "user", "content": prompt]], "temperature": 0.2]
             }
             httpRequest.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
-            let (responseBytes, response) = try await URLSession.shared.bytes(for: httpRequest)
-            let maximumResponseBytes = 4 * 1024 * 1024
-            var responseData = Data()
-            responseData.reserveCapacity(min(maximumResponseBytes,
-                                             max(0, Int(response.expectedContentLength))))
-            for try await byte in responseBytes {
-                guard responseData.count < maximumResponseBytes else {
-                    throw NSError(domain: "Agent", code: 413,
-                                  userInfo: [NSLocalizedDescriptionKey:L("native.agent.responseTooLarge")])
-                }
-                responseData.append(byte)
-            }
+            let (responseData, response) = try await AgentHTTPTransport.response(to: httpRequest)
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
             let responseJSON = try JSONSerialization.jsonObject(with: responseData) as? [String: Any] ?? [:]
             guard (200..<300).contains(statusCode) else {

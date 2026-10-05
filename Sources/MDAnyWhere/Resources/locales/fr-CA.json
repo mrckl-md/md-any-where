@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Vérifiez si le pont de console natif md any where est activé et obtenez un résumé du document actuel.",
   "native.helper.methodNotFound": "Méthode introuvable",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Le document source ou la sélection a changé. Relancez l’action ou copiez ce résultat."
 }

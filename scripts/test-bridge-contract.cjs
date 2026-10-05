@@ -95,6 +95,12 @@ assert.match(agentEntitlements, /com\.apple\.security\.app-sandbox/,
 console.log('Swift/JavaScript bridge and DOCX DOM contract tests passed.');
 
 for (const file of ['Sources/MDAnyWhere/AppDelegate.swift', 'Sources/MDAnyWhereMobile/AppDelegate.swift']) {
+  const callbacks = [...readSource(file).matchAll(/(?:invokeEditorJavaScript|invoke)\("show(?:Agent|Workflow)Results", \[([^\n]+)\]\)/g)];
+  assert.equal(callbacks.length, 2, `${file}: both Agent result callbacks must exist`);
+  for (const [, arguments] of callbacks) {
+    assert.match(arguments, /, purpose, body\["requestID"\] as\? String \?\? ""$/,
+      `${file}: result callbacks must echo the request target identifier`);
+  }
   const changeLanguage = readSource(file).split('case "changeInterfaceLanguage":')[1]?.split('case "change":')[0] || '';
   assert.match(changeLanguage, /setLanguage/);
   assert.doesNotMatch(changeLanguage, /sendAgentProfiles|configureAgents/,

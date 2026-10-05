@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "comproveu si el pont de consola natiu md any where està habilitat i obteniu un resum del document actual.",
   "native.helper.methodNotFound": "No s'ha trobat el mètode",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "El document d’origen o la selecció ha canviat. Torna a executar l’acció o copia aquest resultat."
 }

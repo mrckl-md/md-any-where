@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "چیک کریں کہ آیا مقامی md any where کنسول برج فعال ہے اور موجودہ دستاویز کا خلاصہ حاصل کریں۔",
   "native.helper.methodNotFound": "طریقہ نہیں ملا",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "اصل دستاویز یا منتخب متن تبدیل ہو گیا ہے۔ کارروائی دوبارہ چلائیں، یا یہ نتیجہ کاپی کریں۔"
 }

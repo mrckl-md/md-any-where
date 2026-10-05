@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Ellenőrizze, hogy a natív md any where konzolhíd engedélyezve van-e, és kapja meg az aktuális dokumentum összefoglalóját.",
   "native.helper.methodNotFound": "A módszer nem található",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "A forrásdokumentum vagy a kijelölés megváltozott. Futtassa újra a műveletet, vagy másolja ki ezt az eredményt."
 }

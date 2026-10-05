@@ -19,7 +19,10 @@
   const documentTabOrder = [];
   let activeDocumentID = null;
   let agentProfiles = [];
-  let lastSelection = null;
+  let agentSelection = null;
+  let formulaSelection = null;
+  const agentRequestTargets = new Map();
+  let agentRequestSequence = 0;
   let currentFormula = '';
   let searchMatches = [];
   let searchMarks = [];
@@ -48,7 +51,8 @@
       return md.utils.escapeHtml(str);
     }
   });
-  md.validateLink = value => !/^(?:https?|ftp|wss?):/i.test(value.trim());
+  const validateMarkdownLink = md.validateLink.bind(md);
+  md.validateLink = value => validateMarkdownLink(value) && !/^(?:https?|ftp|wss?):/i.test(value.trim());
   if (window.markdownitFootnote) md.use(window.markdownitFootnote);
   if (window.markdownitTaskLists) md.use(window.markdownitTaskLists, { enabled: true, label: true });
   if (window.texmath && window.katex) {
@@ -169,6 +173,8 @@
     commitHistorySnapshot();
     const current = tabs.get(activeDocumentID);
     if (current) { current.editorScroll = editor.getScrollInfo().top; current.previewScroll = previewPane.scrollTop; }
+    clearSearchMarks();
+    document.getElementById('search-results').replaceChildren();
     activeDocumentID = id;
     const next = tabs.get(id);
     ensureHistory(next);
@@ -177,6 +183,7 @@
     suppressChanges = false;
     updateCursorStatus();
     renderTabs(); renderMarkdownPreview();
+    if (document.getElementById('search-dialog').open) collectSearchMatches();
     requestAnimationFrame(() => { editor.scrollTo(null, next.editorScroll || 0); previewPane.scrollTop = next.previewScroll || 0; editor.focus(); });
     if (notify) sendNativeMessage('activate', { id });
   }
@@ -532,6 +539,7 @@
 
   function scheduleSearch() {
     clearTimeout(searchTimer);
+    document.getElementById('search-results').replaceChildren();
     const status = document.getElementById('search-status');
     bindText(status, () => t("web.ceecf20488"));
     searchTimer = setTimeout(collectSearchMatches, 180);
@@ -539,6 +547,7 @@
 
   function collectSearchMatches() {
     clearSearchMarks();
+    document.getElementById('search-results').replaceChildren();
     const query = document.getElementById('search-query').value;
     const mode = document.getElementById('search-mode').value;
     if (!query) { updateSearchStatus(); return; }
@@ -546,8 +555,10 @@
       bindText(document.getElementById('search-status'), () => t("web.3143c2e0ad"));
       return;
     }
-    const caseSensitive = mode === 'exact';
-    const needle = caseSensitive ? query : query.toLocaleLowerCase();
+    // Case conversion can change UTF-16 length (for example İ → i + ◌̇).
+    // RegExp reports offsets in the original line, so replacement stays aligned.
+    const literalPattern = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const matcher = new RegExp(literalPattern, mode === 'exact' ? 'gu' : 'giu');
     const maximumMatches = 10_000;
     for (let lineNumber = 0; lineNumber < editor.lineCount(); lineNumber++) {
       const line = editor.getLine(lineNumber);
@@ -557,11 +568,11 @@
         const match = result.match;
         if (match) searchMatches.push({ from: { line: lineNumber, ch: match.ch }, to: { line: lineNumber, ch: match.ch + match.length }, score: match.score });
       } else {
-        const sourceText = caseSensitive ? line : line.toLocaleLowerCase();
-        let ch = 0;
-        while ((ch = sourceText.indexOf(needle, ch)) >= 0) {
-          searchMatches.push({ from: { line: lineNumber, ch }, to: { line: lineNumber, ch: ch + query.length }, score: 1 });
-          ch += Math.max(1, query.length);
+        matcher.lastIndex = 0;
+        let match;
+        while ((match = matcher.exec(line))) {
+          const ch = match.index;
+          searchMatches.push({ from: { line: lineNumber, ch }, to: { line: lineNumber, ch: ch + match[0].length }, score: 1 });
           if (searchMatches.length >= maximumMatches) break;
         }
       }
@@ -670,12 +681,13 @@
       ? t("web.7295603994")
       : t("web.c666a583c6", { p0: query });
     document.getElementById('search-results').innerHTML = `<div class="empty-result" data-i18n="agent.processing">${t('agent.processing')}</div>`;
-    sendNativeMessage('agentRun', { profileIDs: selectedAgentProfileIDs(), instruction, selection: '', context: editor.getValue(), mode: 'single', purpose });
+    sendNativeMessage('agentRun', { profileIDs: selectedAgentProfileIDs(), instruction, selection: '', context: editor.getValue(), mode: 'single', purpose,
+      requestID: rememberAgentRequest(captureEditorSelection()) });
   }
 
   function toggleOutline() { workspace.classList.toggle('outline-open'); setTimeout(() => editor.refresh(), 160); }
 
-  function rememberEditorSelection() {
+  function captureEditorSelection() {
     const from = editor.getCursor('from'), to = editor.getCursor('to');
     let text = editor.getRange(from, to);
     if (!text) {
@@ -684,8 +696,29 @@
       const hit = matches.find(match => match.index <= from.ch && match.index + match[0].length >= from.ch) || matches[0];
       if (hit) text = hit[1] || hit[2] || hit[3] || hit[0];
     }
-    lastSelection = { from, to, text };
-    return text;
+    const doc = editor.getDoc();
+    return { id: activeDocumentID, doc, generation: doc.changeGeneration(),
+      title: tabs.get(activeDocumentID)?.title, from, to, text };
+  }
+
+  function selectionTargetIsCurrent(target) {
+    return !!target && target.id === activeDocumentID && tabs.get(target.id)?.doc === target.doc &&
+      target.doc === editor.getDoc() && target.doc.isClean(target.generation);
+  }
+
+  function requireCurrentSelectionTarget(target) {
+    if (selectionTargetIsCurrent(target)) return true;
+    showToast(t('error.staleSelection'));
+    return false;
+  }
+
+  function rememberAgentRequest(target) {
+    const id = `agent-${Date.now()}-${++agentRequestSequence}`;
+    agentRequestTargets.set(id, target);
+    // A cancelled native consent dialog has no result callback. Bound retained
+    // targets; late evicted results remain readable/copyable but cannot edit.
+    while (agentRequestTargets.size > 32) agentRequestTargets.delete(agentRequestTargets.keys().next().value);
+    return id;
   }
 
   function normalizeLatexFormula(value) {
@@ -704,8 +737,9 @@
     catch (error) { bindText(host, () => t("web.ed1ada4b79", { p0: error.message })); }
   }
 
-  function openFormulaTools(value) {
-    const selected = value ?? rememberEditorSelection();
+  function openFormulaTools(value, target) {
+    formulaSelection = target || captureEditorSelection();
+    const selected = value ?? formulaSelection.text;
     document.getElementById('formula-source').value = selected || '';
     updateFormulaPreview();
     document.getElementById('formula-dialog').showModal();
@@ -718,15 +752,16 @@
     return { latex, mathML, svg };
   }
 
-  function replaceRememberedSelection(text, asFormula = false) {
+  function replaceRememberedSelection(text, target, asFormula = false) {
+    if (!requireCurrentSelectionTarget(target)) return false;
     const value = asFormula ? `$${normalizeLatexFormula(text)}$` : text;
-    if (lastSelection && (lastSelection.from.line !== lastSelection.to.line || lastSelection.from.ch !== lastSelection.to.ch)) editor.replaceRange(value, lastSelection.from, lastSelection.to);
-    else editor.replaceSelection(value);
+    editor.replaceRange(value, target.from, target.to);
     editor.focus();
+    return true;
   }
 
   function openAgentTools(instruction) {
-    rememberEditorSelection();
+    agentSelection = captureEditorSelection();
     if (instruction) document.getElementById('agent-instruction').value = instruction;
     document.getElementById('agent-dialog').showModal();
   }
@@ -829,6 +864,7 @@
   }
 
   function requestAgentEdits() {
+    if (!requireCurrentSelectionTarget(agentSelection)) return;
     if (document.getElementById('cluster-mode').value === 'workflow') {
       runEditedWorkflow();
       return;
@@ -836,7 +872,7 @@
     const selectedAction = document.getElementById('agent-action').value;
     const customInstruction = document.getElementById('agent-instruction').value.trim();
     const instruction = selectedAction === 'custom' ? customInstruction : (customInstruction || selectedAction);
-    const selectedText = lastSelection?.text || '';
+    const selectedText = agentSelection.text || '';
     const fullDocument = editor.getValue();
     const cursorOffset = editor.indexFromPos(editor.getCursor());
     const nearbyContext = fullDocument.slice(
@@ -846,7 +882,8 @@
     sendNativeMessage('agentRun', {
       profileIDs: selectedProfileIDs, instruction, selection: selectedText,
       context: purpose === 'summary' ? fullDocument : nearbyContext,
-      mode: document.getElementById('cluster-mode').value, purpose
+      mode: document.getElementById('cluster-mode').value, purpose,
+      requestID: rememberAgentRequest(agentSelection)
     });
   }
 
@@ -972,6 +1009,7 @@
   }
 
   function runEditedWorkflow() {
+    if (!requireCurrentSelectionTarget(agentSelection)) return;
     const available = availableWorkflowAgents();
     let workflow;
     try { workflow = mdAnyWhereWorkflow.normalize(editedWorkflow, available.map(profile => profile.id)); }
@@ -980,10 +1018,10 @@
     const fullDocument = editor.getValue();
     const offset = editor.indexFromPos(editor.getCursor());
     sendNativeMessage('agentWorkflowRun', {
-      workflow, selection: lastSelection?.text || '',
+      workflow, selection: agentSelection.text || '',
       context: document.getElementById('workflow-scope').value === 'full'
         ? fullDocument : fullDocument.slice(Math.max(0, offset - 3000), offset + 3000),
-      purpose
+      purpose, requestID: rememberAgentRequest(agentSelection)
     });
   }
 
@@ -1011,9 +1049,9 @@
     } catch (parseError) { host.textContent = parseError.message; pendingWorkflowProposal = null; }
   }
 
-  function showWorkflowResults(results, purpose = 'edit') {
+  function showWorkflowResults(results, purpose = 'edit', requestID) {
     const completed = results.at(-1)?.answers.filter(answer => !answer.error) || [];
-    showAgentResults(completed.length ? completed : results.at(-1)?.answers || [], purpose);
+    showAgentResults(completed.length ? completed : results.at(-1)?.answers || [], purpose, requestID);
     const host = document.getElementById('agent-results');
     if (results.length && purpose !== 'summary') {
       const finalLabel = document.createElement('div'); finalLabel.className = 'workflow-result-label';
@@ -1030,9 +1068,8 @@
     });
   }
 
-  function suggestedSummaryTitle() {
-    const tab = tabs.get(activeDocumentID);
-    const base = (tab?.title || t("web.5d440e0c24")).replace(/\.md$/i, '');
+  function suggestedSummaryTitle(target) {
+    const base = (target?.title || t("web.5d440e0c24")).replace(/\.md$/i, '');
     return t("web.bed89e01f0", { p0: base });
   }
 
@@ -1044,9 +1081,14 @@
     } catch (_) { return []; }
   }
 
-  function displayAgentSearchMatches(answers) {
+  function displayAgentSearchMatches(answers, target) {
     const host = document.getElementById('search-results'); host.replaceChildren();
     clearSearchMarks();
+    if (!selectionTargetIsCurrent(target)) {
+      bindText(host, () => t('error.staleSelection'));
+      updateSearchStatus(false);
+      return;
+    }
     const full = editor.getValue();
     const located = [];
     answers.filter(answer => !answer.error).forEach(answer => {
@@ -1072,15 +1114,20 @@
       const pre = document.createElement('pre'); pre.textContent = `${match.quote}${match.reason ? `\n\n${match.reason}` : ''}`;
       const footer = document.createElement('footer');
       const locate = document.createElement('button'); locate.type = 'button'; bindText(locate, () => t("web.49726f09c8"));
-      locate.onclick = () => { searchIndex = index; updateActiveSearchMark(true); };
+      locate.onclick = () => {
+        if (!requireCurrentSelectionTarget(target)) return;
+        searchIndex = index; updateActiveSearchMark(true);
+      };
       footer.append(locate); card.append(header, pre, footer); host.append(card);
     });
     bindText(document.getElementById('search-status'), () => t("web.416cc481bf", { p0: located.length }));
   }
 
-  function showAgentResults(answers, purpose = 'edit') {
+  function showAgentResults(answers, purpose = 'edit', requestID) {
+    const target = agentRequestTargets.get(requestID);
+    agentRequestTargets.delete(requestID);
     if (purpose === 'agent-find') {
-      displayAgentSearchMatches(answers);
+      displayAgentSearchMatches(answers, target);
       document.getElementById('search-dialog').classList.remove('busy');
       return;
     }
@@ -1100,11 +1147,13 @@
         const replace = document.createElement('button');
         replace.type = 'button';
         bindText(replace, () => t("web.680c8de0e7"));
-        replace.onclick = () => replaceRememberedSelection(answer.text, false);
+        replace.onclick = () => replaceRememberedSelection(answer.text, target);
         const formula = document.createElement('button');
         formula.type = 'button';
         bindText(formula, () => t("web.84f69aeb47"));
-        formula.onclick = () => openFormulaTools(answer.text);
+        formula.onclick = () => {
+          if (requireCurrentSelectionTarget(target)) openFormulaTools(answer.text, target);
+        };
         const copy = document.createElement('button');
         copy.type = 'button';
         bindText(copy, () => t("web.befad31825"));
@@ -1116,7 +1165,7 @@
           const create = document.createElement('button');
           create.type = 'button';
           bindText(create, () => t("web.d33a76cc46"));
-          create.onclick = () => sendNativeMessage('newWithContent', { title: suggestedSummaryTitle(), content: answer.text });
+          create.onclick = () => sendNativeMessage('newWithContent', { title: suggestedSummaryTitle(target), content: answer.text });
           footer.prepend(create);
         }
       }
@@ -1192,7 +1241,9 @@
       ...clipboardFormats, target: document.getElementById('formula-target').value
     });
   };
-  document.getElementById('formula-replace').onclick = () => { replaceRememberedSelection(document.getElementById('formula-source').value,true); document.getElementById('formula-dialog').close(); };
+  document.getElementById('formula-replace').onclick = () => {
+    if (replaceRememberedSelection(document.getElementById('formula-source').value, formulaSelection, true)) document.getElementById('formula-dialog').close();
+  };
   document.getElementById('agent-action').onchange = event => { if(event.target.value!=='custom') document.getElementById('agent-instruction').value=''; };
   document.getElementById('agent-run').onclick = requestAgentEdits;
   document.getElementById('cluster-mode').onchange = event => {
@@ -1370,7 +1421,7 @@
     activateTab(id) { switchTab(id); },
     cycleTab,
     markSaved(id, title) { const tab=tabs.get(id); if (!tab) return; tab.title=title; tab.dirty=false; renderTabs(); },
-    replaceDocumentFromAgent(id, text) { if(tabs.has(id)) switchTab(id); editor.setValue(text); editor.focus(); },
+    replaceDocumentFromAgent(id, text) { if(!tabs.has(id)) return; switchTab(id); editor.setValue(text); editor.focus(); },
     configureAgentConsole(configuration) {
       agentConsoleHelperPath = configuration.helperPath || '';
       document.getElementById('agent-console-enabled').checked = !!configuration.enabled;

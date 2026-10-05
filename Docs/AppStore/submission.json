@@ -1,5 +1,5 @@
 {
-  "status": "build_5_development_signed_new_store_record_baseline_restored_review_and_distribution_pending",
+  "status": "build_6_uploaded_processing_pending_macos_5_verified",
   "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
@@ -47,10 +47,10 @@
   "copyright_owner_for_store": "陈科霖",
   "release_mode_suggestion": "manual",
   "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
-  "build_number": "5",
+  "build_number": "6",
   "screenshots_uploaded": true,
   "screenshots": {
-    "status": "new_record_zh_Hans_uploaded_source_build_4_reused_for_unchanged_build_5_ui_english_pending",
+    "status": "new_record_zh_Hans_uploaded_source_build_4_reused_for_build_6_main_ui_english_pending",
     "source": "actual_build_4_simulator_ui_with_public_fixture",
     "manifest": "Screenshots/README.md",
     "source_build": "1.0.0 (4)",
@@ -104,8 +104,9 @@
       "Screenshots/en-US/iphone-01-editor-build4.jpg",
       "Screenshots/en-US/ipad-01-split-build4.jpg"
     ],
-    "reuse_target_build": "1.0.0 (5)",
-    "ui_unchanged_between_source_and_target": true
+    "reuse_target_build": "1.0.0 (6)",
+    "ui_unchanged_between_source_and_target": true,
+    "reuse_scope": "The pictured editor and split views are unchanged; image source versions remain build 4. These images do not prove build 6 test results."
   },
   "display_name": "md any where",
   "price_model": "free",
@@ -134,28 +135,48 @@
   },
   "local_distribution": {
     "version": "1.0.0",
-    "build": "5",
+    "build": "6",
     "bundle_id": "app.mdanywhere.mobile",
     "app_filename": "md any where.app",
     "archive_filename": "md any where.xcarchive",
     "release_archive_created": true,
-    "app_store_ipa_exported": false,
+    "app_store_ipa_exported": true,
     "server_validation_completed": false,
-    "uploaded": false,
+    "uploaded": true,
     "testflight_distributed": false,
     "submitted_for_review": false,
     "published": false,
-    "artifact_directory": ".build/ios/app-store/build5",
+    "artifact_directory": ".build/ios/app-store/build6",
+    "archive_path": ".build/ios/app-store/build6/md any where.xcarchive",
     "archive_signature_verified": true,
     "archive_sources_match": true,
-    "export_status": "development_signed_release_archive_verified_app_store_distribution_export_pending",
-    "final_corrected_archive_export_attempted": false,
-    "last_export_exit_code": null,
-    "scope": "Current mobile build 5 local development-signed Release archive is strictly verified with matching identifier, resources, JavaScript and dSYM UUID. This is not an Apple Distribution export; server validation and upload remain incomplete.",
-    "archive_path": ".build/ios/app-store/build5/md any where.xcarchive",
+    "export_status": "app_store_distribution_export_and_strict_signature_verified",
+    "final_corrected_archive_export_attempted": true,
+    "last_export_exit_code": 0,
     "archive_signing_type": "development",
-    "app_store_distribution_signature_verified": false,
-    "archive_dsym_uuid_matches": true
+    "app_store_distribution_signature_verified": true,
+    "archive_dsym_uuid_matches": true,
+    "scope": "Build 6 development-signed archive and App Store re-signed IPA verified. Xcode upload succeeded on 2026-10-06 for new record 6819394741; upload server analysis was accepted and the package is processing. No separate Validate command, review submission or publication is implied.",
+    "sdk": "iphoneos27.0",
+    "minimum_os": "17.0",
+    "device_families": [
+      1,
+      2
+    ],
+    "get_task_allow": false,
+    "provisioned_device_list_present": false,
+    "evidence_report": ".build/ios/app-store/build6/verification.json",
+    "upload_status": "succeeded_processing_pending",
+    "archive_get_task_allow": true,
+    "archive_provisioned_device_list_present": true,
+    "export_certificate_type": "Apple Distribution",
+    "uploaded_at": "2026-10-06",
+    "upload_exit_code": 0,
+    "upload_destination_app_store_app_id": "6819394741",
+    "upload_server_analysis_accepted": true,
+    "separate_validate_command_completed": false,
+    "upload_evidence_log": ".build/ios/app-store/build6/upload.log",
+    "processing_status": "pending"
   },
   "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",
@@ -175,8 +196,8 @@
     "source_build": "1.0.0 (1)"
   },
   "verification": {
-    "source_build": "1.0.0 (5)",
-    "status": "development_signed_release_strict_verified_simulator_phone_and_pad_install_launch_demo_passed",
+    "source_build": "1.0.0 (6)",
+    "status": "source_regressions_distribution_package_and_phone_pad_simulator_checks_passed",
     "bundle_id": "app.mdanywhere.mobile",
     "simulator_build_passed": true,
     "simulator_install_and_launch_passed": [
@@ -187,35 +208,62 @@
       "iPhone",
       "iPad"
     ],
+    "offline_catalogs_verified": 47,
+    "strings_per_catalog_verified": 584,
+    "locale_state_preservation_cases_passed": 50,
+    "localized_webkit_layout_cases_passed": 27,
+    "mobile_layout_viewports_passed": 9,
+    "mobile_store_regressions_passed": 9,
+    "editor_safety_webkit_regression_passed": true,
+    "agent_transport_regression_passed": true,
+    "bridge_contract_regression_passed": true,
+    "minimum_ios_17_typecheck_passed": true,
+    "physical_device_installation_attempted": true,
+    "device_install_passed": [
+      "iPad"
+    ],
+    "physical_device_acceptance_pending": true,
+    "manual_multilingual_device_acceptance_complete": false,
+    "scope": "Current source regressions, distribution package, and final iPhone/iPad simulator build/install/launch/demo/resource checks passed. Physical-device acceptance and App Store server results remain separate; no live paid AI requests were made.",
+    "evidence_directory": ".build/review",
+    "evidence_logs": [
+      "agent-transport.log",
+      "editor-safety-after.log",
+      "mobile-store.log",
+      "mobile-layout.log",
+      "localized-editor.log",
+      "bridge-contract.log",
+      "mobile-typecheck.log"
+    ],
+    "device_build_passed": true,
+    "device_build_configuration": "App Store distribution-signed arm64 Release",
+    "device_build_signed": true,
+    "device_strict_signature_verified": true,
+    "signing_identifier_matches_bundle_id": true,
     "simulator_device_families_verified": [
       1,
       2
     ],
-    "offline_catalogs_verified": 47,
-    "strings_per_catalog_verified": 583,
+    "packaged_device_families_verified": [
+      1,
+      2
+    ],
     "system_language_directories_verified": 51,
     "packaged_javascript_matches_source": true,
-    "device_build_passed": true,
-    "device_build_configuration": "development-signed arm64 Release",
-    "device_build_signed": true,
-    "device_strict_signature_verified": true,
-    "signing_identifier_matches_bundle_id": true,
-    "development_signing_status": "automatic_local_existing_profile_succeeded_without_allow_provisioning_updates",
-    "automatic_signing_provisioning_updates_enabled": false,
-    "physical_device_installation_attempted": false,
-    "device_install_passed": [],
-    "ipad_launch_passed": false,
-    "ipad_launch_status": "not_attempted_for_build_5",
-    "iphone_install_status": "not_attempted_for_build_5",
-    "iphone_launch_status": "not_attempted_for_build_5",
-    "physical_device_acceptance_pending": true,
-    "manual_multilingual_device_acceptance_complete": false,
     "release_archive_verified": true,
-    "development_signed_app_path": ".build/ios/mobile-release5/Build/Products/Release-iphoneos/md any where.app",
-    "evidence_report": ".build/rebrand/build5-verification.json",
-    "scope": "Current mobile build 5 packaging, development-signed Release app and archive, plus two simulator install/launch/public-demo checks. Previous full regression and physical-device results remain historical; no physical deployment, App Store distribution signature/export, server validation, upload or review is implied.",
     "release_archive_signing_type": "development",
-    "release_archive_app_store_distribution_signed": false
+    "release_archive_app_store_distribution_signed": false,
+    "package_evidence_report": ".build/ios/app-store/build6/verification.json",
+    "simulator_resource_hashes_matched": 7,
+    "simulator_demo_visual_check": "iPhone editor and iPad split view checked with public content, formula, flowchart and table.",
+    "exported_ipa_app_store_distribution_signed": true,
+    "ipad_launch_passed": true,
+    "ipad_launch_status": "build_6_development_signed_archive_install_and_launch_succeeded",
+    "iphone_install_status": "not_attempted_connection_lock_state_query_timed_out",
+    "iphone_launch_status": "not_attempted_for_build_6",
+    "simulator_evidence_report": ".build/final-review/build6-simulator-verification.json",
+    "physical_device_evidence_report": ".build/final-review/build6-physical-device-summary.json",
+    "physical_device_scope": "iPad build 6 development-signed archive installed and launched successfully. iPhone connection/lock-state query timed out; no build 6 installation or launch was attempted. These checks do not establish all manual interaction scenarios."
   },
   "subtitle": "AI 编辑与三端 Markdown 写作",
   "secondary_category_suggestion": "UTILITIES",
@@ -226,10 +274,10 @@
     "structural_validation_passed": true,
     "native_speaker_review_completed": false,
     "uploaded_to_app_store_connect": false,
-    "app_ui_validation_status": "build_5_47_catalogs_583_keys_51_lproj_verified_full_language_and_layout_regressions_previously_passed_build_4",
+    "app_ui_validation_status": "final_source_47_catalogs_584_keys_50_locale_state_and_27_webkit_layout_cases_passed",
     "territory_availability_confirmed": false,
     "ui_catalog_count": 47,
-    "strings_per_catalog": 583,
+    "strings_per_catalog": 584,
     "system_and_manual_language_selection": true,
     "right_to_left_ui_languages": [
       "ar-SA",
@@ -330,7 +378,7 @@
   },
   "all_cloud_internal_identifiers_renamed": false,
   "all_prepared_screenshots_uploaded": false,
-  "screenshots_uploaded_scope": "New record 6819394741: zh-Hans source-build-4 iPhone 6.9 and iPad 13 images uploaded and verified at 1/10 each. The unchanged build 5 UI reuses these images. English images remain unuploaded.",
+  "screenshots_uploaded_scope": "New record 6819394741: zh-Hans source-build-4 iPhone 6.9 and iPad 13 images uploaded and verified at 1/10 each. The unchanged build 6 main UI reuses these images. English images remain unuploaded.",
   "historical_build_4_verification": {
     "source_build": "1.0.0 (4)",
     "status": "build_4_development_signed_strict_verified_ipad_installed_physical_launch_and_iphone_install_pending",
@@ -389,7 +437,8 @@
     "iphone_install_status": "failed_coredevice_4016_connection_error",
     "development_signed_app_path": ".build/ios/local-device/Build/Products/Release-iphoneos/md any where.app",
     "device_retry_requires_rebuild": false,
-    "device_retry_note": "Unlock and reconnect the authorized devices, then reuse the signed build 4 package for iPad launch and iPhone install/launch. No personal device or certificate identifiers are stored here."
+    "device_retry_note": "Unlock and reconnect the authorized devices, then reuse the signed build 4 package for iPad launch and iPhone install/launch. No personal device or certificate identifiers are stored here.",
+    "snapshot_scope": "Preserved state recorded before the final build 6 / macOS build 5 review; later outcomes are listed separately."
   },
   "historical_removed_app_store_records": [
     {
@@ -423,7 +472,7 @@
       "settings_restore_completed_on_new_record": false
     }
   ],
-  "macos_build_number": "4",
+  "macos_build_number": "5",
   "app_store_record_created": true,
   "app_store_creation_access": {
     "limited_access_available": false,
@@ -434,17 +483,25 @@
   },
   "release_mode_saved_in_app_store_connect": true,
   "macos_verification": {
-    "source_build": "1.0.0 (4)",
+    "source_build": "1.0.0 (5)",
     "bundle_id": "app.mdanywhere.editor",
     "build_passed": true,
     "signature_kind": "ad-hoc",
     "strict_deep_signature_verified": true,
+    "status": "final_build_5_package_and_docx_webkit_regression_passed",
     "extension_bundle_ids_verified": [
       "app.mdanywhere.editor.quicklook",
       "app.mdanywhere.editor.thumbnail",
       "app.mdanywhere.editor.agent"
     ],
-    "scope": "Unchanged current macOS build 4; mobile build numbers are independent."
+    "all_component_build_numbers_verified": "5",
+    "packaged_javascript_matches_source": true,
+    "offline_catalogs_verified": 47,
+    "strings_per_catalog_verified": 584,
+    "docx_webkit_regression_passed": true,
+    "evidence_report": ".build/final-review/macos-build5-verification.json",
+    "docx_evidence_log": ".build/final-review/docx-flowchart-final.log",
+    "scope": "Current macOS build 5 main app, three bundled components and shared resources verified; DOCX PNG/relationships/OMML/table regression passed. Ad-hoc signing does not imply Developer ID notarization or Mac App Store distribution."
   },
   "requires_login": false,
   "requires_login_saved_in_app_store_connect": true,
@@ -474,5 +531,134 @@
     "pricing_wizard_territory_count": 175,
     "note": "Free-price setup covered 175 territories; availability is separately limited to 174 with CHN excluded. This does not mean 175 currencies or 175 available territories."
   },
-  "baseline_store_settings_restored": true
+  "baseline_store_settings_restored": true,
+  "historical_build_5_verification": {
+    "source_build": "1.0.0 (5)",
+    "status": "development_signed_release_strict_verified_simulator_phone_and_pad_install_launch_demo_passed",
+    "bundle_id": "app.mdanywhere.mobile",
+    "simulator_build_passed": true,
+    "simulator_install_and_launch_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_public_demo_import_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_device_families_verified": [
+      1,
+      2
+    ],
+    "offline_catalogs_verified": 47,
+    "strings_per_catalog_verified": 583,
+    "system_language_directories_verified": 51,
+    "packaged_javascript_matches_source": true,
+    "device_build_passed": true,
+    "device_build_configuration": "development-signed arm64 Release",
+    "device_build_signed": true,
+    "device_strict_signature_verified": true,
+    "signing_identifier_matches_bundle_id": true,
+    "development_signing_status": "automatic_local_existing_profile_succeeded_without_allow_provisioning_updates",
+    "automatic_signing_provisioning_updates_enabled": false,
+    "physical_device_installation_attempted": false,
+    "device_install_passed": [],
+    "ipad_launch_passed": false,
+    "ipad_launch_status": "not_attempted_for_build_5",
+    "iphone_install_status": "not_attempted_for_build_5",
+    "iphone_launch_status": "not_attempted_for_build_5",
+    "physical_device_acceptance_pending": true,
+    "manual_multilingual_device_acceptance_complete": false,
+    "release_archive_verified": true,
+    "development_signed_app_path": ".build/ios/mobile-release5/Build/Products/Release-iphoneos/md any where.app",
+    "evidence_report": ".build/rebrand/build5-verification.json",
+    "scope": "Current mobile build 5 packaging, development-signed Release app and archive, plus two simulator install/launch/public-demo checks. Previous full regression and physical-device results remain historical; no physical deployment, App Store distribution signature/export, server validation, upload or review is implied.",
+    "release_archive_signing_type": "development",
+    "release_archive_app_store_distribution_signed": false,
+    "snapshot_scope": "Preserved state recorded before the final build 6 / macOS build 5 review; later outcomes are listed separately."
+  },
+  "historical_build_5_distribution": {
+    "version": "1.0.0",
+    "build": "5",
+    "bundle_id": "app.mdanywhere.mobile",
+    "app_filename": "md any where.app",
+    "archive_filename": "md any where.xcarchive",
+    "release_archive_created": true,
+    "app_store_ipa_exported": false,
+    "server_validation_completed": false,
+    "uploaded": false,
+    "testflight_distributed": false,
+    "submitted_for_review": false,
+    "published": false,
+    "artifact_directory": ".build/ios/app-store/build5",
+    "archive_signature_verified": true,
+    "archive_sources_match": true,
+    "export_status": "development_signed_release_archive_verified_app_store_distribution_export_pending",
+    "final_corrected_archive_export_attempted": false,
+    "last_export_exit_code": null,
+    "scope": "Current mobile build 5 local development-signed Release archive is strictly verified with matching identifier, resources, JavaScript and dSYM UUID. This is not an Apple Distribution export; server validation and upload remain incomplete.",
+    "archive_path": ".build/ios/app-store/build5/md any where.xcarchive",
+    "archive_signing_type": "development",
+    "app_store_distribution_signature_verified": false,
+    "archive_dsym_uuid_matches": true,
+    "snapshot_scope": "Preserved state recorded before the final build 6 / macOS build 5 review; later outcomes are listed separately.",
+    "later_outcome": "After the user revalidated Xcode access, a build 5 App Store export succeeded as a signing preflight only. It was not uploaded and does not contain the final build 6 fixes."
+  },
+  "historical_macos_build_4_verification": {
+    "source_build": "1.0.0 (4)",
+    "bundle_id": "app.mdanywhere.editor",
+    "build_passed": true,
+    "signature_kind": "ad-hoc",
+    "strict_deep_signature_verified": true,
+    "extension_bundle_ids_verified": [
+      "app.mdanywhere.editor.quicklook",
+      "app.mdanywhere.editor.thumbnail",
+      "app.mdanywhere.editor.agent"
+    ],
+    "scope": "Unchanged current macOS build 4; mobile build numbers are independent.",
+    "snapshot_scope": "Preserved state recorded before the final build 6 / macOS build 5 review; later outcomes are listed separately."
+  },
+  "review_fixes": [
+    {
+      "family": "agent_redirect_destination",
+      "status": "fixed_and_regression_passed",
+      "summary": "Reject automatic HTTP redirects before document bodies or authentication headers can reach another endpoint."
+    },
+    {
+      "family": "agent_formula_stale_selection",
+      "status": "fixed_and_regression_passed",
+      "summary": "Bind request IDs to source document instance, generation and selection; reject stale or wrong-document edits."
+    },
+    {
+      "family": "search_tab_unicode_offsets",
+      "status": "fixed_and_regression_passed",
+      "summary": "Clear old-tab matches and use original UTF-16 offsets for literal case-insensitive matching."
+    },
+    {
+      "family": "unknown_document_bridge_id",
+      "status": "fixed_and_regression_passed",
+      "summary": "An unknown or closed document ID cannot overwrite the active document."
+    },
+    {
+      "family": "markdown_dangerous_protocols",
+      "status": "fixed_and_regression_passed",
+      "summary": "Preserve the Markdown parser default link validator as well as offline restrictions."
+    }
+  ],
+  "submission_steps_pending": [
+    "Final privacy answers",
+    "Age rating",
+    "Content rights declaration",
+    "DSA trader declaration",
+    "Optional AI private reviewer access",
+    "English name/localization resolution",
+    "English screenshot upload"
+  ],
+  "submission_steps_scope": "These are factual submission/review steps, not prerequisites imposed on binary upload. Distribution/export, upload, review submission and publication have independent status fields.",
+  "historical_build_5_signing_preflight": {
+    "build": "5",
+    "app_store_ipa_exported": true,
+    "uploaded": false,
+    "purpose": "Confirm signing access after Xcode account revalidation; not the final corrected release binary.",
+    "evidence_directory": ".build/final-review/build5-signing-preflight-after-login/"
+  }
 }

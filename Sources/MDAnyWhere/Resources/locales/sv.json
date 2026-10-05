@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Kontrollera om den inbyggda md any where-konsolbryggan är aktiverad och få en sammanfattning av det aktuella dokumentet.",
   "native.helper.methodNotFound": "Metoden hittades inte",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Källdokumentet eller markeringen har ändrats. Kör åtgärden igen eller kopiera detta resultat."
 }

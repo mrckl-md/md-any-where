@@ -1,6 +1,6 @@
 # 商店本地化语言与验证
 
-核对日期：2026-10-05。Apple 当前公布 **50 个 App Store 元数据本地化项**，包括地区变体。官方地区语言表与 API 短码表分别描述顾客看到哪一种语言、上传时使用哪个标识；国家/地区数与语言数不能混用。[官方地区语言表](https://developer.apple.com/help/app-store-connect/reference/app-information/app-store-localizations)；[官方 locale 短码](https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes)。
+核对日期：2026-10-06。Apple 当前公布 **50 个 App Store 元数据本地化项**，包括地区变体。官方地区语言表与 API 短码表分别描述顾客看到哪一种语言、上传时使用哪个标识；国家/地区数与语言数不能混用。[官方地区语言表](https://developer.apple.com/help/app-store-connect/reference/app-information/app-store-localizations)；[官方 locale 短码](https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes)。
 
 ## 本仓库已提供
 
@@ -26,8 +26,10 @@ python3 Docs/AppStore/validate-localizations.py
 
 界面运行时语言文件与原生字符串的译文来源、重点审查及限制见[界面本地化说明](../Localization.md)，由应用本地化实现另行验证，包括键集合、占位符、Markdown/公式/流程图语法、系统语言回退、从右到左排版和小屏布局。商店文案已齐全，不作为全部界面翻译或每个设备场景已通过的证据。
 
+本次 build 6 / macOS build 5 的应用界面目录为 **47 × 584 条**，对应 50 个官方语言项；新增过期选区提示已完整翻译。最终源码的 50 项语言切换状态检查、27 组真实 WebKit 多语言布局及 9 个移动视口回归通过；最终安装包验证另见 [submission.json](submission.json)，不与商店文案上传状态混淆。
+
 ## 尚待后台和发行者完成
 
-当前移动目标为 `app.mdanywhere.mobile`、构建 `5`；该标识已注册，新 SKU 为 `MD-ANY-WHERE-IOS-001`。旧记录 `6819302567` 已停止全部地区供应并移除，不恢复。新记录 `6819394741` 已创建，完全访问获用户明确授权。版本 `1.0.0` 简中推广文字、描述、关键词、支持/营销 URL 与版权已保存，私有审核联系人和发布设置也已恢复；副标题及效率/工具分类也已保存。其余 49 组本地化仍是本地草稿。英文名称可用性仍需实际核验。
+当前移动目标为 `app.mdanywhere.mobile`、构建 `6`；该标识已注册，新 SKU 为 `MD-ANY-WHERE-IOS-001`。旧记录 `6819302567` 已停止全部地区供应并移除，不恢复。新记录 `6819394741` 已创建，完全访问获用户明确授权。版本 `1.0.0` 简中推广文字、描述、关键词、支持/营销 URL 与版权已保存，私有审核联系人和发布设置也已恢复；副标题及效率/工具分类也已保存。其余 49 组本地化仍是本地草稿。英文名称可用性仍需实际核验。
 
-发行计划保持免费、174 个地区，仅排除中国大陆，港澳台保留，不自动加入未来新增地区，已在新记录保存核验。现有可选、用户自配 AI 继续准备；年龄、隐私及 DSA 身份按事实与发行者确认处理，不另设删除 AI 的前提。四张公开截图来自 build 4，可复用到界面不变的 build 5，新记录简中两张已上传、两个设备组各 `1/10`，英文仍待上传；其他语言不冒用简中或英文图片。审核凭证和私人联系方式不得进入公开文件。语言覆盖不等于地区发行许可。[Apple 本地化说明](https://developer.apple.com/help/app-store-connect/manage-app-information/localize-app-information)。
+发行计划保持免费、174 个地区，仅排除中国大陆，港澳台保留，不自动加入未来新增地区，已在新记录保存核验。现有可选、用户自配 AI 继续准备；年龄、隐私及 DSA 身份按事实与发行者确认处理，不另设删除 AI 的前提。四张公开截图来自 build 4，可复用到主界面不变的 build 6，新记录简中两张已上传、两个设备组各 `1/10`，英文仍待上传；其他语言不冒用简中或英文图片。审核凭证和私人联系方式不得进入公开文件。语言覆盖不等于地区发行许可。[Apple 本地化说明](https://developer.apple.com/help/app-store-connect/manage-app-information/localize-app-information)。

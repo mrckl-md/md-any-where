@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "ਜਾਂਚ ਕਰੋ ਕਿ ਕੀ ਮੂਲ md any where ਕੰਸੋਲ ਬ੍ਰਿਜ ਚਾਲੂ ਹੈ ਅਤੇ ਮੌਜੂਦਾ ਦਸਤਾਵੇਜ਼ ਦਾ ਸਾਰ ਪ੍ਰਾਪਤ ਕਰੋ।",
   "native.helper.methodNotFound": "ਢੰਗ ਨਹੀਂ ਮਿਲਿਆ",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਜਾਂ ਚੁਣਿਆ ਹੋਇਆ ਹਿੱਸਾ ਬਦਲ ਗਿਆ ਹੈ। ਕਾਰਵਾਈ ਦੁਬਾਰਾ ਚਲਾਓ ਜਾਂ ਇਸ ਨਤੀਜੇ ਨੂੰ ਕਾਪੀ ਕਰੋ।"
 }

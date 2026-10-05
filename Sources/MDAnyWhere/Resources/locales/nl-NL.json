@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Controleer of de native md any where-consolebridge is ingeschakeld en ontvang een samenvatting van het huidige document.",
   "native.helper.methodNotFound": "Methode niet gevonden",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Het brondocument of de selectie is gewijzigd. Voer de actie opnieuw uit of kopieer dit resultaat."
 }

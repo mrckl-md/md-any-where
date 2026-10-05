@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "检查本机 md any where 控制台桥是否启用，并获取当前文稿摘要。",
   "native.helper.methodNotFound": "未找到方法",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "原文稿或选区已更改。请重新运行操作，或复制此结果。"
 }

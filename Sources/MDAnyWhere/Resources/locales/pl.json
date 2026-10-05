@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Sprawdź, czy natywny most konsoli md any where jest włączony i uzyskaj podsumowanie bieżącego dokumentu.",
   "native.helper.methodNotFound": "Nie znaleziono metody",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Zmieniono dokument źródłowy lub zaznaczenie. Uruchom działanie ponownie lub skopiuj ten wynik."
 }

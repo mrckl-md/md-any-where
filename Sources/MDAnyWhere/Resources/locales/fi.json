@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Tarkista, onko alkuperäinen md any where-konsolin silta käytössä, ja hanki yhteenveto nykyisestä asiakirjasta.",
   "native.helper.methodNotFound": "Menetelmää ei löydy",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Lähdeasiakirja tai valinta on muuttunut. Suorita toiminto uudelleen tai kopioi tämä tulos."
 }

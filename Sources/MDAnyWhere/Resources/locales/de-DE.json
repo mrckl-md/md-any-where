@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Überprüfen Sie, ob die native md any where-Konsolenbrücke aktiviert ist, und rufen Sie eine Zusammenfassung des aktuellen Dokuments ab.",
   "native.helper.methodNotFound": "Methode nicht gefunden",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Das Quelldokument oder die Auswahl hat sich geändert. Führen Sie die Aktion erneut aus oder kopieren Sie dieses Ergebnis."
 }

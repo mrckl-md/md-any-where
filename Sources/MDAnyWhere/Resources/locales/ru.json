@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "проверьте, включен ли собственный консольный мост md any where, и получите сводку текущего документа.",
   "native.helper.methodNotFound": "Метод не найден.",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Исходный документ или выделение изменились. Выполните действие ещё раз или скопируйте этот результат."
 }

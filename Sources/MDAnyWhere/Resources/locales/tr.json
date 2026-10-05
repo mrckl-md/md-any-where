@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Yerel md any where konsol köprüsünün etkinleştirilip etkinleştirilmediğini kontrol edin ve mevcut belgenin bir özetini alın.",
   "native.helper.methodNotFound": "Yöntem bulunamadı",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Kaynak belge veya seçim değişti. İşlemi yeniden çalıştırın ya da bu sonucu kopyalayın."
 }

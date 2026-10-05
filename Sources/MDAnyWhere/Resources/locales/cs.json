@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Zkontrolujte, zda je povolen nativní konzolový most md any where, a získejte souhrn aktuálního dokumentu.",
   "native.helper.methodNotFound": "Metoda nenalezena",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Zdrojový dokument nebo výběr se změnil. Spusťte akci znovu nebo zkopírujte tento výsledek."
 }

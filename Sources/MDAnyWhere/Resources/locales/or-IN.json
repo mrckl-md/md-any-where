@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "ଦେଶୀ md any where କୋନସୋଲ ବ୍ରିଜ ସକ୍ଷମ ହୋଇଛି କି ନାହିଁ ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ସାମ୍ପ୍ରତିକ ଡକ୍ୟୁମେଣ୍ଟର ଏକ ସାରାଂଶ ପ୍ରାପ୍ତ କରନ୍ତୁ |",
   "native.helper.methodNotFound": "ପଦ୍ଧତି ମିଳିଲା ନାହିଁ |",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "ମୂଳ ଦଲିଲ କିମ୍ବା ଚୟନିତ ଅଂଶ ବଦଳିଯାଇଛି। କାର୍ଯ୍ୟଟି ପୁଣି ଚଲାନ୍ତୁ କିମ୍ବା ଏହି ଫଳାଫଳକୁ କପି କରନ୍ତୁ।"
 }

@@ -2,13 +2,13 @@
 
 md any where 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 AI 写作工作台。macOS 可通过 MCP / CLI 接入 Codex、Claude Code、Cursor 等 AI 编辑器；iPhone/iPad 使用内置 Agent 完成润色、校对、总结与文字工作流。编辑与预览在本机进行，可选 Agent 在用户确认后连接自己配置的服务。项目自有源码采用 [MIT 许可证](LICENSE)，第三方组件保留各自许可。
 
-项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，移动目标为 `md any where 1.0.0 (5)`、`app.mdanywhere.mobile`；macOS 保持 `1.0.0 (4)`、`app.mdanywhere.editor`。移动版 Release 本地自动开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过，开发签名归档已生成；真机部署与 App Store 发行签名导出仍待完成。旧商店记录已停止全部地区供应并移除，不恢复；新记录 `6819394741` 已创建，完全访问已获用户明确授权。四张公开截图来自 build 4，可用于界面未变的 build 5，简中两张已上传到新记录、两设备组各 `1/10`，英文仍待上传。详见 [App Store 发布准备](Docs/App-Store-Release.md)；当前构建尚未上传、送审或发布。
+项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，本次发布目标为移动版 `1.0.0 (6)`、`app.mdanywhere.mobile`，macOS `1.0.0 (5)`、`app.mdanywhere.editor`。最终审查已修复 Agent 重定向泄露、Agent/公式错文稿与过期选区、搜索标签切换与 Unicode 偏移、未知文稿 ID 写入、危险 Markdown 链接五类问题；本机网络、真实 WebKit、草稿存储及多语言布局回归通过。iOS build 6 开发签名归档及发行重签 IPA 导出、macOS build 5 构建与严格深层 ad-hoc 签名已验证；iPhone/iPad 模拟器安装、启动和公开示例画面验证通过；移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。新商店记录 `6819394741` 已保存基础资料与简中两张截图。详见 [App Store 发布准备](Docs/App-Store-Release.md)。
 
 ## 已实现
 
 核心编辑器由三个平台共用；移动版使用系统“文件”选择器、分享面板、触摸工具栏、内置 Agent 和草稿恢复。窗口拖动、Finder Quick Look、本机 MCP / CLI 控制台与液态玻璃窗口材质属于 macOS 功能。移动端的 Agent 调用不表示手机或平板能运行桌面 IDE/MCP 宿主。
 
-三端界面覆盖 Apple 当前的 50 个商店语言/地区项，离线打包 47 份语言目录，每份 583 条界面与原生提示。默认跟随系统，也可在设置中手动选择语言；阿拉伯语、希伯来语和乌尔都语使用从右到左界面。切换语言保留文稿、撤销记录和未保存的设置输入。译文已做重点语义检查，尚未完成全部语言的母语审校；详见 [多语言实现与验证](Docs/Localization.md)。语言支持不等于所有国家/地区已获准发行。
+三端界面覆盖 Apple 当前的 50 个商店语言/地区项，离线打包 47 份语言目录，每份 584 条界面与原生提示。默认跟随系统，也可在设置中手动选择语言；阿拉伯语、希伯来语和乌尔都语使用从右到左界面。切换语言保留文稿、撤销记录和未保存的设置输入。译文已做重点语义检查，尚未完成全部语言的母语审校；详见 [多语言实现与验证](Docs/Localization.md)。语言支持不等于所有国家/地区已获准发行。
 
 - CodeMirror 编辑器：撤销/重做、精确/忽略大小写/模糊查找、替换当前/全部替换、自动补括号、列表回车延续、行号与软换行
 - 每标签页独立的滚动操作时间线：顶部回退/前进、操作记录列表、指定步骤跳转；设置中可选择保留 5–100 步，默认 10 步
@@ -37,7 +37,7 @@ md any where 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 AI
 - 内置本机 `md-any-where-agent` 控制台与 MCP stdio 服务，Codex CLI、Claude Code、Cursor、OpenCode、DeepSeek Harness 等兼容平台无需读屏即可操作已打开文稿
 - Agent 支持全文语义查找与全文总结；总结结果可一键生成新的、未保存的 `.md` 标签页
 - API Key 持久存入系统钥匙串；运行时发送范围由任务决定，可能包括选区、上下文或全文，远程发送前明确确认
-- 默认不启用任何 Agent；远程 Agent 只允许 HTTPS，本地 HTTP 只允许 localhost/回环地址
+- 默认不启用任何 Agent；远程 Agent 只允许 HTTPS，本地 HTTP 只允许 localhost/回环地址；请求不自动跟随 HTTP 重定向
 - 公式助手：Unicode 数学符号与简单分式自动转换为 LaTeX，支持 Agent 生成、修正和解释公式
 - 多格式公式剪贴板：同时提供 LaTeX、MathML、HTML 与 SVG，面向 Word、WPS、LibreOffice、MathType 和 Overleaf
 
@@ -121,6 +121,8 @@ Mermaid 流程图可在应用内、HTML 和 PDF 中显示，并在 DOCX 中以�
 
 图标主稿是 `Sources/MDAnyWhere/Resources/Brand/MD-Any-Where-Mark.svg`。`scripts/build-icon.sh` 使用 AppKit 从矢量稿分别渲染 16–1024 px 的 macOS 图标尺寸，并生成 `AppIcon.icns`；`build-app.sh` 会自动先执行该步骤。现有 `.icns` 兼容 macOS 13 起的开发包；正式提交新版系统应用图标时，发布团队还可从同一矢量稿制作 Icon Composer 的分层和外观变体。
 
+最终审查新增 `./scripts/test-agent-transport.sh`：使用本机假数据验证重定向不会转发正文或认证头，并检查 4 MiB 响应边界；`./scripts/test-editor-safety.sh` 在真实 WebKit/CodeMirror 中验证异步结果目标、查找替换及 Markdown 链接安全。测试不访问真实 API Key 或收费服务。
+
 可运行 `node scripts/test-fuzzy-search.cjs` 验证有界模糊查找，`node scripts/test-mermaid-flowchart.cjs` 检查离线流程图解析与 SVG，`node scripts/test-bridge-contract.cjs` 检查 Swift/JavaScript 消息桥和导出界面的 DOM ID，`node scripts/test-agent-console.cjs` 检查 MCP 握手与工具目录，`node scripts/test-quicklook-contract.cjs` 检查打包后的 Quick Look 扩展、文件类型与签名，`./scripts/test-quicklook-native.sh` 检查原生预览控制器确实生成内容，`node scripts/test-workflow.cjs` 检查文字工作流，`node scripts/test-docx-fonts.cjs` 测试字体设置迁移与一句话识别，`./scripts/test-docx-fonts.sh` 构造并检查实际 DOCX 字体 XML，`./scripts/test-docx-flowchart.sh` 在真实 WebKit 中导出公开示例并检查 DOCX 流程图图片、公式、表格及失败回退，`node --check Sources/MDAnyWhere/Resources/*.js` 检查应用 JavaScript；`scripts/format-css.mjs` 用于机械格式化项目 CSS。源码组件、消息桥和性能边界见 [ARCHITECTURE.md](ARCHITECTURE.md)，社区贡献的命名与验证流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 在 Finder 中双击项目根目录的 `启动 md any where.command` 可一键启动应用；若 `/Applications/md any where.app` 已安装，会优先打开它，避免生成重复副本；否则在尚未构建时先自动执行构建脚本。
@@ -160,10 +162,8 @@ export MD_ANY_WHERE_DEVICE_UDID='目标iPhone或iPad的UDID'
 
 项目自有代码采用 [MIT](LICENSE)；依赖许可和版权说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。公开前仅提交源码、资源和文档，不提交个人文稿、证书、描述文件、API Key、设备日志或构建目录。
 
-[App Store 发布准备](Docs/App-Store-Release.md)、[50 项商店本地化文案](Docs/AppStore/Localization.md) 和 [截图清单](Docs/AppStore/Screenshots/README.md) 已提供。移动目标为 `1.0.0 (5)`、`app.mdanywhere.mobile`，Apple Developer 已注册该标识；新 SKU 为 `MD-ANY-WHERE-IOS-001`。旧记录已停止全部 175 个地区供应并移除，非永久删除，用户已明确不恢复。新记录 `6819394741` 已创建并绑定上述标识及 SKU；用户明确授权完全访问，团队仅本人。版本 `1.0.0` 简中推广文字、描述、关键词、支持/营销 URL、版权、私有审核联系人、不要求登录及手动发布设置已保存。
+[App Store 发布准备](Docs/App-Store-Release.md)、[50 项商店本地化文案](Docs/AppStore/Localization.md) 和 [截图清单](Docs/AppStore/Screenshots/README.md) 已提供。当前移动目标为 `1.0.0 (6)`、`app.mdanywhere.mobile`，macOS 目标为 `1.0.0 (5)`。新记录 `6819394741` 绑定新标识及 SKU `MD-ANY-WHERE-IOS-001`；简中基础资料、私有审核联系人、不要求登录与手动发布设置已保存。旧记录已停止全部供应并移除，保留历史记录，不恢复。
 
-发行计划保持免费、174 个地区，唯一排除中国大陆，香港、澳门、台湾保留，未来新增地区不自动加入。新记录已保存免费价格、174 地区供应设置、关闭未来自动加入，以及效率/工具分类和副标题。隐私政策 URL 也已保存并核验，基础资料恢复完成；这些均为新记录的实际结果，不沿用已移除记录的完成状态。后续如进入中国大陆，先确认 App 备案适用性，再决定是否办理；没有自营服务器不自动构成豁免。
+发行计划为免费、174 个地区，唯一排除中国大陆，港澳台保留，未来新增地区不自动加入；这些供应设置及隐私政策 URL 已在新记录保存。四张中英文截图来自 build 4，所示主界面仍适用；保留实际来源版本。简中两张已上传，新记录两个设备组各 `1/10`；英文两张待上传。
 
-历史版本 `1`、`3` 的截图已移出当前公开素材并保留备份。现有四张简体中文/英文 iPhone 编辑与 iPad 分栏截图真实拍摄于 build 4，尺寸、无 Alpha 通道及画面无历史品牌已核验；build 5 界面未变，可复用这些图片，文件名和来源版本保持不变。新记录的简中两张已重新上传，iPhone 6.9 英寸与 iPad 13 英寸组各核验为 `1/10`；英文两张尚未上传。移动 build 5 本地开发签名包及归档已严格验签，模拟器均安装启动并导入公开示例；真机尚未部署。macOS build 4 的构建与严格深层 ad-hoc 签名仍有效。App Store 发行签名导出、服务器 Validate、构建上传和审核尚未完成；历史导出错误不能证明用户当前退出 Xcode 账号。
-
-英文商店名称冲突、DSA 交易商身份、目标年龄和最终隐私/适龄答案仍待相应确认；本次继续按现有可选、用户自配的 Agent 准备。隐私评估区分本地处理与第三方 API 通信，不以 BYOK 自动判定未收集，也不要求穷尽所有用户自选端点才开始填写。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权署名为 `© 2026 陈科霖`；审核私有联系人不写入源码。当前构建尚未上传、送审或发布。
+iOS build 6 开发签名归档及发行重签 IPA 导出已成功，最低 iOS 17、iPhone/iPad 设备族、47 × 584 条目录和随包资源一致性已核验；macOS build 5 构建、四组件严格深层 ad-hoc 签名及真实 WebKit DOCX 回归通过。iPhone/iPad 模拟器安装启动、公开示例画面和资源一致性已核验；iPad 真机安装启动成功，iPhone 本版尚未部署。移动 build 6 上传成功，Apple 处理结果待确认。隐私、年龄、内容版权、DSA、英文名称与可选 AI 私有审核访问仍是待完成的提交事项，不构成暂停构建上传的要求。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权为 `© 2026 陈科霖`；私人审核联系人及凭证不进入仓库。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。

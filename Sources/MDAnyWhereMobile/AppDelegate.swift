@@ -804,7 +804,7 @@ final class MDAnyWhereEditorViewController: UIViewController, WKScriptMessageHan
             guard let data = try? JSONEncoder().encode(answers), let object = try? JSONSerialization.jsonObject(with: data) else {
                 toast(L("native.agent.invalidResult")); return
             }
-            invoke("showAgentResults", [object, purpose])
+            invoke("showAgentResults", [object, purpose, body["requestID"] as? String ?? ""])
         }
     }
 
@@ -842,7 +842,7 @@ final class MDAnyWhereEditorViewController: UIViewController, WKScriptMessageHan
             guard let data = try? JSONEncoder().encode(results), let object = try? JSONSerialization.jsonObject(with: data) else {
                 toast(L("native.agent.invalidWorkflowResult")); return
             }
-            invoke("showWorkflowResults", [object, purpose])
+            invoke("showWorkflowResults", [object, purpose, body["requestID"] as? String ?? ""])
         }
     }
 

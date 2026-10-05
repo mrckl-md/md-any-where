@@ -135,7 +135,9 @@
     "keychain_persistence_does_not_prevent_credential_transmission": true,
     "advertising_or_analytics_sdk_found": false,
     "active_location_contacts_advertising_id_collection_found": false,
-    "off_device_processing_is_possible_only_when_optional_agent_is_run": "For the Agent path; system file providers, backups and user-initiated sharing are separate."
+    "off_device_processing_is_possible_only_when_optional_agent_is_run": "For the Agent path; system file providers, backups and user-initiated sharing are separate.",
+    "automatic_http_redirects_followed": false,
+    "redirect_body_and_credential_forwarding_regression_passed": true
   },
   "scope_boundaries": [
     "Separate developer processing, known preset service integrations and user-selected arbitrary endpoints.",
@@ -162,8 +164,10 @@
   "age_rating_assessment_document": "Age-Rating-Assessment.md",
   "ai_release_scope": "Current existing optional user-configured AI; preparation continues with the implemented feature set, without requiring another decision on whether to retain AI.",
   "assessment_revised": "2026-10-06",
-  "target_build": "1.0.0 (5)",
+  "target_build": "1.0.0 (6)",
   "bundle_id": "app.mdanywhere.mobile",
-  "new_identifier_runtime_verification_pending": true,
-  "code_fact_scope": "Behavioral assessment of the existing optional user-configured AI implementation. Mobile build 5 packaging, local development signature and simulator launch/demo checks passed; final data-flow, permission and physical-device acceptance remain separate. The identifier change does not guarantee automatic document or Keychain migration."
+  "new_identifier_runtime_verification_pending": false,
+  "code_fact_scope": "Current optional user-configured AI implementation reviewed for mobile build 6 / macOS build 5. Native requests reject redirects; loopback regression used public test text and fake headers. Final iOS 6 distribution package and macOS 5 ad-hoc package are verified; final iPhone/iPad simulator checks passed. Physical-device and real-provider acceptance are tracked separately. No actual provider request or user credential was used. Identifier changes do not guarantee automatic document or Keychain migration.",
+  "submission_step_scope": "Final privacy answers and private reviewer access remain submission tasks; neither is recorded here as a technical prerequisite for binary upload.",
+  "physical_device_data_flow_acceptance_pending": true
 }

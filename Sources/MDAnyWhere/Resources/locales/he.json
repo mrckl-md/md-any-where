@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "בדוק אם גשר המסוף המקורי של md any where מופעל וקבל סיכום של המסמך הנוכחי.",
   "native.helper.methodNotFound": "השיטה לא נמצאה",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "המסמך המקורי או הבחירה השתנו. יש להפעיל את הפעולה שוב או להעתיק את התוצאה הזו."
 }

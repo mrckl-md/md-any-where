@@ -1220,7 +1220,7 @@ final class MDAnyWhereAppDelegate: NSObject, NSApplicationDelegate, NSWindowDele
                   let object = try? JSONSerialization.jsonObject(with: data) else {
                 invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", [L("native.agent.invalidResult")]); return
             }
-            invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showAgentResults", [object, purpose])
+            invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showAgentResults", [object, purpose, body["requestID"] as? String ?? ""])
         }
     }
 
@@ -1260,7 +1260,7 @@ final class MDAnyWhereAppDelegate: NSObject, NSApplicationDelegate, NSWindowDele
                 invokeEditorJavaScript("setAgentBusy", [false]); invokeEditorJavaScript("showToast", [L("native.agent.invalidWorkflowResult")]); return
             }
             invokeEditorJavaScript("setAgentBusy", [false])
-            invokeEditorJavaScript("showWorkflowResults", [object, purpose])
+            invokeEditorJavaScript("showWorkflowResults", [object, purpose, body["requestID"] as? String ?? ""])
         }
     }
 

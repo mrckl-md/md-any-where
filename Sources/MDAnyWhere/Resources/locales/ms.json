@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Semak sama ada jambatan konsol md any where asli didayakan dan dapatkan ringkasan dokumen semasa.",
   "native.helper.methodNotFound": "Kaedah tidak ditemui",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Dokumen sumber atau bahagian yang dipilih telah berubah. Jalankan tindakan sekali lagi atau salin hasil ini."
 }

@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "تحقق من تمكين جسر وحدة التحكم md any where الأصلي واحصل على ملخص للمستند الحالي.",
   "native.helper.methodNotFound": "لم يتم العثور على الطريقة",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "تغيّر المستند الأصلي أو الجزء المحدد. أعد تنفيذ الإجراء أو انسخ هذه النتيجة."
 }

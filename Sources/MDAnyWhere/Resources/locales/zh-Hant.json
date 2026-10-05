@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "檢查本機 md any where 控制台橋接器是否啟用，並取得目前稿摘要。",
   "native.helper.methodNotFound": "未找到方法",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "原文稿或選取範圍已變更。請重新執行操作，或複製此結果。"
 }

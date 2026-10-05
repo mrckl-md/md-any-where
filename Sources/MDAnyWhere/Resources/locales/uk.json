@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "перевірте, чи ввімкнено власний консольний міст md any where, і отримайте підсумок поточного документа.",
   "native.helper.methodNotFound": "метод не знайдено",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Початковий документ або виділення змінилися. Виконайте дію ще раз або скопіюйте цей результат."
 }

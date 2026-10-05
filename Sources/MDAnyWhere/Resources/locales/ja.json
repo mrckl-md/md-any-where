@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "ネイティブ md any where コンソール ブリッジが有効かどうかを確認し、現在のドキュメントの概要を取得します。",
   "native.helper.methodNotFound": "メソッドが見つかりません",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "元の文書または選択範囲が変更されました。操作をもう一度実行するか、この結果をコピーしてください。"
 }

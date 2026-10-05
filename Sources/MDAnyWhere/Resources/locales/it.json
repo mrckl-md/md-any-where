@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Controlla se il bridge console nativo md any where è abilitato e ottieni un riepilogo del documento corrente.",
   "native.helper.methodNotFound": "metodo non trovato",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Il documento di origine o la selezione ha subito modifiche. Esegui di nuovo l’azione oppure copia questo risultato."
 }

@@ -44,4 +44,4 @@ MCP / 命令行控制台仅适用于 macOS，默认关闭。启用后只监听�
 
 公开支持及隐私联系邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)。项目支持入口为 [md any where Issues](https://github.com/mrckl-md/md-any-where/issues)，政策源文件地址为 [PRIVACY.md](https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md)。正式提交前应核验品牌更名后的链接可访问。
 
-App Store Connect 使用可访问的隐私政策链接；私人审核联系信息只在其私有审核栏目提供。源码隐私清单不替代商店申报；申报须同时考虑实际接入的第三方服务及其留存行为，当前 AI 发布范围及最终问卷仍在确认中。
+App Store Connect 使用可访问的隐私政策链接；私人审核联系信息只在其私有审核栏目提供。源码隐私清单不替代商店申报；申报须同时考虑实际接入的第三方服务及其留存行为，现有可选、自配 Agent 属于当前功能范围；最终商店隐私问卷仍待完成。

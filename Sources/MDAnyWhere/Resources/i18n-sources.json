@@ -1,4 +1,7 @@
 {
+  "error.staleSelection": [
+    "app.js"
+  ],
   "error.flowchartMissing": [
     "app.js:66"
   ],

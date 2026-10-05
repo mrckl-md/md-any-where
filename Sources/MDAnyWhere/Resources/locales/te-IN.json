@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "స్థానిక md any where కన్సోల్ వంతెన ప్రారంభించబడిందో లేదో తనిఖీ చేయండి మరియు ప్రస్తుత పత్రం యొక్క సారాంశాన్ని పొందండి.",
   "native.helper.methodNotFound": "పద్ధతి కనుగొనబడలేదు",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "అసలు పత్రం లేదా ఎంచుకున్న భాగం మారింది. చర్యను మళ్లీ అమలు చేయండి లేదా ఈ ఫలితాన్ని కాపీ చేయండి."
 }

@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "നേറ്റീവ് md any where കൺസോൾ ബ്രിഡ്ജ് പ്രവർത്തനക്ഷമമാക്കിയിട്ടുണ്ടോയെന്ന് പരിശോധിക്കുകയും നിലവിലെ ഡോക്യുമെൻ്റിൻ്റെ ഒരു സംഗ്രഹം നേടുകയും ചെയ്യുക.",
   "native.helper.methodNotFound": "രീതി കണ്ടെത്തിയില്ല",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "മൂല രേഖയോ തിരഞ്ഞെടുത്ത ഭാഗമോ മാറിയിരിക്കുന്നു. പ്രവർത്തനം വീണ്ടും നടത്തുക, അല്ലെങ്കിൽ ഈ ഫലം പകർത്തുക."
 }

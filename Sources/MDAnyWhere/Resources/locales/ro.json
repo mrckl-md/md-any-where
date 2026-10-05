@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Verificați dacă bridge-ul de consolă nativ md any where este activat și obțineți un rezumat al documentului curent.",
   "native.helper.methodNotFound": "Metoda nu a fost găsită",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Documentul sursă sau selecția s-a modificat. Executați din nou acțiunea sau copiați acest rezultat."
 }

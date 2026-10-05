@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Ελέγξτε εάν η εγγενής γέφυρα κονσόλας md any where είναι ενεργοποιημένη και λάβετε μια σύνοψη του τρέχοντος εγγράφου.",
   "native.helper.methodNotFound": "Η μέθοδος δεν βρέθηκε",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Το αρχικό έγγραφο ή το επιλεγμένο τμήμα έχει αλλάξει. Εκτελέστε ξανά την ενέργεια ή αντιγράψτε αυτό το αποτέλεσμα."
 }

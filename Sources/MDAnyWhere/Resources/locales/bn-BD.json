@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "নেটিভ md any where কনসোল ব্রিজটি সক্ষম কিনা তা পরীক্ষা করুন এবং বর্তমান নথির সারাংশ পান।",
   "native.helper.methodNotFound": "পদ্ধতি পাওয়া যায়নি",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "মূল নথি বা নির্বাচিত অংশ পরিবর্তিত হয়েছে। কাজটি আবার চালান, অথবা এই ফলাফলটি কপি করুন।"
 }

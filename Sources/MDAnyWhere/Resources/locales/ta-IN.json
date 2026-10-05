@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "நேட்டிவ் md any where கன்சோல் பிரிட்ஜ் இயக்கப்பட்டுள்ளதா எனச் சரிபார்த்து, தற்போதைய ஆவணத்தின் சுருக்கத்தைப் பெறவும்.",
   "native.helper.methodNotFound": "முறை கிடைக்கவில்லை",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "மூல ஆவணம் அல்லது தேர்ந்தெடுத்த பகுதி மாறிவிட்டது. செயலை மீண்டும் இயக்கவும் அல்லது இந்த முடிவை நகலெடுக்கவும்."
 }

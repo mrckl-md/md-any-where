@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "ตรวจสอบว่าคอนโซลบริดจ์ md any where ดั้งเดิมเปิดใช้งานอยู่หรือไม่ และรับข้อมูลสรุปของเอกสารปัจจุบัน",
   "native.helper.methodNotFound": "ไม่พบวิธีการ",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "เอกสารต้นฉบับหรือส่วนที่เลือกเปลี่ยนไปแล้ว โปรดดำเนินการอีกครั้งหรือคัดลอกผลลัพธ์นี้"
 }

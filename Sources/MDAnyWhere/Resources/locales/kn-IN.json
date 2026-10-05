@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "ಸ್ಥಳೀಯ md any where ಕನ್ಸೋಲ್ ಸೇತುವೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಡಾಕ್ಯುಮೆಂಟ್‌ನ ಸಾರಾಂಶವನ್ನು ಪಡೆಯಿರಿ.",
   "native.helper.methodNotFound": "ವಿಧಾನ ಕಂಡುಬಂದಿಲ್ಲ",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "ಮೂಲ ದಸ್ತಾವೇಜು ಅಥವಾ ಆಯ್ದ ಭಾಗ ಬದಲಾಗಿದೆ. ಕ್ರಿಯೆಯನ್ನು ಮತ್ತೆ ನಡೆಸಿ, ಅಥವಾ ಈ ಫಲಿತಾಂಶವನ್ನು ನಕಲಿಸಿ."
 }

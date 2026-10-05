@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Check whether the local md any where console bridge is enabled and get the active document summary.",
   "native.helper.methodNotFound": "Method not found",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "The source document or selection changed. Run the action again, or copy this result."
 }

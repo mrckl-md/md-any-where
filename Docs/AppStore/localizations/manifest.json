@@ -3,7 +3,7 @@
   "source": "https://developer.apple.com/documentation/appstoreconnectapi/managing-metadata-in-your-app-by-using-locale-shortcodes",
   "storefront_source": "https://developer.apple.com/help/app-store-connect/reference/app-information/app-store-localizations",
   "scope": "50 App Store metadata locales; language coverage is not an availability or regulatory approval claim.",
-  "status": "all_50_metadata_translations_prepared_not_uploaded",
+  "status": "all_50_metadata_translations_prepared_zh_Hans_saved_other_49_local_drafts",
   "locales": [
     {
       "name": "Arabic",
@@ -308,7 +308,7 @@
   ],
   "translation_method": "AI-authored translations with technical/structural checks; native-speaker review not completed",
   "native_speaker_review_completed": false,
-  "app_ui_validation_status": "build_5_47_catalogs_583_keys_51_lproj_verified_full_language_and_layout_regressions_previously_passed_build_4",
+  "app_ui_validation_status": "final_source_47_catalogs_584_keys_50_locale_state_and_27_webkit_layout_cases_passed",
   "validator": "../validate-localizations.py",
   "product_fact_review": {
     "checked_at": "2026-10-05",
@@ -325,7 +325,10 @@
       "no all-territory or completed-UI-localization claim"
     ]
   },
-  "target_build": "1.0.0 (4)",
+  "target_build": "1.0.0 (6)",
   "app_store_record_bundle_update_pending": false,
-  "app_store_record_bundle_binding_verified": true
+  "app_store_record_bundle_binding_verified": true,
+  "macos_target_build": "1.0.0 (5)",
+  "ui_catalog_count": 47,
+  "strings_per_catalog": 584
 }

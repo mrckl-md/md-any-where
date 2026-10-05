@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "जांचें कि क्या मूल md any where कंसोल ब्रिज सक्षम है और वर्तमान दस्तावेज़ का सारांश प्राप्त करें।",
   "native.helper.methodNotFound": "विधि नहीं मिली",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "मूल दस्तावेज़ या चयनित भाग बदल गया है। कार्रवाई दोबारा चलाएँ या इस परिणाम को कॉपी करें।"
 }

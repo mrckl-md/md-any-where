@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Preverite, ali je izvorni konzolni most md any where omogočen in pridobite povzetek trenutnega dokumenta.",
   "native.helper.methodNotFound": "Metoda ni bila najdena",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Izvorni dokument ali izbor se je spremenil. Znova izvedite dejanje ali kopirajte ta rezultat."
 }

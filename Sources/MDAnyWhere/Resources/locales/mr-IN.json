@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "मूळ md any where कन्सोल ब्रिज सक्षम आहे का ते तपासा आणि वर्तमान दस्तऐवजाचा सारांश मिळवा.",
   "native.helper.methodNotFound": "पद्धत आढळली नाही",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "मूळ दस्तऐवज किंवा निवडलेला भाग बदलला आहे. कृती पुन्हा चालवा किंवा हा निकाल कॉपी करा."
 }

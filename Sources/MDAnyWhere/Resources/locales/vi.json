@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Kiểm tra xem cầu nối bảng điều khiển md any where gốc có được bật hay không và nhận bản tóm tắt về tài liệu hiện tại.",
   "native.helper.methodNotFound": "Không tìm thấy phương pháp",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Tài liệu gốc hoặc phần được chọn đã thay đổi. Hãy chạy lại thao tác hoặc sao chép kết quả này."
 }

@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Periksa apakah jembatan konsol md any where asli diaktifkan dan dapatkan ringkasan dokumen saat ini.",
   "native.helper.methodNotFound": "Metode tidak ditemukan",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Dokumen sumber atau bagian yang dipilih telah berubah. Jalankan tindakan lagi, atau salin hasil ini."
 }

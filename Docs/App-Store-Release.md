@@ -1,35 +1,48 @@
 # App Store 发布准备
 
-核对日期：2026-10-06。当前品牌精确为 **md any where**。移动目标为 `1.0.0 (5)`、`app.mdanywhere.mobile`；macOS 保持 `1.0.0 (4)`、`app.mdanywhere.editor`。工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。当前构建尚未上传、送审或发布。
+核对日期：2026-10-06。当前品牌精确为 **md any where**。移动目标为 `1.0.0 (6)`、`app.mdanywhere.mobile`；macOS 目标为 `1.0.0 (5)`、`app.mdanywhere.editor`。工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。
 
 ## 当前已完成与记录状态
 
-- **移动 build 5：** Release 本地自动开发签名及严格验签通过，未启用在线描述文件更新。iPhone/iPad 模拟器均完成安装、启动和公开示例导入；设备族 `1,2`、47 份 catalog、每份 583 条、51 个语言目录及打包 JavaScript 与源码一致已核对。尚未尝试本版真机安装。
-- **本地开发签名归档：** `.build/ios/app-store/build5/md any where.xcarchive` 已生成，严格签名、新标识、版本、资源、JavaScript 和 dSYM UUID 一致性通过。证书仍为开发签名，不是 Apple Distribution；App Store 发行签名导出、服务器 Validate 和上传未完成。
-- **macOS build 4：** 构建与严格深层 ad-hoc 签名通过，主应用及 Quick Look、缩略图、Agent 扩展标识已核对。本次移动 build 5 不改变 macOS 构建号。
+- **最终源码审查：** 移动 build 6 / macOS build 5 包含下方五类修复。移动草稿存储 9 项、真实 WebKit 编辑安全、移动布局 9 项、50 项语言状态及 27 组多语言布局、桥接契约、本机 Agent 传输回归通过；iOS 17 全量 Swift 类型检查通过。日志保存在被 Git 忽略的 `.build/review/`，不含真实 API 调用。
+- **移动 build 6：** `.build/ios/app-store/build6/md any where.xcarchive` 开发签名归档及 App Store 发行重签 IPA 导出成功。归档的开发描述文件允许调试且含设备列表；导出 IPA 严格验签通过，发行描述文件无调试权限和设备列表。SDK iOS 27/最低 iOS 17、设备族 `1,2`、47 × 584 条目录和 51 个语言目录已核验；打包 JavaScript 与源码哈希一致，归档 dSYM UUID 匹配。iPhone/iPad 模拟器均安装启动成功，公开示例编辑/分栏、公式/流程图/表格画面已核验，7 项 JS/CSS/目录哈希与源码一致。移动 build 6 上传成功，服务器处理结果待确认；尚未送审或发布。
+- **本版真机部署：** iPad 使用 build 6 开发签名包安装并启动成功；iPhone 的连接/锁定状态查询超时，本版未执行安装或启动。不把安装启动成功写成全部交互验收完成。
+- **macOS build 5：** 最终构建、主程序/Quick Look/缩略图/Agent 四组件版本与标识、严格深层 ad-hoc 签名通过；`app.js`、语言目录与源码一致。真实 WebKit DOCX 回归通过，检查流程图 PNG、图片关系、OMML 公式、表格与失败回退。此结果不表示 Developer ID 公证或 Mac App Store 发行。
 - **新记录已创建：** `6819394741` 已绑定 `app.mdanywhere.mobile` 和 SKU `MD-ANY-WHERE-IOS-001`。完全访问已获用户明确授权，团队仅本人。版本 `1.0.0` 的简中推广文字、描述、关键词、支持/营销 URL、版权、私有审核联系人、不要求登录及手动发布已保存。副标题、效率/工具分类、免费价格及 174 地区供应设置已恢复保存，未来新增地区自动加入已关闭。隐私政策 URL 也已保存并核验，基础资料恢复完成。
 - **旧记录已移除：** `6819302567` 已停止全部 175 个地区供应并移除，非永久删除；用户明确不恢复。旧记录此前的保存和截图上传只作历史证据，不计入新记录完成状态。
-- **四张截图保留：** 简中和英文各一张 iPhone 编辑、一张 iPad 分栏，真实来源为 build 4；尺寸、无 Alpha 通道和画面无历史品牌已核验。build 5 界面未变，可复用，保留原文件名及来源版本，不冒称重新拍摄。新记录简中两张已上传，iPhone 6.9 英寸、iPad 13 英寸组各 `1/10`；英文两张待上传，详见[截图清单](AppStore/Screenshots/README.md)。
+- **四张截图保留：** 简中和英文各一张 iPhone 编辑、一张 iPad 分栏，真实来源为 build 4；尺寸、无 Alpha 通道和画面无历史品牌已核验。build 6 所示主界面未变，可复用，保留原文件名及来源版本，不冒称重新拍摄。新记录简中两张已上传，iPhone 6.9 英寸、iPad 13 英寸组各 `1/10`；英文两张待上传，详见[截图清单](AppStore/Screenshots/README.md)。
+
+## 本次修复与验证
+
+1. Agent 请求拒绝自动重定向，防止已同意发送的正文或认证头被转发到另一地址。本机假数据复现原 307/308 行为；修复后同站与跨站的 301/302/303/307/308 均不访问目标，正常响应和 4 MiB 边界保持通过。
+2. Agent 与公式结果绑定请求时的文稿、CodeMirror 文档实例和修改版本；切换文稿、关闭后重开、修改正文及乱序响应不会把旧结果写入新选区。
+3. 查找在切换标签时清除旧位置；忽略大小写查找使用原文 UTF-16 偏移，避免 Unicode 大小写转换扩长后替换错位。
+4. 原生文稿替换桥收到不存在的文稿 ID 时直接返回，不覆盖当前文稿。
+5. Markdown 链接保留解析器默认的危险协议验证，再施加离线限制；导出不接受可执行或本地文件链接，安全页内锚点仍可用。
+
+可运行 `scripts/test-agent-transport.sh`、`scripts/test-editor-safety.sh`、`scripts/test-mobile-store.sh`、`scripts/test-mobile-layout.sh`、`scripts/test-localized-editor.sh` 与 `node scripts/test-bridge-contract.cjs` 复查相应行为。多语言仍为 50 个官方语言项、47 份目录，每份 584 条；新增过期选区提示已覆盖全部目录。测试通过不表示所有真实服务、设备或母语翻译已验收。
 
 ## 历史证据的适用范围
 
-移动 build 4 曾通过七组 JavaScript、Agent 打包、Quick Look、Mermaid、原生本地化、移动存储 9 项、布局 9 项、50 项语言状态与 27 组 WebKit 布局、WebKit DOCX 回归，以及模拟器和本地开发签名构建。其 iPad 安装成功但启动未确认，iPhone 因连接异常安装失败。这些仍是之前标识与构建的证据，不算 build 5 真机或全部回归已通过。
+移动 build 5 曾完成本地开发签名 Release 包、严格验签归档，以及 iPhone/iPad 模拟器安装、启动和公开示例导入，目录为 47 × 583 条。最初未完成发行导出；用户重新验证 Xcode 账号后，该旧包作为签名预检成功导出，未上传，也不包含本次最终修复。历史预检结果位于 `.build/final-review/build5-signing-preflight-after-login/`；本版未完成真机部署。
+
+移动 build 4 曾通过七组 JavaScript、Agent 打包、Quick Look、Mermaid、原生本地化、移动存储 9 项、布局 9 项、50 项语言状态与 27 组 WebKit 布局、WebKit DOCX 回归，以及模拟器和本地开发签名构建。其 iPad 安装成功但启动未确认，iPhone 因连接异常安装失败。这些仍是之前标识与构建的证据，不算当前 build 6 真机验收已通过。
 
 版本 `1` 曾成功本地 App Store IPA 导出并验证发行签名，但未上传；真机 PDF 两页及完整内容、DOCX 流程图图片/表格/OMML 结构曾核验。Quick Look 不显示 OMML，未用 Word/WPS 完成公式目视验证。版本 `3` 曾归档成功，分发导出报账号/签名访问错误；错误只能说明当时导出进程不能访问所需身份，不能证明用户退出登录。版本 `1`、`3` 图片已退休并保留历史备份。
 
 ## 尚需完成
 
 1. 新记录 `6819394741` 已创建，简中版本资料与私有审核设置已恢复；副标题、分类、免费价格、174 地区供应设置及隐私政策 URL 也已恢复核验，基础资料恢复完成。英文名称可用性仍须核验，年龄、隐私、内容版权与 DSA 声明按事实和发行者确认完成。详见 [submission.json](AppStore/submission.json)。
-2. 对移动 build 5 完成真机部署和交互验收。标识变化可能形成独立容器，不保证历史草稿或 Keychain 自动迁移；先把要保留的文稿保存为文件，不删除历史安装数据。
+2. 移动 build 6 的 iPad 安装启动已完成；继续完成 iPhone 部署及所需真机交互验收。标识变化可能形成独立容器，不保证历史草稿或 Keychain 自动迁移；先把要保留的文稿保存为文件，不删除历史安装数据。
 3. 新记录简中两张 build 4 来源图片已重新上传，两个设备组各 `1/10`；继续上传并核验英文两张，不把部分完成写成四张全部上传。
-4. 完成 App Store 发行签名导出和签名验证，再执行 Apple 服务器 Validate。已有本地归档为开发签名。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=5 ./scripts/archive-ios.sh all` 准备归档和导出，脚本不上传。若账号/签名访问受阻，先查看 Xcode 的“Settings → Apple Accounts”状态，不预先删除或重新登录账号。
-5. 继续按现有可选、用户自配 Agent 准备审核访问与问卷，不重新询问是否保留 AI。完成待核实项后再上传构建、TestFlight（如采用）、送审及发布，当前均未完成。
+4. 本地 App Store 发行签名导出及签名验证已完成；build 6 已成功上传，上传流程中的服务器分析已接受，继续核验后台处理结果；未单独执行 Validate 命令。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=6 ./scripts/archive-ios.sh all` 准备归档和导出，脚本不上传。若账号/签名访问受阻，先查看 Xcode 的“Settings → Apple Accounts”状态，不预先删除或重新登录账号。
+5. 继续按现有可选、用户自配 Agent 准备审核访问与问卷，不重新询问是否保留 AI。build 6 已成功上传，提交事项继续准备；TestFlight 分发（如采用）、送审及发布分别记录实际结果，当前均未完成。
 
 ## 设备验收与截图
 
 发布前覆盖小屏 iPhone 竖横屏、键盘、iPad 分栏、菜单及设置/公式/Agent/DOCX 对话框、中文输入、撤销、复制粘贴、Files 打开/保存/另存、后台与重启恢复、文件冲突、DOCX/PDF/HTML 实际打开、拒绝远程发送及清除 Key。使用 `tests/fixtures/mobile-demo.md` 等公开示例，不拍摄个人文稿或真实凭证。
 
-四张公开素材的来源版本均为 `1.0.0 (4)`：iPhone 为 1320 × 2868 JPEG，iPad 为 2064 × 2752 JPEG，均无 Alpha 通道。当前 build 5 界面未变，可复用，但截图不证明真机部署或所有交互通过。Apple 每个设备组接受 1–10 张 PNG/JPEG；支持 iPad 时须提供适用的 13 英寸组。参见[截图规格](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)与[上传规则](https://developer.apple.com/help/app-store-connect/manage-app-information/upload-app-previews-and-screenshots/)。
+四张公开素材的来源版本均为 `1.0.0 (4)`：iPhone 为 1320 × 2868 JPEG，iPad 为 2064 × 2752 JPEG，均无 Alpha 通道。当前 build 6 所示主界面未变，可复用，但截图不证明真机部署或所有交互通过。Apple 每个设备组接受 1–10 张 PNG/JPEG；支持 iPad 时须提供适用的 13 英寸组。参见[截图规格](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)与[上传规则](https://developer.apple.com/help/app-store-connect/manage-app-information/upload-app-previews-and-screenshots/)。
 
 ## 隐私标签与隐私清单
 

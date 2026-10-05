@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "Kontroller, om den oprindelige md any where-konsolbro er aktiveret, og få en oversigt over det aktuelle dokument.",
   "native.helper.methodNotFound": "Metoden blev ikke fundet",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "Kildedokumentet eller markeringen er ændret. Kør handlingen igen, eller kopiér dette resultat."
 }

@@ -581,5 +581,6 @@
   "native.helper.toolDescription1": "મૂળ md any where કન્સોલ બ્રિજ સક્ષમ છે કે કેમ તે તપાસો અને વર્તમાન દસ્તાવેજનો સારાંશ મેળવો.",
   "native.helper.methodNotFound": "પદ્ધતિ મળી નથી",
   "native.menu.ai": "AI",
-  "native.agent.name": "AI Agent"
+  "native.agent.name": "AI Agent",
+  "error.staleSelection": "મૂળ દસ્તાવેજ અથવા પસંદ કરેલો ભાગ બદલાઈ ગયો છે. ક્રિયા ફરીથી ચલાવો અથવા આ પરિણામની નકલ કરો."
 }
