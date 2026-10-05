@@ -209,7 +209,8 @@
     "basis": "Google API terms expressly describe retained content, authentication, token usage and operational/error logs; xAI describes retained requests and per-key logging",
     "classification_status": "Reasoned application of Apple definitions to actual integrations, not a claim of Apple-specific BYOK approval",
     "custom_endpoints": "No universal assertion about all arbitrary endpoints",
-    "publisher_instruction": "Complete the materials and submit after checking",
+    "publisher_instruction": "Publisher instructed completion and submission; later explicitly confirmed the content-rights declaration",
     "binary_changed": false
-  }
+  },
+  "review_submission_status": "WAITING_FOR_REVIEW"
 }

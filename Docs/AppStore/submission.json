@@ -1,5 +1,5 @@
 {
-  "status": "build_6_uploaded_processed_ready_to_submit_macos_5_verified",
+  "status": "ios_build_6_submitted_waiting_for_review",
   "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
@@ -114,7 +114,7 @@
   "copyright": "© 2026 陈科霖",
   "review_contact_provided_privately": true,
   "review_contact_saved_in_app_store_connect": true,
-  "app_store_record_status": "prepare_for_submission_new_record_baseline_settings_restored",
+  "app_store_record_status": "WAITING_FOR_REVIEW",
   "ai_release_scope_confirmed": true,
   "historical_distribution": {
     "release_archive_created": true,
@@ -144,7 +144,7 @@
     "server_validation_completed": false,
     "uploaded": true,
     "testflight_distributed": false,
-    "submitted_for_review": false,
+    "submitted_for_review": true,
     "published": false,
     "artifact_directory": ".build/ios/app-store/build6",
     "archive_path": ".build/ios/app-store/build6/md any where.xcarchive",
@@ -156,7 +156,7 @@
     "archive_signing_type": "development",
     "app_store_distribution_signature_verified": true,
     "archive_dsym_uuid_matches": true,
-    "scope": "Build 6 development-signed archive and App Store re-signed IPA verified. Xcode upload succeeded on 2026-10-06 for new record 6819394741; upload server analysis was accepted and processing completed. TestFlight shows build 6 as Ready to Submit. No separate Validate command, review submission or publication is implied. Build 6 is attached to App Store version 1.0.0; saved association was verified after reload.",
+    "scope": "Build 6 archive and App Store Distribution IPA verified; uploaded, processed and attached to 1.0.0. Formal review submission succeeded on 2026-10-06 and the version shows Waiting for Review. No separate Validate command, approval or publication is implied.",
     "sdk": "iphoneos27.0",
     "minimum_os": "17.0",
     "device_families": [
@@ -180,7 +180,9 @@
     "testflight_build_status": "Ready to Submit",
     "testflight_build_visible": true,
     "associated_with_store_version": "1.0.0",
-    "association_saved_and_reloaded": true
+    "association_saved_and_reloaded": true,
+    "review_status": "WAITING_FOR_REVIEW",
+    "submitted_at": "2026-10-06T04:56:48+08:00"
   },
   "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",
@@ -366,7 +368,7 @@
   "project": "MDAnyWhere-iOS.xcodeproj",
   "app_store_record_bundle_update_pending": false,
   "app_store_record_bundle_binding_verified": true,
-  "app_store_record_note": "Record 6819394741 is created with app.mdanywhere.mobile and SKU MD-ANY-WHERE-IOS-001. Full Access was explicitly authorized for the publisher-confirmed single-person team. App information, zh-Hans version/review settings, free price and territory selection have been restored. Privacy policy URL is also saved and verified. Baseline restoration is complete; DSA, age rating, final privacy answers, optional AI review access, English name/localization and distribution steps remain incomplete.",
+  "app_store_record_note": "Record 6819394741, app.mdanywhere.mobile, SKU MD-ANY-WHERE-IOS-001. Version 1.0.0 build 6 was formally submitted on 2026-10-06; App Store Connect confirms Waiting for Review. Primary locale zh-Hans; additional locales remain drafts. Privacy disclosure is published, age rating and publisher-confirmed rights are saved, DSA non-trader is saved. Approval and publication are not implied.",
   "saved_app_store_settings_scope": "New record 6819394741: zh-Hans app name/subtitle, Productivity and Utilities categories, version promotional text/description/keywords/support and marketing URLs/copyright, private reviewer contact, requires-login=false, manual release, two zh-Hans screenshots, free price and 174 territories excluding CHN saved. Future territory inclusion is disabled. Privacy policy URL https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md is saved and verified in the new record. Baseline restoration does not imply final privacy answers, review or publication.",
   "privacy_assessment_new_identifier_review_pending": false,
   "age_assessment_new_identifier_review_pending": true,
@@ -648,11 +650,8 @@
       "summary": "Preserve the Markdown parser default link validator as well as offline restrictions."
     }
   ],
-  "submission_steps_pending": [
-    "Publisher confirmation and saving of content-rights declaration",
-    "Add version and submit to App Review"
-  ],
-  "submission_steps_scope": "These are factual submission/review steps, not prerequisites imposed on binary upload. Distribution/export, upload, review submission and publication have independent status fields.",
+  "submission_steps_pending": [],
+  "submission_steps_scope": "No remaining steps to place build 6 in the review queue. Apple may request additional information or changes. Approval and manual release remain future events.",
   "historical_build_5_signing_preflight": {
     "build": "5",
     "app_store_ipa_exported": true,
@@ -675,5 +674,11 @@
     "Private AI test access if requested by App Review"
   ],
   "privacy_answers_published": true,
-  "content_rights_status": "publisher_confirmation_required_by_automatic_approval_review"
+  "content_rights_status": "saved_publisher_confirmed",
+  "content_rights_publisher_confirmed": true,
+  "content_rights_confirmation_date": "2026-10-06",
+  "submitted_at": "2026-10-06T04:56:48+08:00",
+  "release_mode": "manual",
+  "review_result": "pending",
+  "review_evidence_screenshot": ".build/final-review/app-store-build6-waiting-review.png"
 }
