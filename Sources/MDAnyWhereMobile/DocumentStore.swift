@@ -23,7 +23,7 @@ struct MDAnyWhereSession: Codable, Sendable {
 /// A private, protected recovery copy is independent of the user's file provider.
 /// Writes are serialized so an older snapshot cannot replace a newer snapshot.
 final class MDAnyWhereDocumentStore: @unchecked Sendable {
-    private let queue = DispatchQueue(label: "app.mdanywhere.ios.recovery", qos: .utility)
+    private let queue = DispatchQueue(label: "app.mdanywhere.mobile.recovery", qos: .utility)
     private let sessionURL: URL
 
     init(directory requestedDirectory: URL? = nil) throws {

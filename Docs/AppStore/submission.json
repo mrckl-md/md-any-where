@@ -1,5 +1,5 @@
 {
-  "status": "build_4_development_signed_ipad_installed_launch_unconfirmed_iphone_connection_failed_app_store_distribution_pending",
+  "status": "build_5_development_signed_simulator_verified_new_store_record_pending_access_confirmation",
   "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
@@ -7,7 +7,7 @@
     "iPad"
   ],
   "minimum_os": "17.0",
-  "bundle_id": "app.mdanywhere.ios",
+  "bundle_id": "app.mdanywhere.mobile",
   "scheme": "MDAnyWhere-iOS",
   "version": "1.0.0",
   "primary_locale": "zh-Hans",
@@ -17,7 +17,7 @@
   "support_url": "https://github.com/mrckl-md/md-any-where/issues",
   "privacy_policy_url": "https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md",
   "url_status": "public_repository_rename_verified",
-  "app_store_app_id": "6819302567",
+  "app_store_app_id": null,
   "review_contact_name": null,
   "review_contact_email": null,
   "review_contact_phone": null,
@@ -30,12 +30,14 @@
     ],
     "mainland_deferred": true,
     "mainland_filing_applicability": "not_determined",
-    "app_store_selection_saved": true,
+    "app_store_selection_saved": false,
     "eu_trader_status_confirmation_pending": true,
-    "selected_territory_count": 174,
-    "excluded_territory_count": 1,
+    "selected_territory_count": 0,
+    "excluded_territory_count": 0,
     "auto_include_future_territories": false,
-    "saved_selection_scope": "Saved on record 6819302567, whose binding to app.mdanywhere.ios is now confirmed."
+    "saved_selection_scope": "Not saved on a new record. Restore the approved 174-territory plan excluding CHN; keep Hong Kong, Macao and Taiwan, and disable automatic inclusion of future territories.",
+    "intended_selected_territory_count": 174,
+    "intended_excluded_territory_count": 1
   },
   "final_age_rating": null,
   "privacy_answers_finalized": false,
@@ -45,10 +47,10 @@
   "copyright_owner_for_store": "陈科霖",
   "release_mode_suggestion": "manual",
   "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
-  "build_number": "4",
-  "screenshots_uploaded": true,
+  "build_number": "5",
+  "screenshots_uploaded": false,
   "screenshots": {
-    "status": "build_4_zh_Hans_uploaded_and_old_images_removed_en_US_ready_not_uploaded",
+    "status": "build_4_source_images_ready_for_unchanged_build_5_ui_new_record_not_uploaded",
     "source": "actual_build_4_simulator_ui_with_public_fixture",
     "manifest": "Screenshots/README.md",
     "source_build": "1.0.0 (4)",
@@ -57,20 +59,20 @@
       "width": 1320,
       "height": 2868,
       "format": "JPEG",
-      "status": "zh_Hans_uploaded_en_US_ready_not_uploaded",
+      "status": "ready_not_uploaded_to_new_record",
       "count_per_locale": 1,
-      "uploaded_count": 1,
-      "verified_zh_Hans_store_count": "1/10"
+      "uploaded_count": 0,
+      "verified_zh_Hans_store_count": null
     },
     "ipad_13": {
       "count": 2,
       "width": 2064,
       "height": 2752,
       "format": "JPEG",
-      "status": "zh_Hans_uploaded_en_US_ready_not_uploaded",
+      "status": "ready_not_uploaded_to_new_record",
       "count_per_locale": 1,
-      "uploaded_count": 1,
-      "verified_zh_Hans_store_count": "1/10"
+      "uploaded_count": 0,
+      "verified_zh_Hans_store_count": null
     },
     "new_brand_recapture_required": false,
     "english_recapture_pending": false,
@@ -78,9 +80,7 @@
       "zh-Hans",
       "en-US"
     ],
-    "locales_uploaded": [
-      "zh-Hans"
-    ],
+    "locales_uploaded": [],
     "historical_assets_retired": true,
     "total_count": 4,
     "legacy_identifiers_visible": false,
@@ -91,26 +91,26 @@
       "Screenshots/en-US/iphone-01-editor-build4.jpg",
       "Screenshots/en-US/ipad-01-split-build4.jpg"
     ],
-    "uploaded_count": 2,
+    "uploaded_count": 0,
     "all_prepared_uploaded": false,
-    "old_zh_Hans_images_removed_from_store": true,
-    "store_record_id": "6819302567",
-    "uploaded_files": [
-      "Screenshots/zh-Hans/iphone-01-editor-build4.jpg",
-      "Screenshots/zh-Hans/ipad-01-split-build4.jpg"
-    ],
+    "store_record_id": null,
+    "uploaded_files": [],
     "pending_upload_files": [
+      "Screenshots/zh-Hans/iphone-01-editor-build4.jpg",
+      "Screenshots/zh-Hans/ipad-01-split-build4.jpg",
       "Screenshots/en-US/iphone-01-editor-build4.jpg",
       "Screenshots/en-US/ipad-01-split-build4.jpg"
-    ]
+    ],
+    "reuse_target_build": "1.0.0 (5)",
+    "ui_unchanged_between_source_and_target": true
   },
   "display_name": "md any where",
   "price_model": "free",
   "china_mainland_filing_provided": false,
   "copyright": "© 2026 陈科霖",
   "review_contact_provided_privately": true,
-  "review_contact_saved_in_app_store_connect": true,
-  "app_store_record_status": "record_6819302567_saved_with_app_mdanywhere_ios_bundle_binding",
+  "review_contact_saved_in_app_store_connect": false,
+  "app_store_record_status": "creation_form_prepared_not_created_full_access_confirmation_pending",
   "ai_release_scope_confirmed": true,
   "historical_distribution": {
     "release_archive_created": true,
@@ -127,28 +127,32 @@
     "uploaded": false,
     "testflight_distributed": false,
     "submitted_for_review": false,
-    "scope": "Historical version 1.0.0 build 1 only; does not verify the new identifiers or build 4."
+    "scope": "Historical version 1.0.0 build 1 only; does not verify the new identifiers or mobile build 5."
   },
   "local_distribution": {
     "version": "1.0.0",
-    "build": "4",
-    "bundle_id": "app.mdanywhere.ios",
+    "build": "5",
+    "bundle_id": "app.mdanywhere.mobile",
     "app_filename": "md any where.app",
     "archive_filename": "md any where.xcarchive",
-    "release_archive_created": false,
+    "release_archive_created": true,
     "app_store_ipa_exported": false,
     "server_validation_completed": false,
     "uploaded": false,
     "testflight_distributed": false,
     "submitted_for_review": false,
     "published": false,
-    "artifact_directory": null,
-    "archive_signature_verified": false,
-    "archive_sources_match": false,
-    "export_status": "pending_app_store_distribution_archive_and_export_development_signing_already_succeeded",
+    "artifact_directory": ".build/ios/app-store/build5",
+    "archive_signature_verified": true,
+    "archive_sources_match": true,
+    "export_status": "development_signed_release_archive_verified_app_store_distribution_export_pending",
     "final_corrected_archive_export_attempted": false,
     "last_export_exit_code": null,
-    "scope": "All fields refer to the new identifiers and build 4, not historical artifacts."
+    "scope": "Current mobile build 5 local development-signed Release archive is strictly verified with matching identifier, resources, JavaScript and dSYM UUID. This is not an Apple Distribution export; server validation and upload remain incomplete.",
+    "archive_path": ".build/ios/app-store/build5/md any where.xcarchive",
+    "archive_signing_type": "development",
+    "app_store_distribution_signature_verified": false,
+    "archive_dsym_uuid_matches": true
   },
   "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",
@@ -162,12 +166,166 @@
     "mobile_layout_viewports_passed": 9,
     "docx_flowchart_regression_passed": true,
     "independent_review_blockers": 0,
-    "scope": "Historical version 1.0.0 build 1 checks only; does not verify the new identifiers, build 4, or App Store review.",
+    "scope": "Historical version 1.0.0 build 1 checks only; does not verify the new identifiers, mobile build 5, or App Store review.",
     "ipad_final_build_install_and_launch_passed": true,
     "macos_final_build_passed": true,
     "source_build": "1.0.0 (1)"
   },
   "verification": {
+    "source_build": "1.0.0 (5)",
+    "status": "development_signed_release_strict_verified_simulator_phone_and_pad_install_launch_demo_passed",
+    "bundle_id": "app.mdanywhere.mobile",
+    "simulator_build_passed": true,
+    "simulator_install_and_launch_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_public_demo_import_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_device_families_verified": [
+      1,
+      2
+    ],
+    "offline_catalogs_verified": 47,
+    "strings_per_catalog_verified": 583,
+    "system_language_directories_verified": 51,
+    "packaged_javascript_matches_source": true,
+    "device_build_passed": true,
+    "device_build_configuration": "development-signed arm64 Release",
+    "device_build_signed": true,
+    "device_strict_signature_verified": true,
+    "signing_identifier_matches_bundle_id": true,
+    "development_signing_status": "automatic_local_existing_profile_succeeded_without_allow_provisioning_updates",
+    "automatic_signing_provisioning_updates_enabled": false,
+    "physical_device_installation_attempted": false,
+    "device_install_passed": [],
+    "ipad_launch_passed": false,
+    "ipad_launch_status": "not_attempted_for_build_5",
+    "iphone_install_status": "not_attempted_for_build_5",
+    "iphone_launch_status": "not_attempted_for_build_5",
+    "physical_device_acceptance_pending": true,
+    "manual_multilingual_device_acceptance_complete": false,
+    "release_archive_verified": true,
+    "development_signed_app_path": ".build/ios/mobile-release5/Build/Products/Release-iphoneos/md any where.app",
+    "evidence_report": ".build/rebrand/build5-verification.json",
+    "scope": "Current mobile build 5 packaging, development-signed Release app and archive, plus two simulator install/launch/public-demo checks. Previous full regression and physical-device results remain historical; no physical deployment, App Store distribution signature/export, server validation, upload or review is implied.",
+    "release_archive_signing_type": "development",
+    "release_archive_app_store_distribution_signed": false
+  },
+  "subtitle": "AI 编辑与三端 Markdown 写作",
+  "secondary_category_suggestion": "UTILITIES",
+  "localizations": {
+    "manifest": "localizations/manifest.json",
+    "metadata_locale_count": 50,
+    "all_metadata_files_prepared": true,
+    "structural_validation_passed": true,
+    "native_speaker_review_completed": false,
+    "uploaded_to_app_store_connect": false,
+    "app_ui_validation_status": "build_5_47_catalogs_583_keys_51_lproj_verified_full_language_and_layout_regressions_previously_passed_build_4",
+    "territory_availability_confirmed": false,
+    "ui_catalog_count": 47,
+    "strings_per_catalog": 583,
+    "system_and_manual_language_selection": true,
+    "right_to_left_ui_languages": [
+      "ar-SA",
+      "he",
+      "ur-PK"
+    ],
+    "saved_store_locales": [],
+    "english_name_conflict": true,
+    "english_name_resolution_pending": true,
+    "saved_store_locales_scope": "New record not created; no locale is saved on it. The removed record previously held zh-Hans only."
+  },
+  "ai_release_scope": "existing_user_configured_optional_AI_services",
+  "price_saved_in_app_store_connect": false,
+  "privacy_policy_url_saved_in_app_store_connect": false,
+  "historical_build_3_distribution": {
+    "version": "1.0.0",
+    "build": "3",
+    "app_filename": "md any where.app",
+    "archive_filename": "md any where.xcarchive",
+    "release_archive_created": true,
+    "app_store_ipa_exported": false,
+    "server_validation_completed": false,
+    "uploaded": false,
+    "testflight_distributed": false,
+    "submitted_for_review": false,
+    "archive_signature_verified": true,
+    "archive_sources_match": true,
+    "export_status": "export_process_cannot_access_account_or_distribution_identity_login_state_unconfirmed",
+    "final_corrected_archive_export_attempted": true,
+    "last_export_exit_code": 70,
+    "scope": "Historical version 1.0.0 build 3 archive and failed export only; does not verify the new identifiers or mobile build 5."
+  },
+  "historical_build_3_verification": {
+    "source_build": "1.0.0 (3)",
+    "macos_build_passed": true,
+    "macos_signature_verified": true,
+    "simulator_build_passed": true,
+    "simulator_install_and_launch_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "simulator_existing_document_restoration_observed": true,
+    "device_build_passed": true,
+    "device_install_passed": [
+      "iPhone",
+      "iPad"
+    ],
+    "ipad_launch_passed": true,
+    "iphone_launch_status": "blocked_by_device_lock",
+    "manual_multilingual_device_acceptance_complete": false,
+    "offline_catalogs_verified": 47,
+    "locale_state_preservation_cases_passed": 50,
+    "localized_webkit_layout_cases_passed": 27,
+    "runtime_native_store_locale_sets_match": true,
+    "workflow_adoption_then_language_change_regression_passed": true,
+    "independent_review_blockers_remaining": 0,
+    "scope": "Historical version 1.0.0 build 3 checks only; all new identifiers are historical and do not verify mobile build 5.",
+    "release_archive_verified": true
+  },
+  "historical_screenshots": {
+    "status": "retired_from_current_release_materials_preserve_historical_evidence",
+    "build_1": {
+      "count": 4,
+      "scope": "Historical UI only; not eligible for the current submission."
+    },
+    "build_3": {
+      "locales_prepared": [
+        "zh-Hans",
+        "en-US"
+      ],
+      "count": 4,
+      "locales_previously_uploaded": [
+        "zh-Hans"
+      ],
+      "scope": "Historical zh-Hans uploads were replaced by build 4 images on the now-removed record. These build 3 images remain retired and are not current release inputs."
+    },
+    "source_files": "Removed from current public release materials and retained in an ignored historical backup. Historical images are not current release inputs."
+  },
+  "macos_bundle_id": "app.mdanywhere.editor",
+  "project": "MDAnyWhere-iOS.xcodeproj",
+  "app_store_record_bundle_update_pending": true,
+  "app_store_record_bundle_binding_verified": false,
+  "app_store_record_note": "Apple Developer registration of app.mdanywhere.mobile is confirmed. The new-app form has the new bundle ID and SKU entered. Limited access is disabled; automated approval review rejected choosing Full Access, and specific publisher confirmation is pending. No new record or Apple ID exists yet. The removed record is not to be restored.",
+  "saved_app_store_settings_scope": "No settings are saved on a new record yet. Previous-record settings and screenshot uploads are historical only and must be restored and verified separately.",
+  "privacy_assessment_new_identifier_review_pending": true,
+  "age_assessment_new_identifier_review_pending": true,
+  "developer_bundle_id_registered": true,
+  "app_store_sku": {
+    "value": "MD-ANY-WHERE-IOS-001",
+    "entered_in_creation_form": true,
+    "saved_on_created_record": false,
+    "editable_until_record_creation": true,
+    "resolution_pending": false,
+    "scope": "New SKU for the separate record; creation is pending. The SKU becomes immutable after creation."
+  },
+  "all_cloud_internal_identifiers_renamed": false,
+  "all_prepared_screenshots_uploaded": false,
+  "screenshots_uploaded_scope": "No screenshot uploaded to a new record. Four retained files were captured from build 4; they can be reused for the unchanged build 5 UI and must not be represented as build 5 captures.",
+  "historical_build_4_verification": {
     "source_build": "1.0.0 (4)",
     "status": "build_4_development_signed_strict_verified_ipad_installed_physical_launch_and_iphone_install_pending",
     "bundle_id": "app.mdanywhere.ios",
@@ -193,7 +351,7 @@
     "workflow_adoption_then_language_change_regression_passed": true,
     "independent_review_blockers_remaining": null,
     "release_archive_verified": false,
-    "scope": "Current build 4 regressions, macOS, simulator and development-signed arm64 Release verified. iPad installation succeeded but launch is unconfirmed due to CoreDevice XPC availability; iPhone installation failed with a connection error. No completed physical interaction acceptance, App Store distribution archive, server validation or submission is implied.",
+    "scope": "Historical mobile build 4 under app.mdanywhere.ios. It does not verify mobile build 5 under app.mdanywhere.mobile. macOS build 4 remains current and is documented separately.",
     "macos_signature_kind": "ad-hoc",
     "macos_strict_deep_signature_verified": true,
     "macos_extension_bundle_ids_verified": [
@@ -227,116 +385,58 @@
     "device_retry_requires_rebuild": false,
     "device_retry_note": "Unlock and reconnect the authorized devices, then reuse the signed build 4 package for iPad launch and iPhone install/launch. No personal device or certificate identifiers are stored here."
   },
-  "subtitle": "AI 编辑与三端 Markdown 写作",
-  "secondary_category_suggestion": "UTILITIES",
-  "localizations": {
-    "manifest": "localizations/manifest.json",
-    "metadata_locale_count": 50,
-    "all_metadata_files_prepared": true,
-    "structural_validation_passed": true,
-    "native_speaker_review_completed": false,
-    "uploaded_to_app_store_connect": false,
-    "app_ui_validation_status": "build_4_47_catalogs_51_lproj_native_localization_and_50_locale_27_layout_webkit_checks_passed",
-    "territory_availability_confirmed": false,
-    "ui_catalog_count": 47,
-    "strings_per_catalog": 583,
-    "system_and_manual_language_selection": true,
-    "right_to_left_ui_languages": [
-      "ar-SA",
-      "he",
-      "ur-PK"
-    ],
-    "saved_store_locales": [
-      "zh-Hans"
-    ],
-    "english_name_conflict": true,
-    "english_name_resolution_pending": true,
-    "saved_store_locales_scope": "Saved on record 6819302567, now confirmed bound to app.mdanywhere.ios; other 49 locales remain local drafts."
-  },
-  "ai_release_scope": "existing_user_configured_optional_AI_services",
-  "price_saved_in_app_store_connect": true,
-  "privacy_policy_url_saved_in_app_store_connect": true,
-  "historical_build_3_distribution": {
-    "version": "1.0.0",
-    "build": "3",
-    "app_filename": "md any where.app",
-    "archive_filename": "md any where.xcarchive",
-    "release_archive_created": true,
-    "app_store_ipa_exported": false,
-    "server_validation_completed": false,
-    "uploaded": false,
-    "testflight_distributed": false,
-    "submitted_for_review": false,
-    "archive_signature_verified": true,
-    "archive_sources_match": true,
-    "export_status": "export_process_cannot_access_account_or_distribution_identity_login_state_unconfirmed",
-    "final_corrected_archive_export_attempted": true,
-    "last_export_exit_code": 70,
-    "scope": "Historical version 1.0.0 build 3 archive and failed export only; does not verify the new identifiers or build 4."
-  },
-  "historical_build_3_verification": {
-    "source_build": "1.0.0 (3)",
-    "macos_build_passed": true,
-    "macos_signature_verified": true,
-    "simulator_build_passed": true,
-    "simulator_install_and_launch_passed": [
-      "iPhone",
-      "iPad"
-    ],
-    "simulator_existing_document_restoration_observed": true,
-    "device_build_passed": true,
-    "device_install_passed": [
-      "iPhone",
-      "iPad"
-    ],
-    "ipad_launch_passed": true,
-    "iphone_launch_status": "blocked_by_device_lock",
-    "manual_multilingual_device_acceptance_complete": false,
-    "offline_catalogs_verified": 47,
-    "locale_state_preservation_cases_passed": 50,
-    "localized_webkit_layout_cases_passed": 27,
-    "runtime_native_store_locale_sets_match": true,
-    "workflow_adoption_then_language_change_regression_passed": true,
-    "independent_review_blockers_remaining": 0,
-    "scope": "Historical version 1.0.0 build 3 checks only; all new identifiers and build 4 still require verification.",
-    "release_archive_verified": true
-  },
-  "historical_screenshots": {
-    "status": "retired_from_current_release_materials_preserve_historical_evidence",
-    "build_1": {
-      "count": 4,
-      "scope": "Historical UI only; not eligible for the current submission."
-    },
-    "build_3": {
-      "locales_prepared": [
-        "zh-Hans",
-        "en-US"
+  "historical_removed_app_store_records": [
+    {
+      "app_store_app_id": "6819302567",
+      "bundle_id": "app.mdanywhere.ios",
+      "status": "removed_not_permanently_deleted",
+      "all_175_territories_made_unavailable": true,
+      "removed": true,
+      "permanently_deleted": false,
+      "restore_requested": false,
+      "publisher_decision": "Do not restore; create a separate record with app.mdanywhere.mobile and a new SKU.",
+      "previously_saved_fields": [
+        "zh-Hans name, subtitle, categories and version text",
+        "private review contact",
+        "free price",
+        "privacy policy URL",
+        "174 territories excluding CHN, with future territories not automatically included",
+        "manual version release"
       ],
-      "count": 4,
-      "locales_previously_uploaded": [
-        "zh-Hans"
-      ],
-      "scope": "Historical zh-Hans uploads were removed from both store device groups and replaced with build 4 images. Historical English files remain retired. Current upload evidence is recorded separately under screenshots."
-    },
-    "source_files": "Removed from current public release materials and retained in an ignored historical backup. Historical images are not current release inputs."
+      "previously_uploaded_screenshots": {
+        "source_build": "1.0.0 (4)",
+        "locales": [
+          "zh-Hans"
+        ],
+        "count": 2,
+        "verified_count_per_device_group": "1/10",
+        "scope": "Historical uploads to the removed record only. New-record upload counts start at zero."
+      },
+      "build_uploaded": false,
+      "historical_sku_value": "not published",
+      "settings_restore_completed_on_new_record": false
+    }
+  ],
+  "macos_build_number": "4",
+  "app_store_record_created": false,
+  "app_store_creation_access": {
+    "limited_access_available": false,
+    "full_access_selected": false,
+    "full_access_specific_confirmation_pending": true,
+    "automatic_approval_rejected_full_access_selection": true
   },
-  "macos_bundle_id": "app.mdanywhere.editor",
-  "project": "MDAnyWhere-iOS.xcodeproj",
-  "app_store_record_bundle_update_pending": false,
-  "app_store_record_bundle_binding_verified": true,
-  "app_store_record_note": "Apple Developer registration of app.mdanywhere.ios and saved App Store Connect binding on record 6819302567 are confirmed. The non-editable SKU retains a historical internal identifier; its disposition is pending. No complete cloud-internal-field rename is claimed.",
-  "saved_app_store_settings_scope": "Record 6819302567 is now confirmed bound to app.mdanywhere.ios. Free price, 174-territory selection, policy URL, zh-Hans text and private review contact were previously saved on this same record.",
-  "privacy_assessment_new_identifier_review_pending": true,
-  "age_assessment_new_identifier_review_pending": true,
-  "developer_bundle_id_registered": true,
-  "app_store_sku": {
-    "value": null,
-    "editable": false,
-    "historical_internal_identifier_remains": true,
-    "resolution_pending": true,
-    "scope": "Do not publish the historical value or claim it has been renamed. Publisher decision remains pending."
-  },
-  "all_cloud_internal_identifiers_renamed": false,
-  "all_prepared_screenshots_uploaded": false,
-  "screenshots_uploaded_scope": "Build 4 primary locale zh-Hans only; both device groups verified at 1/10. English screenshots remain local and unuploaded."
+  "release_mode_saved_in_app_store_connect": false,
+  "macos_verification": {
+    "source_build": "1.0.0 (4)",
+    "bundle_id": "app.mdanywhere.editor",
+    "build_passed": true,
+    "signature_kind": "ad-hoc",
+    "strict_deep_signature_verified": true,
+    "extension_bundle_ids_verified": [
+      "app.mdanywhere.editor.quicklook",
+      "app.mdanywhere.editor.thumbnail",
+      "app.mdanywhere.editor.agent"
+    ],
+    "scope": "Unchanged current macOS build 4; mobile build numbers are independent."
+  }
 }

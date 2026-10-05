@@ -162,8 +162,8 @@
   "age_rating_assessment_document": "Age-Rating-Assessment.md",
   "ai_release_scope": "Current existing optional user-configured AI; preparation continues with the implemented feature set, without requiring another decision on whether to retain AI.",
   "assessment_revised": "2026-10-06",
-  "target_build": "1.0.0 (4)",
-  "bundle_id": "app.mdanywhere.ios",
+  "target_build": "1.0.0 (5)",
+  "bundle_id": "app.mdanywhere.mobile",
   "new_identifier_runtime_verification_pending": true,
-  "code_fact_scope": "Behavioral assessment from the previously inspected implementation; new module, bridge, identifier, resource and permission behavior requires build 4 revalidation. Historical facts do not certify the new package or automatic data migration."
+  "code_fact_scope": "Behavioral assessment of the existing optional user-configured AI implementation. Mobile build 5 packaging, local development signature and simulator launch/demo checks passed; final data-flow, permission and physical-device acceptance remain separate. The identifier change does not guarantee automatic document or Keychain migration."
 }

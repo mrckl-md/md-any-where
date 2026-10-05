@@ -100,8 +100,8 @@ import plistlib
 import sys
 with open(sys.argv[1], "rb") as file:
     info = plistlib.load(file)
-if info.get("CFBundleIdentifier") != "app.mdanywhere.ios":
-    raise SystemExit("归档 Bundle ID 必须是 app.mdanywhere.ios")
+if info.get("CFBundleIdentifier") != "app.mdanywhere.mobile":
+    raise SystemExit("归档 Bundle ID 必须是 app.mdanywhere.mobile")
 if set(info.get("UIDeviceFamily", [])) != {1, 2}:
     raise SystemExit("归档必须同时支持 iPhone 和 iPad")
 PY

@@ -88,7 +88,7 @@ for resource in Info.plist Editor/index.html Editor/app.js Editor/ipad.js Editor
   fi
 done
 bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app_path/Info.plist")"
-if [[ "$bundle_id" != "app.mdanywhere.ios" ]]; then
+if [[ "$bundle_id" != "app.mdanywhere.mobile" ]]; then
   print -u2 -- "构建产物的 Bundle ID 不匹配：$bundle_id"
   exit 1
 fi

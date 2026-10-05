@@ -308,7 +308,7 @@
   ],
   "translation_method": "AI-authored translations with technical/structural checks; native-speaker review not completed",
   "native_speaker_review_completed": false,
-  "app_ui_validation_status": "build_4_47_catalogs_51_lproj_native_localization_and_50_locale_27_layout_webkit_checks_passed",
+  "app_ui_validation_status": "build_5_47_catalogs_583_keys_51_lproj_verified_full_language_and_layout_regressions_previously_passed_build_4",
   "validator": "../validate-localizations.py",
   "product_fact_review": {
     "checked_at": "2026-10-05",

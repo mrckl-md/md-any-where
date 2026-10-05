@@ -46,7 +46,7 @@ if ! xcrun devicectl device install app --device "$MD_ANY_WHERE_DEVICE_UDID" "$a
   report_device_failure "$log_directory/install.log"
   exit 1
 fi
-if ! xcrun devicectl device process launch --device "$MD_ANY_WHERE_DEVICE_UDID" app.mdanywhere.ios \
+if ! xcrun devicectl device process launch --device "$MD_ANY_WHERE_DEVICE_UDID" app.mdanywhere.mobile \
   2>&1 | tee "$log_directory/launch.log"; then
   report_device_failure "$log_directory/launch.log"
   exit 1
