@@ -1,6 +1,6 @@
 # App Store 元数据与发布准备
 
-核对日期：2026-10-06。发布目标为 **md any where 移动版 1.0.0 (6)**、`app.mdanywhere.mobile`，以及 macOS `1.0.0 (5)`、`app.mdanywhere.editor`。最终源码审查的五类安全与数据正确性修复已通过本机网络、真实 WebKit、草稿存储和多语言布局回归；语言覆盖为 50 项、47 份目录、每份 584 条。移动 build 6 开发签名归档及发行重签 IPA 导出通过，最低 iOS 17、设备族 1/2、目录与源码资源一致性已核验；macOS build 5 构建、四组件严格深层 ad-hoc 签名和 WebKit DOCX 回归通过。iPhone/iPad 模拟器安装启动、公开示例画面和资源一致性已核验；移动 build 6 上传成功，Apple 处理结果待确认，iPad 真机安装启动成功，iPhone 本版未安装启动；尚未送审或发布。
+核对日期：2026-10-06。发布目标为 **md any where 移动版 1.0.0 (6)**、`app.mdanywhere.mobile`，以及 macOS `1.0.0 (5)`、`app.mdanywhere.editor`。最终源码审查的五类安全与数据正确性修复已通过本机网络、真实 WebKit、草稿存储和多语言布局回归；语言覆盖为 50 项、47 份目录、每份 584 条。移动 build 6 开发签名归档及发行重签 IPA 导出通过，最低 iOS 17、设备族 1/2、目录与源码资源一致性已核验；macOS build 5 构建、四组件严格深层 ad-hoc 签名和 WebKit DOCX 回归通过。iPhone/iPad 模拟器安装启动、公开示例画面和资源一致性已核验；移动 build 6 上传成功，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0，iPad 真机安装启动成功，iPhone 本版未安装启动；尚未送审或发布。
 
 - [zh-Hans.json](zh-Hans.json) 与 [en-US.json](en-US.json)：中英文名称、副标题、推广语、描述、关键词和审核备注。
 - [Localization.md](Localization.md) 与 [localizations/manifest.json](localizations/manifest.json)：全部 50 个商店本地化项及结构验证；翻译尚未全部经母语审校。

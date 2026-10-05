@@ -2,7 +2,7 @@
 
 md any where 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 AI 写作工作台。macOS 可通过 MCP / CLI 接入 Codex、Claude Code、Cursor 等 AI 编辑器；iPhone/iPad 使用内置 Agent 完成润色、校对、总结与文字工作流。编辑与预览在本机进行，可选 Agent 在用户确认后连接自己配置的服务。项目自有源码采用 [MIT 许可证](LICENSE)，第三方组件保留各自许可。
 
-项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，本次发布目标为移动版 `1.0.0 (6)`、`app.mdanywhere.mobile`，macOS `1.0.0 (5)`、`app.mdanywhere.editor`。最终审查已修复 Agent 重定向泄露、Agent/公式错文稿与过期选区、搜索标签切换与 Unicode 偏移、未知文稿 ID 写入、危险 Markdown 链接五类问题；本机网络、真实 WebKit、草稿存储及多语言布局回归通过。iOS build 6 开发签名归档及发行重签 IPA 导出、macOS build 5 构建与严格深层 ad-hoc 签名已验证；iPhone/iPad 模拟器安装、启动和公开示例画面验证通过；移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。新商店记录 `6819394741` 已保存基础资料与简中两张截图。详见 [App Store 发布准备](Docs/App-Store-Release.md)。
+项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，本次发布目标为移动版 `1.0.0 (6)`、`app.mdanywhere.mobile`，macOS `1.0.0 (5)`、`app.mdanywhere.editor`。最终审查已修复 Agent 重定向泄露、Agent/公式错文稿与过期选区、搜索标签切换与 Unicode 偏移、未知文稿 ID 写入、危险 Markdown 链接五类问题；本机网络、真实 WebKit、草稿存储及多语言布局回归通过。iOS build 6 开发签名归档及发行重签 IPA 导出、macOS build 5 构建与严格深层 ad-hoc 签名已验证；iPhone/iPad 模拟器安装、启动和公开示例画面验证通过；移动 build 6 已于 2026-10-06 成功上传新记录，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0；尚未送审或发布。新商店记录 `6819394741` 已保存基础资料与简中两张截图。详见 [App Store 发布准备](Docs/App-Store-Release.md)。
 
 ## 已实现
 
@@ -166,4 +166,4 @@ export MD_ANY_WHERE_DEVICE_UDID='目标iPhone或iPad的UDID'
 
 发行计划为免费、174 个地区，唯一排除中国大陆，港澳台保留，未来新增地区不自动加入；这些供应设置及隐私政策 URL 已在新记录保存。四张中英文截图来自 build 4，所示主界面仍适用；保留实际来源版本。简中两张已上传，新记录两个设备组各 `1/10`；英文两张待上传。
 
-iOS build 6 开发签名归档及发行重签 IPA 导出已成功，最低 iOS 17、iPhone/iPad 设备族、47 × 584 条目录和随包资源一致性已核验；macOS build 5 构建、四组件严格深层 ad-hoc 签名及真实 WebKit DOCX 回归通过。iPhone/iPad 模拟器安装启动、公开示例画面和资源一致性已核验；iPad 真机安装启动成功，iPhone 本版尚未部署。移动 build 6 上传成功，Apple 处理结果待确认。隐私、年龄、内容版权、DSA、英文名称与可选 AI 私有审核访问仍是待完成的提交事项，不构成暂停构建上传的要求。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权为 `© 2026 陈科霖`；私人审核联系人及凭证不进入仓库。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。
+iOS build 6 开发签名归档及发行重签 IPA 导出已成功，最低 iOS 17、iPhone/iPad 设备族、47 × 584 条目录和随包资源一致性已核验；macOS build 5 构建、四组件严格深层 ad-hoc 签名及真实 WebKit DOCX 回归通过。iPhone/iPad 模拟器安装启动、公开示例画面和资源一致性已核验；iPad 真机安装启动成功，iPhone 本版尚未部署。移动 build 6 上传成功，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0。隐私、年龄、内容版权、DSA、英文名称与可选 AI 私有审核访问仍是待完成的提交事项，不构成暂停构建上传的要求。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权为 `© 2026 陈科霖`；私人审核联系人及凭证不进入仓库。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0；尚未送审或发布。

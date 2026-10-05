@@ -1,5 +1,5 @@
 {
-  "status": "build_6_uploaded_processing_pending_macos_5_verified",
+  "status": "build_6_uploaded_processed_ready_to_submit_macos_5_verified",
   "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
@@ -156,7 +156,7 @@
     "archive_signing_type": "development",
     "app_store_distribution_signature_verified": true,
     "archive_dsym_uuid_matches": true,
-    "scope": "Build 6 development-signed archive and App Store re-signed IPA verified. Xcode upload succeeded on 2026-10-06 for new record 6819394741; upload server analysis was accepted and the package is processing. No separate Validate command, review submission or publication is implied.",
+    "scope": "Build 6 development-signed archive and App Store re-signed IPA verified. Xcode upload succeeded on 2026-10-06 for new record 6819394741; upload server analysis was accepted and processing completed. TestFlight shows build 6 as Ready to Submit. No separate Validate command, review submission or publication is implied. Build 6 is attached to App Store version 1.0.0; saved association was verified after reload.",
     "sdk": "iphoneos27.0",
     "minimum_os": "17.0",
     "device_families": [
@@ -166,7 +166,7 @@
     "get_task_allow": false,
     "provisioned_device_list_present": false,
     "evidence_report": ".build/ios/app-store/build6/verification.json",
-    "upload_status": "succeeded_processing_pending",
+    "upload_status": "succeeded_processing_completed",
     "archive_get_task_allow": true,
     "archive_provisioned_device_list_present": true,
     "export_certificate_type": "Apple Distribution",
@@ -176,7 +176,11 @@
     "upload_server_analysis_accepted": true,
     "separate_validate_command_completed": false,
     "upload_evidence_log": ".build/ios/app-store/build6/upload.log",
-    "processing_status": "pending"
+    "processing_status": "completed",
+    "testflight_build_status": "Ready to Submit",
+    "testflight_build_visible": true,
+    "associated_with_store_version": "1.0.0",
+    "association_saved_and_reloaded": true
   },
   "historical_verification": {
     "physical_device": "iPhone 17 Pro Max",

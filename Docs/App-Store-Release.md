@@ -1,11 +1,11 @@
 # App Store 发布准备
 
-核对日期：2026-10-06。当前品牌精确为 **md any where**。移动目标为 `1.0.0 (6)`、`app.mdanywhere.mobile`；macOS 目标为 `1.0.0 (5)`、`app.mdanywhere.editor`。工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 正在处理；尚未送审或发布。
+核对日期：2026-10-06。当前品牌精确为 **md any where**。移动目标为 `1.0.0 (6)`、`app.mdanywhere.mobile`；macOS 目标为 `1.0.0 (5)`、`app.mdanywhere.editor`。工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0；尚未送审或发布。
 
 ## 当前已完成与记录状态
 
 - **最终源码审查：** 移动 build 6 / macOS build 5 包含下方五类修复。移动草稿存储 9 项、真实 WebKit 编辑安全、移动布局 9 项、50 项语言状态及 27 组多语言布局、桥接契约、本机 Agent 传输回归通过；iOS 17 全量 Swift 类型检查通过。日志保存在被 Git 忽略的 `.build/review/`，不含真实 API 调用。
-- **移动 build 6：** `.build/ios/app-store/build6/md any where.xcarchive` 开发签名归档及 App Store 发行重签 IPA 导出成功。归档的开发描述文件允许调试且含设备列表；导出 IPA 严格验签通过，发行描述文件无调试权限和设备列表。SDK iOS 27/最低 iOS 17、设备族 `1,2`、47 × 584 条目录和 51 个语言目录已核验；打包 JavaScript 与源码哈希一致，归档 dSYM UUID 匹配。iPhone/iPad 模拟器均安装启动成功，公开示例编辑/分栏、公式/流程图/表格画面已核验，7 项 JS/CSS/目录哈希与源码一致。移动 build 6 上传成功，服务器处理结果待确认；尚未送审或发布。
+- **移动 build 6：** `.build/ios/app-store/build6/md any where.xcarchive` 开发签名归档及 App Store 发行重签 IPA 导出成功。归档的开发描述文件允许调试且含设备列表；导出 IPA 严格验签通过，发行描述文件无调试权限和设备列表。SDK iOS 27/最低 iOS 17、设备族 `1,2`、47 × 584 条目录和 51 个语言目录已核验；打包 JavaScript 与源码哈希一致，归档 dSYM UUID 匹配。iPhone/iPad 模拟器均安装启动成功，公开示例编辑/分栏、公式/流程图/表格画面已核验，7 项 JS/CSS/目录哈希与源码一致。移动 build 6 上传成功，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0；尚未送审或发布。
 - **本版真机部署：** iPad 使用 build 6 开发签名包安装并启动成功；iPhone 的连接/锁定状态查询超时，本版未执行安装或启动。不把安装启动成功写成全部交互验收完成。
 - **macOS build 5：** 最终构建、主程序/Quick Look/缩略图/Agent 四组件版本与标识、严格深层 ad-hoc 签名通过；`app.js`、语言目录与源码一致。真实 WebKit DOCX 回归通过，检查流程图 PNG、图片关系、OMML 公式、表格与失败回退。此结果不表示 Developer ID 公证或 Mac App Store 发行。
 - **新记录已创建：** `6819394741` 已绑定 `app.mdanywhere.mobile` 和 SKU `MD-ANY-WHERE-IOS-001`。完全访问已获用户明确授权，团队仅本人。版本 `1.0.0` 的简中推广文字、描述、关键词、支持/营销 URL、版权、私有审核联系人、不要求登录及手动发布已保存。副标题、效率/工具分类、免费价格及 174 地区供应设置已恢复保存，未来新增地区自动加入已关闭。隐私政策 URL 也已保存并核验，基础资料恢复完成。
@@ -35,7 +35,7 @@
 1. 新记录 `6819394741` 已创建，简中版本资料与私有审核设置已恢复；副标题、分类、免费价格、174 地区供应设置及隐私政策 URL 也已恢复核验，基础资料恢复完成。英文名称可用性仍须核验，年龄、隐私、内容版权与 DSA 声明按事实和发行者确认完成。详见 [submission.json](AppStore/submission.json)。
 2. 移动 build 6 的 iPad 安装启动已完成；继续完成 iPhone 部署及所需真机交互验收。标识变化可能形成独立容器，不保证历史草稿或 Keychain 自动迁移；先把要保留的文稿保存为文件，不删除历史安装数据。
 3. 新记录简中两张 build 4 来源图片已重新上传，两个设备组各 `1/10`；继续上传并核验英文两张，不把部分完成写成四张全部上传。
-4. 本地 App Store 发行签名导出及签名验证已完成；build 6 已成功上传，上传流程中的服务器分析已接受，继续核验后台处理结果；未单独执行 Validate 命令。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=6 ./scripts/archive-ios.sh all` 准备归档和导出，脚本不上传。若账号/签名访问受阻，先查看 Xcode 的“Settings → Apple Accounts”状态，不预先删除或重新登录账号。
+4. 本地 App Store 发行签名导出及签名验证已完成；build 6 已成功上传，上传流程中的服务器分析已接受，后台已显示 build 6“准备提交”；未单独执行 Validate 命令。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=6 ./scripts/archive-ios.sh all` 准备归档和导出，脚本不上传。若账号/签名访问受阻，先查看 Xcode 的“Settings → Apple Accounts”状态，不预先删除或重新登录账号。
 5. 继续按现有可选、用户自配 Agent 准备审核访问与问卷，不重新询问是否保留 AI。build 6 已成功上传，提交事项继续准备；TestFlight 分发（如采用）、送审及发布分别记录实际结果，当前均未完成。
 
 ## 设备验收与截图
