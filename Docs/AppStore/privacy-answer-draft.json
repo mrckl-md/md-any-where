@@ -1,0 +1,36 @@
+{
+  "status": "draft_requires_provider_policy_review",
+  "data_not_collected_claim_approved": false,
+  "local_processing": [
+    "Markdown editing and offline preview",
+    "Local document recovery on iOS",
+    "UserDefaults/web storage preferences",
+    "Keychain credential persistence"
+  ],
+  "remote_transfers": [
+    "User instructions, selected text, context or entire document depending on action",
+    "Workflow goals and previous agent answers",
+    "DOCX formatting requirements and settings, without document body",
+    "API credential and network connection information to the configured endpoint"
+  ],
+  "proposed_disclosures": [
+    {
+      "data_type": "Other User Content",
+      "purpose": "App Functionality",
+      "collection": "Declare if the recipient retains readable content beyond real-time request processing; verify actual providers and proxies.",
+      "linked_to_user": "Potentially yes because requests authenticate to an API account; do not mark unlinked without evidence.",
+      "tracking": "No advertising or cross-app tracking implementation found in DOT MD; verify recipient use and agreements."
+    }
+  ],
+  "unresolved": [
+    "Actual provider/proxy retention, training and account association",
+    "Other relevant data types based on actual credential/IP logging use",
+    "Final PrivacyInfo.xcprivacy and App Store Connect answer consistency",
+    "Public privacy/support pages and actual support contact"
+  ],
+  "sources": [
+    "https://developer.apple.com/app-store/app-privacy-details/",
+    "https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/",
+    "https://developer.apple.com/app-store/review/guidelines/#data-use-and-sharing"
+  ]
+}

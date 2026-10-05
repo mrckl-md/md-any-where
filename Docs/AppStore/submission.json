@@ -1,0 +1,87 @@
+{
+  "status": "locally_archived_exported_and_tested_not_uploaded_or_submitted",
+  "last_checked": "2026-10-05",
+  "platform": "iOS",
+  "supported_devices": [
+    "iPhone",
+    "iPad"
+  ],
+  "minimum_os": "17.0",
+  "bundle_id": "app.dotmd.ipad",
+  "scheme": "DOTMD-iPad",
+  "version": "1.0.0",
+  "primary_locale": "zh-Hans",
+  "primary_category_suggestion": "PRODUCTIVITY",
+  "source_license": "MIT",
+  "repository_url": "https://github.com/mrckl-md/DOT-MD",
+  "support_url": "https://github.com/mrckl-md/DOT-MD/issues",
+  "privacy_policy_url": "https://github.com/mrckl-md/DOT-MD/blob/main/PRIVACY.md",
+  "url_status": "public_repository_created_first_source_push_pending",
+  "app_store_app_id": null,
+  "review_contact_name": null,
+  "review_contact_email": null,
+  "review_contact_phone": null,
+  "public_support_contact": null,
+  "price": null,
+  "territories": null,
+  "final_age_rating": null,
+  "privacy_answers_finalized": false,
+  "review_service_access_ready": false,
+  "screenshots_ready": true,
+  "release_acceptance_complete": false,
+  "copyright_owner_for_store": "Maintainer must confirm actual publishing rights holder; source copyright: 2026 DOT MD contributors",
+  "release_mode_suggestion": "manual",
+  "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
+  "build_number": "1",
+  "screenshots_uploaded": false,
+  "screenshots": {
+    "locale": "zh-Hans",
+    "source": "actual_simulator_ui_from_final_source",
+    "manifest": "Screenshots/README.md",
+    "iphone_6_9": {
+      "count": 2,
+      "width": 1320,
+      "height": 2868,
+      "format": "JPEG"
+    },
+    "ipad_13": {
+      "count": 2,
+      "width": 2064,
+      "height": 2752,
+      "format": "JPEG"
+    }
+  },
+  "local_distribution": {
+    "release_archive_created": true,
+    "app_store_ipa_exported": true,
+    "artifact_directory": ".build/ios/app-store/20261005-214601/",
+    "certificate_type": "Apple Distribution",
+    "get_task_allow": false,
+    "device_families": [
+      1,
+      2
+    ],
+    "version": "1.0.0",
+    "build": "1",
+    "server_validation_completed": false,
+    "uploaded": false,
+    "testflight_distributed": false,
+    "submitted_for_review": false
+  },
+  "verification": {
+    "physical_device": "iPhone 17 Pro Max",
+    "physical_os": "iOS 27.0.1",
+    "final_build_redeployed": true,
+    "import_edit_save_checked": true,
+    "pdf": "Two white pages; formula, all three flowchart nodes, table and final paragraph visually checked.",
+    "docx": "1884x480 white PNG with three flowchart nodes; OMML, table, drawing relationships and final paragraph checked in XML. Quick Look displays body, image and table but does not display OMML.",
+    "word_wps_formula_visual_check_completed": false,
+    "mobile_store_regressions_passed": 9,
+    "mobile_layout_viewports_passed": 9,
+    "docx_flowchart_regression_passed": true,
+    "independent_review_blockers": 0,
+    "scope": "These checks do not certify the entire release acceptance checklist or App Store review.",
+    "ipad_final_build_install_and_launch_passed": true,
+    "macos_final_build_passed": true
+  }
+}

@@ -1,0 +1,363 @@
+/* iPhone/iPad overrides. Scoped so HTML exports keep the shared document styling. */
+html.ipad-app {
+  -webkit-text-size-adjust:100%;
+  overscroll-behavior:none;
+}
+body.ipad-app {
+  position:fixed;
+  top:var(--ipad-viewport-top,0px);
+  width:100%;
+  height:var(--ipad-viewport-height,100dvh);
+  display:flex;
+  flex-direction:column;
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+  overscroll-behavior:none;
+}
+body.ipad-app [hidden] { display:none !important; }
+.ipad-app button { touch-action:manipulation; }
+.ipad-app .topbar {
+  flex:none;
+  height:auto;
+  min-height:136px;
+  padding-top:env(safe-area-inset-top);
+  grid-template-columns:auto minmax(0,1fr) auto;
+  grid-template-rows:48px 44px 44px;
+  -webkit-app-region:no-drag;
+}
+.ipad-app .traffic-space { display:none; }
+.ipad-app .brand {
+  grid-column:1;
+  grid-row:1;
+  padding-left:16px;
+  padding-right:12px;
+  -webkit-app-region:no-drag;
+}
+.ipad-app .brand span { display:inline; }
+.ipad-app .ipad-file-tools {
+  grid-column:2;
+  grid-row:1;
+  display:flex;
+  gap:4px;
+  align-items:center;
+  min-width:0;
+}
+.ipad-app .ipad-file-tools button {
+  flex:none;
+  min-height:44px;
+  padding:0 14px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:var(--control-accent);
+  font-size:15px;
+  font-weight:550;
+}
+.ipad-app #mobile-format-toggle { display:none; }
+.ipad-app .format-tools {
+  grid-column:1/-1;
+  grid-row:2;
+  justify-self:stretch;
+  justify-content:flex-start;
+  gap:2px;
+  padding:0 10px;
+  width:100%;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  border-top:1px solid var(--line);
+}
+.ipad-app .format-tools::-webkit-scrollbar { display:none; }
+.ipad-app .format-tools button,
+.ipad-app .view-switch button {
+  flex:none;
+  min-width:44px;
+  min-height:44px;
+  padding:0 10px;
+  font-size:16px;
+}
+.ipad-app .format-tools .agent-button {
+  width:auto;
+  font-size:14px;
+}
+.ipad-app .format-tools .agent-button::before { content:none; }
+.ipad-app .format-tools .divider { flex:none; margin:0 4px; }
+.ipad-app .view-switch {
+  grid-column:3;
+  grid-row:1;
+  margin-right:10px;
+  padding:0;
+  border:0;
+}
+.ipad-app .view-switch button { font-size:14px; padding:0 8px; }
+.ipad-app #tabs-shell {
+  grid-row:3;
+  height:44px;
+  padding:0 8px;
+  align-items:stretch;
+}
+.ipad-app #tabs-list {
+  flex:1;
+  align-items:stretch;
+  -webkit-overflow-scrolling:touch;
+}
+.ipad-app .document-tab,
+.ipad-app .document-tab.active {
+  flex:0 0 210px;
+  min-width:150px;
+  height:44px;
+  grid-template-columns:8px minmax(0,1fr) 44px;
+  padding-right:0;
+  font-size:13px;
+  -webkit-user-drag:none;
+}
+.ipad-app .tab-close {
+  width:44px;
+  height:44px;
+  opacity:.7;
+  font-size:20px;
+}
+.ipad-app #new-tab {
+  flex:0 0 44px;
+  height:44px;
+  margin:0;
+  font-size:23px;
+}
+body.ipad-app #workspace,
+body.ipad-app #workspace.outline-open {
+  position:relative;
+  flex:1;
+  min-height:0;
+  height:auto;
+  grid-template-columns:0 minmax(0,1fr) 1px minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
+}
+body.ipad-app #workspace.mode-editor {
+  grid-template-columns:0 minmax(0,1fr) 0 0 !important;
+}
+body.ipad-app #workspace.mode-preview {
+  grid-template-columns:0 0 0 minmax(0,1fr) !important;
+}
+.ipad-app #outline {
+  display:none;
+  position:absolute;
+  inset:0 auto 0 0;
+  width:min(300px,85%);
+  z-index:5;
+  background:var(--panel);
+  box-shadow:8px 0 32px rgba(0,0,0,.18);
+}
+.ipad-app .outline-open #outline { display:block; }
+.ipad-app .outline-header {
+  height:48px;
+  padding:0 10px 0 18px;
+  align-items:center;
+  font-size:13px;
+}
+.ipad-app .outline-header button { width:44px; height:44px; font-size:24px; }
+.ipad-app #outline-list { height:calc(100% - 48px); }
+.ipad-app .outline-item { min-height:44px; font-size:14px; }
+.ipad-app #splitter { cursor:default; }
+.ipad-app .CodeMirror { font-size:max(16px,var(--editor-size)); }
+.ipad-app .CodeMirror-lines { padding:20px 5%; }
+.ipad-app .CodeMirror-scroll,
+.ipad-app #preview-pane { overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+.ipad-app .markdown-body { padding:28px 30px 64px; overflow-wrap:break-word; }
+/* The renderer sets an inline minimum width for desktop scrolling. Fit its entire
+   viewBox on phones and tablets instead of clipping later flowchart nodes. */
+.ipad-app .dotmd-flowchart-svg { min-width:0 !important; width:100%; max-width:100%; height:auto; }
+.ipad-app .statusbar {
+  flex:none;
+  height:auto;
+  min-height:40px;
+  padding:0 10px env(safe-area-inset-bottom);
+  gap:10px;
+}
+.ipad-app .statusbar button { min-height:40px; padding:0 8px; font-size:12px; }
+.ipad-app #ipad-hide-keyboard { color:var(--control-accent); white-space:nowrap; }
+.ipad-app #latex-status { display:none; }
+.ipad-app dialog,
+.ipad-app #settings-dialog,
+.ipad-app .large-dialog,
+.ipad-app .docx-dialog {
+  width:min(960px,calc(100% - 32px));
+  max-width:calc(100% - 32px);
+  max-height:calc(var(--ipad-viewport-height,100dvh) - 32px);
+  position:fixed;
+  top:calc(var(--ipad-viewport-top,0px) + var(--ipad-viewport-height,100dvh) / 2);
+  bottom:auto;
+  margin:0 auto;
+  transform:translateY(-50%);
+  padding:22px;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.ipad-app dialog :is(form,.stack,.dialog-title > div,.workflow-stage,.docx-controls) { min-width:0; }
+.ipad-app dialog :is(input:not([type="checkbox"]):not([type="range"]),select,textarea) { min-width:0; max-width:100%; }
+.ipad-app dialog button { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.ipad-app .docx-dialog { height:calc(var(--ipad-viewport-height,100dvh) - 32px); }
+.ipad-app .large-dialog form { padding:0; }
+.ipad-app dialog :is(button:not(.icon-close),input:not([type="checkbox"]):not([type="range"]),select,textarea) {
+  min-height:44px;
+  font-size:16px;
+}
+.ipad-app dialog .icon-close { flex:none; width:44px; height:44px; font-size:24px; }
+.ipad-app dialog .dialog-title { gap:12px; }
+.ipad-app dialog .dialog-title p { line-height:1.6; }
+.ipad-app dialog .formula-actions,
+.ipad-app dialog .agent-compose,
+.ipad-app .agent-result footer,
+.ipad-app .docx-agent-actions,
+.ipad-app .workflow-stage-top { flex-wrap:wrap; }
+.ipad-app .agent-compose textarea { min-width:0; }
+.ipad-app .agent-profile-header { display:none; }
+.ipad-app .agent-profile {
+  grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  padding:16px 12px;
+}
+.ipad-app .agent-profile .enabled { justify-self:center; }
+.ipad-app .agent-profile .endpoint { grid-column:2/-1; }
+.ipad-app .agent-profile .model { grid-column:2/-1; }
+.ipad-app .agent-profile .key-group { grid-column:2/-1; }
+.ipad-app .agent-profile .key-group button { font-size:13px; }
+.ipad-app .agent-profile input.enabled { width:36px; height:22px; }
+.ipad-app .agent-profile input.enabled::before { width:18px; height:18px; }
+.ipad-app .agent-profile input.enabled:checked::before { transform:translateX(14px); }
+.ipad-app #settings-dialog input[type="range"]::-webkit-slider-thumb { width:26px; height:26px; }
+.ipad-app #ipad-file-menu { width:min(420px,calc(100% - 32px)); border:1px solid var(--line); border-radius:18px; background:var(--panel); color:var(--text); }
+.ipad-app #ipad-file-menu::backdrop { background:rgba(0,0,0,.28); }
+.ipad-app .ipad-menu-actions { display:grid; gap:8px; }
+.ipad-app .ipad-menu-actions button { text-align:left; padding:12px 16px; }
+.ipad-app #toast { max-width:calc(100% - 36px); bottom:calc(52px + env(safe-area-inset-bottom)); text-align:center; }
+@media (max-width:900px) {
+  body.ipad-app #workspace.mode-split {
+    grid-template-columns:minmax(0,1fr) !important;
+    grid-template-rows:minmax(0,1fr) 1px minmax(0,1fr);
+  }
+  .ipad-app .mode-split #editor-pane { grid-area:1/1; }
+  .ipad-app .mode-split #splitter { grid-area:2/1; }
+  .ipad-app .mode-split #preview-pane { grid-area:3/1; }
+  .ipad-app .agent-compose { display:grid; grid-template-columns:1fr; }
+  .ipad-app .agent-compose > * { width:100%; }
+  .ipad-app .docx-layout { grid-template-columns:1fr; }
+  .ipad-app .docx-side { display:none; }
+}
+@media (max-width:600px) {
+  .ipad-app .brand { padding-left:10px; padding-right:4px; }
+  .ipad-app .brand span { display:none; }
+  .ipad-app .ipad-file-tools { gap:0; }
+  .ipad-app .ipad-file-tools button { padding:0 9px; font-size:14px; }
+  .ipad-app .view-switch { margin-right:4px; }
+  .ipad-app .view-switch button { min-width:44px; padding:0 8px; }
+  .ipad-app .format-tools { padding:0 6px; }
+  .ipad-app .format-tools .divider { display:none; }
+  .ipad-app .document-tab,.ipad-app .document-tab.active { flex-basis:180px; }
+  .ipad-app #cursor-status { display:none; }
+  .ipad-app .markdown-body { padding:22px 20px 50px; }
+  .ipad-app .dotmd-mermaid { padding:12px; }
+  .ipad-app dialog,
+  .ipad-app #settings-dialog,
+  .ipad-app .large-dialog,
+  .ipad-app .docx-dialog { padding:16px; width:calc(100% - 16px); max-width:calc(100% - 16px); }
+  .ipad-app dialog .dialog-title { margin-bottom:14px; }
+  .ipad-app dialog .dialog-title h2 { font-size:18px; }
+  .ipad-app .docx-dialog { height:auto; overflow:auto; }
+  .ipad-app .docx-dialog form { display:block; height:auto; }
+  .ipad-app .docx-layout { display:block; overflow:visible; padding-right:0; }
+  .ipad-app .docx-agent-actions { display:grid; grid-template-columns:minmax(0,1fr); }
+  .ipad-app .docx-footer button { width:100%; }
+  .ipad-app .formula-actions { display:grid; grid-template-columns:minmax(0,1fr); }
+  .ipad-app .formula-actions select { width:100%; }
+  .ipad-app .formula-preview { min-width:0; max-width:100%; overflow:auto; }
+  .ipad-app .agent-settings-link { flex-direction:column; align-items:stretch; }
+  .ipad-app .workflow-builder { padding:12px; }
+  .ipad-app .workflow-heading { flex-direction:column; align-items:stretch; }
+  .ipad-app .workflow-actions > label { width:100%; flex-wrap:wrap; }
+  .ipad-app .workflow-actions select { width:100%; }
+  .ipad-app .workflow-stage { padding:10px; }
+  .ipad-app .workflow-stage-controls { flex-wrap:wrap; }
+  .ipad-app .workflow-stage-controls button { min-width:44px; }
+  .ipad-app .workflow-agents select { min-width:0; max-width:100%; width:100%; }
+  .ipad-app .workflow-preview,.ipad-app .workflow-proposal { overflow-wrap:anywhere; }
+  .ipad-app .agent-profile { grid-template-columns:36px minmax(0,1fr); }
+  .ipad-app .agent-profile .kind { grid-column:2; }
+  .ipad-app .agent-profile .key-group { flex-wrap:wrap; }
+  .ipad-app .agent-profile .key-group input { flex-basis:100%; }
+  .ipad-app .docx-grid { grid-template-columns:1fr; }
+  .ipad-app .workflow-stage-top > input { flex-basis:calc(100% - 44px); }
+  .ipad-app .history-entry { grid-template-columns:minmax(0,1fr) auto; }
+  .ipad-app .history-entry time { grid-column:1; grid-row:1; }
+  .ipad-app .history-entry .history-label { grid-column:1/-1; grid-row:2; }
+  .ipad-app .history-entry .history-position { grid-column:2; grid-row:1; }
+}
+@media (max-height:430px) {
+  .ipad-app .topbar { min-height:92px; grid-template-rows:48px 44px; }
+  .ipad-app #tabs-shell { display:none; }
+  .ipad-app .statusbar { min-height:32px; }
+  .ipad-app .statusbar button { min-height:32px; }
+}
+/* A landscape phone or the on-screen keyboard can leave only a short writing area. */
+body.ipad-app.mobile-compact-height .topbar { min-height:44px; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:44px; }
+body.ipad-app.mobile-compact-height .brand,
+body.ipad-app.mobile-compact-height #tabs-shell,
+body.ipad-app.mobile-compact-height .format-tools { display:none; }
+body.ipad-app.mobile-compact-height .ipad-file-tools { grid-column:1; padding-left:4px; }
+body.ipad-app.mobile-compact-height .ipad-file-tools button { padding:0 9px; }
+body.ipad-app.mobile-compact-height #mobile-format-toggle { display:block; }
+body.ipad-app.mobile-compact-height .view-switch { grid-column:2; }
+body.ipad-app.mobile-compact-height.mobile-format-open .topbar { grid-template-rows:44px 44px; }
+body.ipad-app.mobile-compact-height.mobile-format-open .format-tools { display:flex; }
+body.ipad-app.mobile-compact-height .statusbar { min-height:36px; }
+body.ipad-app.mobile-compact-height .statusbar button { min-height:36px; }
+body.ipad-app.mobile-compact-height #cursor-status { display:none; }
+body.ipad-app.mobile-compact-height dialog { overflow:auto; }
+body.ipad-app.mobile-compact-height .docx-dialog { height:auto; }
+body.ipad-app.mobile-compact-height .docx-dialog form { display:block; height:auto; }
+body.ipad-app.mobile-compact-height .docx-layout { display:block; overflow:visible; }
+@media print {
+  html.ipad-app { height:auto; overflow:visible; }
+  body.ipad-app { position:static; display:block; height:auto; padding:0; overflow:visible; }
+  body.ipad-app #workspace { display:block; height:auto; }
+  body.ipad-app #preview-pane { display:block !important; overflow:visible; }
+}
+html.ipad-app:has(body.printing) { height:auto; overflow:visible; }
+body.ipad-app.printing { position:static; display:block; height:auto; padding:0; overflow:visible; }
+body.ipad-app.printing #workspace { display:block; height:auto; }
+body.ipad-app.printing #preview-pane { display:block !important; overflow:visible; }
+/* preparePrint is shared by the PDF page renderer and the system print sheet.
+   Page margins come from the native printableRect, not the phone viewport. */
+body.ipad-app.printing {
+  transition:none;
+  color-scheme:light;
+  --bg:#fff;
+  --panel:#fff;
+  --text:#111;
+  --muted:#444;
+  --line:#bbb;
+  --accent:#333;
+  --accent-soft:#f4f4f4;
+  background:#fff;
+  color:#111;
+}
+body.ipad-app.printing .markdown-body {
+  max-width:none;
+  padding:0;
+  background:#fff;
+  color:#111;
+  font-size:12pt;
+  line-height:1.65;
+  orphans:3;
+  widows:3;
+}
+body.ipad-app.printing .markdown-body :is(h1,h2,h3,h4) { break-after:avoid-page; page-break-after:avoid; }
+body.ipad-app.printing :is(.dotmd-mermaid,.katex-display,pre,tr,img) { break-inside:avoid-page; page-break-inside:avoid; }
+body.ipad-app.printing .dotmd-mermaid { overflow:visible; padding:12px; background:#fff; border-color:#bbb; }
+body.ipad-app.printing .dotmd-flowchart-svg { display:block; min-width:0 !important; max-width:100%; width:100%; height:auto; }
+body.ipad-app.printing .dotmd-flow-node :is(rect,ellipse,polygon) { fill:#f5f5f5; stroke:#555; }
+body.ipad-app.printing :is(.dotmd-flow-node text,.dotmd-flow-edge-label,.dotmd-flow-arrow) { fill:#111; }
+body.ipad-app.printing .dotmd-flow-edge { stroke:#555; }
+body.ipad-app.printing .dotmd-flow-edge-label { stroke:#fff; }
+body.ipad-app.printing .markdown-body pre { white-space:pre-wrap; overflow-wrap:anywhere; overflow:visible; }
+body.ipad-app.printing .markdown-body pre * { color:#111 !important; background:transparent !important; }
