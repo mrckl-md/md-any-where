@@ -1,5 +1,5 @@
 {
-  "status": "answers_saved_pending_publisher_publish_confirmation",
+  "status": "published_known_optional_api_integration_scope",
   "data_not_collected_claim_approved": false,
   "local_processing": [
     "Markdown editing and offline preview",
@@ -61,8 +61,7 @@
     }
   ],
   "unresolved": [
-    "Publisher confirmation of final privacy publication",
-    "Any App Review follow-up about custom-provider disclosure scope or optional service access"
+    "App Review may request additional private AI access or architecture-specific disclosure clarification"
   ],
   "sources": [
     "https://developer.apple.com/app-store/app-privacy-details/",
@@ -79,7 +78,7 @@
   "assessment_document": "Privacy-Assessment.md",
   "app_name": "md any where",
   "finalized": true,
-  "published_to_app_store_connect": false,
+  "published_to_app_store_connect": true,
   "ai_release_scope_confirmed": true,
   "collects_data_recommendation": "Candidate Yes for retained content in the current preset API integrations; BYOK and no developer server are not automatic exemptions. Final disclosure scope remains subject to the actual release and Apple definitions.",
   "provider_assessments": [
@@ -202,5 +201,15 @@
         "tracking": false
       }
     ]
+  },
+  "reassessment": {
+    "date": "2026-10-06",
+    "developer_collection": "No developer-operated document, credential, analytics or diagnostic upload path; confirmed by source and publisher",
+    "decision": "Disclose known optional built-in API integration practices in four categories, separately from developer collection",
+    "basis": "Google API terms expressly describe retained content, authentication, token usage and operational/error logs; xAI describes retained requests and per-key logging",
+    "classification_status": "Reasoned application of Apple definitions to actual integrations, not a claim of Apple-specific BYOK approval",
+    "custom_endpoints": "No universal assertion about all arbitrary endpoints",
+    "publisher_instruction": "Complete the materials and submit after checking",
+    "binary_changed": false
   }
 }

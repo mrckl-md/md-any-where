@@ -40,7 +40,7 @@
     "intended_excluded_territory_count": 1
   },
   "final_age_rating": "4+",
-  "privacy_answers_finalized": false,
+  "privacy_answers_finalized": true,
   "review_service_access_ready": false,
   "screenshots_ready": true,
   "release_acceptance_complete": false,
@@ -368,7 +368,7 @@
   "app_store_record_bundle_binding_verified": true,
   "app_store_record_note": "Record 6819394741 is created with app.mdanywhere.mobile and SKU MD-ANY-WHERE-IOS-001. Full Access was explicitly authorized for the publisher-confirmed single-person team. App information, zh-Hans version/review settings, free price and territory selection have been restored. Privacy policy URL is also saved and verified. Baseline restoration is complete; DSA, age rating, final privacy answers, optional AI review access, English name/localization and distribution steps remain incomplete.",
   "saved_app_store_settings_scope": "New record 6819394741: zh-Hans app name/subtitle, Productivity and Utilities categories, version promotional text/description/keywords/support and marketing URLs/copyright, private reviewer contact, requires-login=false, manual release, two zh-Hans screenshots, free price and 174 territories excluding CHN saved. Future territory inclusion is disabled. Privacy policy URL https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md is saved and verified in the new record. Baseline restoration does not imply final privacy answers, review or publication.",
-  "privacy_assessment_new_identifier_review_pending": true,
+  "privacy_assessment_new_identifier_review_pending": false,
   "age_assessment_new_identifier_review_pending": true,
   "developer_bundle_id_registered": true,
   "app_store_sku": {
@@ -649,8 +649,7 @@
     }
   ],
   "submission_steps_pending": [
-    "Publish privacy answers after publisher confirmation",
-    "Content rights declaration after publisher confirmation",
+    "Publisher confirmation and saving of content-rights declaration",
     "Add version and submit to App Review"
   ],
   "submission_steps_scope": "These are factual submission/review steps, not prerequisites imposed on binary upload. Distribution/export, upload, review submission and publication have independent status fields.",
@@ -674,5 +673,7 @@
     "Additional store localizations and English name resolution/screenshots",
     "Physical iPhone build 6 deployment and additional manual device acceptance",
     "Private AI test access if requested by App Review"
-  ]
+  ],
+  "privacy_answers_published": true,
+  "content_rights_status": "publisher_confirmation_required_by_automatic_approval_review"
 }

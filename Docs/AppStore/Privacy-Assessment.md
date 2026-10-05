@@ -2,7 +2,7 @@
 
 ## Saved answers - 2026-10-06
 
-For record `6819394741`, build `1.0.0 (6)`, four categories were saved: Other User Content, User ID, Other Usage Data and Other Diagnostic Data. All are linked to the user, used for App Functionality and not for advertising tracking. Other User Content also has Other Purposes, reflecting provider product/model improvement. Publication awaits the publisher's confirmation of Apple's final declaration.
+For record `6819394741`, build `1.0.0 (6)`, four categories were saved: Other User Content, User ID, Other Usage Data and Other Diagnostic Data. All are linked to the user, used for App Functionality and not for advertising tracking. Other User Content also has Other Purposes, reflecting provider product/model improvement. The four-category disclosure was published on 2026-10-06 after source and policy reassessment. It covers known optional API integration practices; it is not a claim of publisher-operated collection or Apple approval of a BYOK-specific interpretation.
 
 This covers optional API-provider retention, account association, usage and technical/security logs. It does not assert developer-operated collection or uploads of offline clicks, crash reports or app performance telemetry. Google's API terms and xAI's retention policy support the classification. Generic network connections alone do not establish location or device-ID collection. No universal retention/training guarantee is made for custom endpoints.
 
