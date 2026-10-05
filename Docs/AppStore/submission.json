@@ -31,7 +31,7 @@
     "mainland_deferred": true,
     "mainland_filing_applicability": "not_determined",
     "app_store_selection_saved": true,
-    "eu_trader_status_confirmation_pending": true,
+    "eu_trader_status_confirmation_pending": false,
     "selected_territory_count": 174,
     "excluded_territory_count": 1,
     "auto_include_future_territories": false,
@@ -39,7 +39,7 @@
     "intended_selected_territory_count": 174,
     "intended_excluded_territory_count": 1
   },
-  "final_age_rating": null,
+  "final_age_rating": "4+",
   "privacy_answers_finalized": false,
   "review_service_access_ready": false,
   "screenshots_ready": true,
@@ -649,13 +649,9 @@
     }
   ],
   "submission_steps_pending": [
-    "Final privacy answers",
-    "Age rating",
-    "Content rights declaration",
-    "DSA trader declaration",
-    "Optional AI private reviewer access",
-    "English name/localization resolution",
-    "English screenshot upload"
+    "Publish privacy answers after publisher confirmation",
+    "Content rights declaration after publisher confirmation",
+    "Add version and submit to App Review"
   ],
   "submission_steps_scope": "These are factual submission/review steps, not prerequisites imposed on binary upload. Distribution/export, upload, review submission and publication have independent status fields.",
   "historical_build_5_signing_preflight": {
@@ -664,5 +660,19 @@
     "uploaded": false,
     "purpose": "Confirm signing access after Xcode account revalidation; not the final corrected release binary.",
     "evidence_directory": ".build/final-review/build5-signing-preflight-after-login/"
-  }
+  },
+  "age_rating_saved": true,
+  "age_rating_scope": "Global calculated rating, including pre-26 systems; regional exceptions are controlled by Apple. No Kids category or age override.",
+  "dsa": {
+    "publisher_confirmation": "Personal hobby project with no commercial or profit purpose",
+    "status": "non_trader_saved",
+    "business_compliance_message": "All regulatory requirements currently completed"
+  },
+  "review_notes_saved": true,
+  "review_service_access_arrangement": "Truthful BYOK architecture and offline review instructions saved; no publisher demo credentials supplied",
+  "optional_follow_up": [
+    "Additional store localizations and English name resolution/screenshots",
+    "Physical iPhone build 6 deployment and additional manual device acceptance",
+    "Private AI test access if requested by App Review"
+  ]
 }

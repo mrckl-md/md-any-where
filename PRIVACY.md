@@ -1,6 +1,6 @@
 # md any where 隐私政策与数据使用说明
 
-更新日期：2026 年 10 月 5 日。适用于本仓库中的 macOS、iPhone 和 iPad 应用。
+更新日期：2026 年 10 月 6 日。适用于本仓库中的 macOS、iPhone 和 iPad 应用。
 
 md any where 是本机 Markdown 编辑器。普通编辑、预览、查找、离线公式转换和导出在设备上完成，无需创建 md any where 账户。当前应用没有开发者运营的文稿服务器、广告 SDK、行为分析或遥测上传功能。可选第三方 Agent 会按下述规则发送内容，不能将整个应用概括为“数据绝不离开设备”。
 
@@ -28,6 +28,12 @@ Agent API Key 持久保存在系统钥匙串，不写入文稿、工程文件或
 
 远程请求使用 HTTPS；HTTP 仅允许配置为本地 Agent 的 localhost/回环地址。本地服务是否继续联网由该服务决定。在 iPhone/iPad 上，localhost 指向移动设备自身，不是相连的 Mac。
 
+## 商店隐私标签的范围
+
+商店披露覆盖用户主动启用第三方 Agent 后的处理：指令与文稿属于“其他用户内容”，服务账户关联属于“用户 ID”，模型调用与 token 用量属于“其他使用数据”，API 运行状态、错误及安全日志属于“其他诊断数据”。这些项目可能由服务商与其账户关联，用于身份认证、生成答案、用量管理、安全和服务运行；md any where 开发者不接收这些请求，也没有应用点击、崩溃或性能遥测系统。
+
+部分服务或账户层级还会将内容用于模型或产品改进，因此用户内容同时披露“其他用途”。例如，Google 的未付费 Gemini API 与付费服务采用不同的数据政策。应用不实施定向广告、广告衡量或数据经纪商共享；请核对自己选择的服务商及代理的政策和账户设置。标签不是对所有自定义端点的零留存保证。[Gemini API 官方条款](https://ai.google.dev/gemini-api/terms)；[xAI API 数据说明](https://docs.x.ai/developers/faq/security)。
+
 ## macOS 本机控制台
 
 MCP / 命令行控制台仅适用于 macOS，默认关闭。启用后只监听本机回环地址；除状态检查外，每次文稿读取或修改仍需您在 md any where 中确认。请只批准自己发起的请求。您使用的 Agent 宿主可能按自身策略处理获准读取的内容。iPhone/iPad 版不提供此控制台。
@@ -44,4 +50,4 @@ MCP / 命令行控制台仅适用于 macOS，默认关闭。启用后只监听�
 
 公开支持及隐私联系邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)。项目支持入口为 [md any where Issues](https://github.com/mrckl-md/md-any-where/issues)，政策源文件地址为 [PRIVACY.md](https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md)。正式提交前应核验品牌更名后的链接可访问。
 
-App Store Connect 使用可访问的隐私政策链接；私人审核联系信息只在其私有审核栏目提供。源码隐私清单不替代商店申报；申报须同时考虑实际接入的第三方服务及其留存行为，现有可选、自配 Agent 属于当前功能范围；最终商店隐私问卷仍待完成。
+App Store Connect 使用可访问的隐私政策链接；私人审核联系信息只在其私有审核栏目提供。源码隐私清单不替代商店申报；申报须同时考虑实际接入的第三方服务及其留存行为，现有可选、自配 Agent 属于当前功能范围；商店隐私标签按上述可选服务范围申报；标签的更新不改变本机文稿处理方式。

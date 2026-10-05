@@ -1,8 +1,16 @@
 # iPhone / iPad 年龄评级事实草稿
 
+## Saved questionnaire - 2026-10-06
+
+App Store Connect record `6819394741`, iOS `1.0.0 (6)`: the questionnaire was saved and Apple calculated a global **4+** rating, including the global rating for systems before version 26. Regional exceptions remain controlled by Apple. This is not an approval decision.
+
+The publisher confirmed general writing users, no extra minimum age, and no Kids category. The final override question was set to Not Applicable. Capability questions were answered No and supplied-content frequency questions None, based on the editor, supplied templates and public fixtures. No live model output was tested; the reviewer notes disclose optional BYOK generation and the absence of a universal moderation layer. Provider account, age and regional conditions remain separate.
+
+The earlier assessment below preserves the reasoning and limits; its draft/pending wording describes the assessment stage, superseded by this saved result. The release binary was not changed.
+
 修订日期：2026-10-06；官方定义核对日期：2026-10-05。范围：当前 iOS 源码、随包界面及公开演示文稿。本文提供 App Store Connect 问卷的代码事实与候选答案，**不是已保存或已获 Apple 确认的评级**。没有调用第三方模型、发送文稿、测试付费 API 或修改应用功能。
 
-当前移动目标为 `app.mdanywhere.mobile`、构建 `1.0.0 (5)`。本地 Release 开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过。业务数据流与内容评估沿用此前已核实的实现事实，最终权限、发送范围与真机交互仍须单独核验；上述构建检查不等于隐私或年龄问卷定稿。应用标识变化也不保证历史草稿或 Keychain 自动迁移。
+当前移动目标为 `app.mdanywhere.mobile`、构建 `1.0.0 (6)`。本地 Release 开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过。业务数据流与内容评估沿用此前已核实的实现事实，最终权限、发送范围与真机交互仍须单独核验；上述构建检查不等于隐私或年龄问卷定稿。应用标识变化也不保证历史草稿或 Keychain 自动迁移。
 
 ## 填写原则
 

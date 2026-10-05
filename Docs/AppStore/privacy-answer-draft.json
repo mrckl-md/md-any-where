@@ -1,5 +1,5 @@
 {
-  "status": "code_facts_and_conditional_answers_draft_not_finalized",
+  "status": "answers_saved_pending_publisher_publish_confirmation",
   "data_not_collected_claim_approved": false,
   "local_processing": [
     "Markdown editing and offline preview",
@@ -61,13 +61,8 @@
     }
   ],
   "unresolved": [
-    "Any additional developer-operated services, contracts or processing arrangements outside the inspected source, if they exist; continuing the existing optional AI scope is already confirmed",
-    "Specific disclosure categories and purposes for the preset integrations, using relevant official policy evidence",
-    "Whether a material arbitrary-BYOK disclosure-boundary question requires App Review clarification",
-    "Publisher target audience and adopted minimum-age or third-party-service terms; do not infer them from source",
-    "Special retention or training promises only if the publisher chooses to make them; no universal ZDR promise is proposed",
-    "Consistency of policy, consent UI, applicable privacy manifest declarations and final App Store Connect answers",
-    "Private reviewer access to optional services; no credentials or private contacts in public files"
+    "Publisher confirmation of final privacy publication",
+    "Any App Review follow-up about custom-provider disclosure scope or optional service access"
   ],
   "sources": [
     "https://developer.apple.com/app-store/app-privacy-details/",
@@ -80,10 +75,10 @@
     "https://docs.bigmodel.cn/cn/terms/user-agreement",
     "https://docs.x.ai/developers/faq/security"
   ],
-  "last_checked": "2026-10-05",
+  "last_checked": "2026-10-06",
   "assessment_document": "Privacy-Assessment.md",
   "app_name": "md any where",
-  "finalized": false,
+  "finalized": true,
   "published_to_app_store_connect": false,
   "ai_release_scope_confirmed": true,
   "collects_data_recommendation": "Candidate Yes for retained content in the current preset API integrations; BYOK and no developer server are not automatic exemptions. Final disclosure scope remains subject to the actual release and Apple definitions.",
@@ -157,9 +152,9 @@
   "publisher_confirmations": {
     "release_matches_assessed_feature_scope": true,
     "additional_developer_processing_or_contracts": null,
-    "target_audience_and_eula_minimum_age": null,
+    "target_audience_and_eula_minimum_age": "General writing users; no additional minimum age; not Kids category",
     "special_retention_or_training_commitments": null,
-    "private_review_access_arrangement": null
+    "private_review_access_arrangement": "Publisher requested truthful BYOK review notes; no demo credential supplied"
   },
   "age_rating_assessment_document": "Age-Rating-Assessment.md",
   "ai_release_scope": "Current existing optional user-configured AI; preparation continues with the implemented feature set, without requiring another decision on whether to retain AI.",
@@ -168,6 +163,44 @@
   "bundle_id": "app.mdanywhere.mobile",
   "new_identifier_runtime_verification_pending": false,
   "code_fact_scope": "Current optional user-configured AI implementation reviewed for mobile build 6 / macOS build 5. Native requests reject redirects; loopback regression used public test text and fake headers. Final iOS 6 distribution package and macOS 5 ad-hoc package are verified; final iPhone/iPad simulator checks passed. Physical-device and real-provider acceptance are tracked separately. No actual provider request or user credential was used. Identifier changes do not guarantee automatic document or Keychain migration.",
-  "submission_step_scope": "Final privacy answers and private reviewer access remain submission tasks; neither is recorded here as a technical prerequisite for binary upload.",
-  "physical_device_data_flow_acceptance_pending": true
+  "submission_step_scope": "Answers saved in App Store Connect; final publication awaits publisher confirmation. Review notes explain BYOK access; no live provider test is claimed.",
+  "physical_device_data_flow_acceptance_pending": true,
+  "saved_answers": {
+    "collects_data": true,
+    "data_types": [
+      {
+        "type": "OTHER_USER_CONTENT",
+        "purposes": [
+          "APP_FUNCTIONALITY",
+          "OTHER_PURPOSES"
+        ],
+        "linked_to_user": true,
+        "tracking": false
+      },
+      {
+        "type": "USER_ID",
+        "purposes": [
+          "APP_FUNCTIONALITY"
+        ],
+        "linked_to_user": true,
+        "tracking": false
+      },
+      {
+        "type": "OTHER_USAGE_DATA",
+        "purposes": [
+          "APP_FUNCTIONALITY"
+        ],
+        "linked_to_user": true,
+        "tracking": false
+      },
+      {
+        "type": "OTHER_DIAGNOSTIC_DATA",
+        "purposes": [
+          "APP_FUNCTIONALITY"
+        ],
+        "linked_to_user": true,
+        "tracking": false
+      }
+    ]
+  }
 }

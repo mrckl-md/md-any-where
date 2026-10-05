@@ -1,5 +1,7 @@
 # App Store 发布准备
 
+**Submission preparation update (2026-10-06):** Build 6 remains attached to version 1.0.0. Age answers were saved (Apple global rating 4+, no override); the publisher-confirmed DSA non-trader declaration was saved and Business reports compliance complete. Detailed offline/BYOK reviewer notes were saved, without invented demo credentials. Four privacy data categories were saved; publication and the content-rights declaration await publisher confirmations. The app has **not** been submitted for review or released. Additional store localizations are optional follow-up work, not a prerequisite for the current primary-locale submission. Earlier pending-item descriptions below reflect preparation history; `Docs/AppStore/submission.json` records current status.
+
 核对日期：2026-10-06。当前品牌精确为 **md any where**。移动目标为 `1.0.0 (6)`、`app.mdanywhere.mobile`；macOS 目标为 `1.0.0 (5)`、`app.mdanywhere.editor`。工程为 `MDAnyWhere-iOS.xcodeproj`，scheme 为 `MDAnyWhere-iOS`。macOS 可通过 MCP / CLI 接入 AI 编辑器，移动端提供内置 Agent。移动 build 6 已于 2026-10-06 成功上传新记录，Apple 已完成处理，TestFlight 状态为“准备提交”，已关联商店版本 1.0.0；尚未送审或发布。
 
 ## 当前已完成与记录状态

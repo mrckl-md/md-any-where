@@ -1,8 +1,16 @@
 # iOS Agent 隐私申报评估
 
+## Saved answers - 2026-10-06
+
+For record `6819394741`, build `1.0.0 (6)`, four categories were saved: Other User Content, User ID, Other Usage Data and Other Diagnostic Data. All are linked to the user, used for App Functionality and not for advertising tracking. Other User Content also has Other Purposes, reflecting provider product/model improvement. Publication awaits the publisher's confirmation of Apple's final declaration.
+
+This covers optional API-provider retention, account association, usage and technical/security logs. It does not assert developer-operated collection or uploads of offline clicks, crash reports or app performance telemetry. Google's API terms and xAI's retention policy support the classification. Generic network connections alone do not establish location or device-ID collection. No universal retention/training guarantee is made for custom endpoints.
+
+The publisher confirmed a general audience and requested truthful BYOK review notes; no demo credentials were supplied. Earlier conditional analysis below remains as evidence and scope context; the actual saved choices above supersede draft-only wording. Publication and submission are tracked separately in submission.json.
+
 修订日期：2026-10-06；官方政策核对日期：2026-10-05。范围为当前 iPhone/iPad 源码和下列官方公开政策，不包括对任何真实 API 账户、私有合同、代理服务器或付费额度的验证。本文件是发行者填写 App Store Connect 的依据，不是已确认的最终申报；没有执行真实模型调用，也没有读取或记录私人 Key、联系人。当前发布准备继续包含已有的可选、用户自配 Agent，无需再次确认是否保留该功能。
 
-当前移动目标为 `app.mdanywhere.mobile`、构建 `1.0.0 (5)`。本地 Release 开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过。业务数据流与内容评估沿用此前已核实的实现事实，最终权限、发送范围与真机交互仍须单独核验；上述构建检查不等于隐私或年龄问卷定稿。应用标识变化也不保证历史草稿或 Keychain 自动迁移。
+当前移动目标为 `app.mdanywhere.mobile`、构建 `1.0.0 (6)`。本地 Release 开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过。业务数据流与内容评估沿用此前已核实的实现事实，最终权限、发送范围与真机交互仍须单独核验；上述构建检查不等于隐私或年龄问卷定稿。应用标识变化也不保证历史草稿或 Keychain 自动迁移。
 
 ## 当前结论
 
