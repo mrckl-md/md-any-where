@@ -4,7 +4,7 @@
 
 ## 当前已准备的内容
 
-- 根目录 MIT 许可证，保留七份第三方许可证及版本/哈希清单。
+- [公开源码仓库](https://github.com/mrckl-md/DOT-MD)已推送至 `main`，GitHub 已识别 MIT 许可证；README、许可证与隐私政策文件均已可访问。保留七份第三方许可证及版本/哈希清单。
 - iOS 工程、系统文件选择/分享、草稿恢复、Keychain 与逐次远程 Agent 发送确认。
 - [完整隐私政策](../PRIVACY.md)及应用内隐私说明，覆盖移动端草稿、备份与第三方处理。
 - [中英文名称、副标题、描述、关键词及审核备注](AppStore/README.md)。英文元数据明确应用界面目前以简体中文为主。
@@ -18,11 +18,10 @@
 
 ## 尚需维护者或发行账号完成
 
-1. [公开源码仓库](https://github.com/mrckl-md/DOT-MD)已创建；首次推送最终源码后，检查 README、许可证和隐私政策链接实际可访问。
-2. 用有权限的 Apple Developer Program 账号确认团队、协议和发行主体；在 App Store Connect 建立对应 app 记录。当前 Bundle ID 是 `app.dotmd.ipad`，工程/scheme 保留 `DOTMD-iPad` 历史名称。首次上传前确认该 ID 的归属与正式使用意图；上传后不能随意更改。参见 [App 信息](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)。
-3. 填写真实审核联系人、电话、邮箱及公开支持联系方式；不能把占位值、不可访问仓库或仅有“即将上线”的页面提交。拟定 [支持入口](https://github.com/mrckl-md/DOT-MD/issues) 和 [政策 URL](https://github.com/mrckl-md/DOT-MD/blob/main/PRIVACY.md) 在公开前均不可用，且 Issues 页面不能代替所需的实际联系信息。参见 [版本元数据](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/)。
-4. 按下文核对第三方留存、隐私标签、年龄评级、加密和销售地区要求。不要从 MIT 开源许可推导出 API 服务使用授权或审核豁免。
-5. 对已生成的 Release archive，在 Organizer 执行 Apple 服务器 Validate；若之后更改代码、版本或发布配置，应重新归档、导出与验收。之后的 Upload、TestFlight 邀请、提交审核和正式发布仍是待执行的账号操作；本次准备没有执行这些步骤。可用 `DOT_MD_TEAM_ID=你的团队ID ./scripts/archive-ios.sh all` 重建本地归档和导出包；脚本不上传。
+1. 用有权限的 Apple Developer Program 账号确认团队、协议和发行主体；在 App Store Connect 建立对应 app 记录。当前 Bundle ID 是 `app.dotmd.ipad`，工程/scheme 保留 `DOTMD-iPad` 历史名称。首次上传前确认该 ID 的归属与正式使用意图；上传后不能随意更改。参见 [App 信息](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)。
+2. 填写真实审核联系人、电话、邮箱及公开支持联系方式；不能把占位值、不可访问仓库或仅有“即将上线”的页面提交。拟定 [支持入口](https://github.com/mrckl-md/DOT-MD/issues) 和 [政策 URL](https://github.com/mrckl-md/DOT-MD/blob/main/PRIVACY.md) 在公开前均不可用，且 Issues 页面不能代替所需的实际联系信息。参见 [版本元数据](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/)。
+3. 按下文核对第三方留存、隐私标签、年龄评级、加密和销售地区要求。不要从 MIT 开源许可推导出 API 服务使用授权或审核豁免。
+4. 对已生成的 Release archive，在 Organizer 执行 Apple 服务器 Validate；若之后更改代码、版本或发布配置，应重新归档、导出与验收。之后的 Upload、TestFlight 邀请、提交审核和正式发布仍是待执行的账号操作；本次准备没有执行这些步骤。可用 `DOT_MD_TEAM_ID=你的团队ID ./scripts/archive-ios.sh all` 重建本地归档和导出包；脚本不上传。
 
 ## 设备验收与截图
 
