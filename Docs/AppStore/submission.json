@@ -1,5 +1,5 @@
 {
-  "status": "build_5_development_signed_simulator_verified_new_store_record_pending_access_confirmation",
+  "status": "build_5_development_signed_new_store_record_baseline_restored_review_and_distribution_pending",
   "last_checked": "2026-10-06",
   "platform": "iOS",
   "supported_devices": [
@@ -17,7 +17,7 @@
   "support_url": "https://github.com/mrckl-md/md-any-where/issues",
   "privacy_policy_url": "https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md",
   "url_status": "public_repository_rename_verified",
-  "app_store_app_id": null,
+  "app_store_app_id": "6819394741",
   "review_contact_name": null,
   "review_contact_email": null,
   "review_contact_phone": null,
@@ -30,12 +30,12 @@
     ],
     "mainland_deferred": true,
     "mainland_filing_applicability": "not_determined",
-    "app_store_selection_saved": false,
+    "app_store_selection_saved": true,
     "eu_trader_status_confirmation_pending": true,
-    "selected_territory_count": 0,
-    "excluded_territory_count": 0,
+    "selected_territory_count": 174,
+    "excluded_territory_count": 1,
     "auto_include_future_territories": false,
-    "saved_selection_scope": "Not saved on a new record. Restore the approved 174-territory plan excluding CHN; keep Hong Kong, Macao and Taiwan, and disable automatic inclusion of future territories.",
+    "saved_selection_scope": "New record 6819394741: 174 territories saved, with CHN unavailable, Hong Kong/Macao/Taiwan retained and automatic inclusion of future territories disabled.",
     "intended_selected_territory_count": 174,
     "intended_excluded_territory_count": 1
   },
@@ -48,9 +48,9 @@
   "release_mode_suggestion": "manual",
   "secrets_policy": "Never put real credentials, signing keys, or device identifiers in these public metadata files.",
   "build_number": "5",
-  "screenshots_uploaded": false,
+  "screenshots_uploaded": true,
   "screenshots": {
-    "status": "build_4_source_images_ready_for_unchanged_build_5_ui_new_record_not_uploaded",
+    "status": "new_record_zh_Hans_uploaded_source_build_4_reused_for_unchanged_build_5_ui_english_pending",
     "source": "actual_build_4_simulator_ui_with_public_fixture",
     "manifest": "Screenshots/README.md",
     "source_build": "1.0.0 (4)",
@@ -59,20 +59,20 @@
       "width": 1320,
       "height": 2868,
       "format": "JPEG",
-      "status": "ready_not_uploaded_to_new_record",
+      "status": "zh_Hans_uploaded_en_US_pending",
       "count_per_locale": 1,
-      "uploaded_count": 0,
-      "verified_zh_Hans_store_count": null
+      "uploaded_count": 1,
+      "verified_zh_Hans_store_count": "1/10"
     },
     "ipad_13": {
       "count": 2,
       "width": 2064,
       "height": 2752,
       "format": "JPEG",
-      "status": "ready_not_uploaded_to_new_record",
+      "status": "zh_Hans_uploaded_en_US_pending",
       "count_per_locale": 1,
-      "uploaded_count": 0,
-      "verified_zh_Hans_store_count": null
+      "uploaded_count": 1,
+      "verified_zh_Hans_store_count": "1/10"
     },
     "new_brand_recapture_required": false,
     "english_recapture_pending": false,
@@ -80,7 +80,9 @@
       "zh-Hans",
       "en-US"
     ],
-    "locales_uploaded": [],
+    "locales_uploaded": [
+      "zh-Hans"
+    ],
     "historical_assets_retired": true,
     "total_count": 4,
     "legacy_identifiers_visible": false,
@@ -91,13 +93,14 @@
       "Screenshots/en-US/iphone-01-editor-build4.jpg",
       "Screenshots/en-US/ipad-01-split-build4.jpg"
     ],
-    "uploaded_count": 0,
+    "uploaded_count": 2,
     "all_prepared_uploaded": false,
-    "store_record_id": null,
-    "uploaded_files": [],
-    "pending_upload_files": [
+    "store_record_id": "6819394741",
+    "uploaded_files": [
       "Screenshots/zh-Hans/iphone-01-editor-build4.jpg",
-      "Screenshots/zh-Hans/ipad-01-split-build4.jpg",
+      "Screenshots/zh-Hans/ipad-01-split-build4.jpg"
+    ],
+    "pending_upload_files": [
       "Screenshots/en-US/iphone-01-editor-build4.jpg",
       "Screenshots/en-US/ipad-01-split-build4.jpg"
     ],
@@ -109,8 +112,8 @@
   "china_mainland_filing_provided": false,
   "copyright": "© 2026 陈科霖",
   "review_contact_provided_privately": true,
-  "review_contact_saved_in_app_store_connect": false,
-  "app_store_record_status": "creation_form_prepared_not_created_full_access_confirmation_pending",
+  "review_contact_saved_in_app_store_connect": true,
+  "app_store_record_status": "prepare_for_submission_new_record_baseline_settings_restored",
   "ai_release_scope_confirmed": true,
   "historical_distribution": {
     "release_archive_created": true,
@@ -233,14 +236,16 @@
       "he",
       "ur-PK"
     ],
-    "saved_store_locales": [],
+    "saved_store_locales": [
+      "zh-Hans"
+    ],
     "english_name_conflict": true,
     "english_name_resolution_pending": true,
-    "saved_store_locales_scope": "New record not created; no locale is saved on it. The removed record previously held zh-Hans only."
+    "saved_store_locales_scope": "New record 6819394741: zh-Hans name, subtitle, categories and version copy saved. Other 49 metadata locales remain local drafts."
   },
   "ai_release_scope": "existing_user_configured_optional_AI_services",
-  "price_saved_in_app_store_connect": false,
-  "privacy_policy_url_saved_in_app_store_connect": false,
+  "price_saved_in_app_store_connect": true,
+  "privacy_policy_url_saved_in_app_store_connect": true,
   "historical_build_3_distribution": {
     "version": "1.0.0",
     "build": "3",
@@ -307,24 +312,25 @@
   },
   "macos_bundle_id": "app.mdanywhere.editor",
   "project": "MDAnyWhere-iOS.xcodeproj",
-  "app_store_record_bundle_update_pending": true,
-  "app_store_record_bundle_binding_verified": false,
-  "app_store_record_note": "Apple Developer registration of app.mdanywhere.mobile is confirmed. The new-app form has the new bundle ID and SKU entered. Limited access is disabled; automated approval review rejected choosing Full Access, and specific publisher confirmation is pending. No new record or Apple ID exists yet. The removed record is not to be restored.",
-  "saved_app_store_settings_scope": "No settings are saved on a new record yet. Previous-record settings and screenshot uploads are historical only and must be restored and verified separately.",
+  "app_store_record_bundle_update_pending": false,
+  "app_store_record_bundle_binding_verified": true,
+  "app_store_record_note": "Record 6819394741 is created with app.mdanywhere.mobile and SKU MD-ANY-WHERE-IOS-001. Full Access was explicitly authorized for the publisher-confirmed single-person team. App information, zh-Hans version/review settings, free price and territory selection have been restored. Privacy policy URL is also saved and verified. Baseline restoration is complete; DSA, age rating, final privacy answers, optional AI review access, English name/localization and distribution steps remain incomplete.",
+  "saved_app_store_settings_scope": "New record 6819394741: zh-Hans app name/subtitle, Productivity and Utilities categories, version promotional text/description/keywords/support and marketing URLs/copyright, private reviewer contact, requires-login=false, manual release, two zh-Hans screenshots, free price and 174 territories excluding CHN saved. Future territory inclusion is disabled. Privacy policy URL https://github.com/mrckl-md/md-any-where/blob/main/PRIVACY.md is saved and verified in the new record. Baseline restoration does not imply final privacy answers, review or publication.",
   "privacy_assessment_new_identifier_review_pending": true,
   "age_assessment_new_identifier_review_pending": true,
   "developer_bundle_id_registered": true,
   "app_store_sku": {
     "value": "MD-ANY-WHERE-IOS-001",
     "entered_in_creation_form": true,
-    "saved_on_created_record": false,
-    "editable_until_record_creation": true,
+    "saved_on_created_record": true,
+    "editable_until_record_creation": false,
     "resolution_pending": false,
-    "scope": "New SKU for the separate record; creation is pending. The SKU becomes immutable after creation."
+    "scope": "New SKU saved on record 6819394741; it is now immutable.",
+    "editable": false
   },
   "all_cloud_internal_identifiers_renamed": false,
   "all_prepared_screenshots_uploaded": false,
-  "screenshots_uploaded_scope": "No screenshot uploaded to a new record. Four retained files were captured from build 4; they can be reused for the unchanged build 5 UI and must not be represented as build 5 captures.",
+  "screenshots_uploaded_scope": "New record 6819394741: zh-Hans source-build-4 iPhone 6.9 and iPad 13 images uploaded and verified at 1/10 each. The unchanged build 5 UI reuses these images. English images remain unuploaded.",
   "historical_build_4_verification": {
     "source_build": "1.0.0 (4)",
     "status": "build_4_development_signed_strict_verified_ipad_installed_physical_launch_and_iphone_install_pending",
@@ -418,14 +424,15 @@
     }
   ],
   "macos_build_number": "4",
-  "app_store_record_created": false,
+  "app_store_record_created": true,
   "app_store_creation_access": {
     "limited_access_available": false,
-    "full_access_selected": false,
-    "full_access_specific_confirmation_pending": true,
-    "automatic_approval_rejected_full_access_selection": true
+    "full_access_selected": true,
+    "full_access_explicitly_authorized": true,
+    "full_access_specific_confirmation_pending": false,
+    "team_member_count_confirmed_by_publisher": 1
   },
-  "release_mode_saved_in_app_store_connect": false,
+  "release_mode_saved_in_app_store_connect": true,
   "macos_verification": {
     "source_build": "1.0.0 (4)",
     "bundle_id": "app.mdanywhere.editor",
@@ -438,5 +445,34 @@
       "app.mdanywhere.editor.agent"
     ],
     "scope": "Unchanged current macOS build 4; mobile build numbers are independent."
-  }
+  },
+  "requires_login": false,
+  "requires_login_saved_in_app_store_connect": true,
+  "store_version_information": {
+    "version": "1.0.0",
+    "locale": "zh-Hans",
+    "saved": true,
+    "fields_saved": [
+      "promotional_text",
+      "description",
+      "keywords",
+      "support_url",
+      "marketing_url",
+      "copyright"
+    ],
+    "scope": "New record 6819394741; does not imply app-level category/subtitle/policy or pricing settings were saved."
+  },
+  "app_information_saved_in_app_store_connect": {
+    "name": true,
+    "primary_locale": true,
+    "subtitle": true,
+    "primary_category": true,
+    "secondary_category": true
+  },
+  "pricing_verification": {
+    "free_price_saved": true,
+    "pricing_wizard_territory_count": 175,
+    "note": "Free-price setup covered 175 territories; availability is separately limited to 174 with CHN excluded. This does not mean 175 currencies or 175 available territories."
+  },
+  "baseline_store_settings_restored": true
 }

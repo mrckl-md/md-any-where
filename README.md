@@ -2,7 +2,7 @@
 
 md any where 是支持 macOS、iPhone 和 iPad 的 Markdown、学术公式与 AI 写作工作台。macOS 可通过 MCP / CLI 接入 Codex、Claude Code、Cursor 等 AI 编辑器；iPhone/iPad 使用内置 Agent 完成润色、校对、总结与文字工作流。编辑与预览在本机进行，可选 Agent 在用户确认后连接自己配置的服务。项目自有源码采用 [MIT 许可证](LICENSE)，第三方组件保留各自许可。
 
-项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，移动目标为 `md any where 1.0.0 (5)`、`app.mdanywhere.mobile`；macOS 保持 `1.0.0 (4)`、`app.mdanywhere.editor`。移动版 Release 本地自动开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过，开发签名归档已生成；真机部署与 App Store 发行签名导出仍待完成。旧商店记录已停止全部地区供应并移除，不恢复；新记录表单已准备，创建所需完全访问权限待明确确认，尚无新 Apple ID。四张公开截图来自 build 4，可用于界面未变的 build 5，尚未上传到新记录。详见 [App Store 发布准备](Docs/App-Store-Release.md)；当前构建尚未上传、送审或发布。
+项目仓库：[mrckl-md/md-any-where](https://github.com/mrckl-md/md-any-where)。截至 2026-10-06，移动目标为 `md any where 1.0.0 (5)`、`app.mdanywhere.mobile`；macOS 保持 `1.0.0 (4)`、`app.mdanywhere.editor`。移动版 Release 本地自动开发签名及严格验签、iPhone/iPad 模拟器安装启动和公开示例导入已通过，开发签名归档已生成；真机部署与 App Store 发行签名导出仍待完成。旧商店记录已停止全部地区供应并移除，不恢复；新记录 `6819394741` 已创建，完全访问已获用户明确授权。四张公开截图来自 build 4，可用于界面未变的 build 5，简中两张已上传到新记录、两设备组各 `1/10`，英文仍待上传。详见 [App Store 发布准备](Docs/App-Store-Release.md)；当前构建尚未上传、送审或发布。
 
 ## 已实现
 
@@ -160,10 +160,10 @@ export MD_ANY_WHERE_DEVICE_UDID='目标iPhone或iPad的UDID'
 
 项目自有代码采用 [MIT](LICENSE)；依赖许可和版权说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。公开前仅提交源码、资源和文档，不提交个人文稿、证书、描述文件、API Key、设备日志或构建目录。
 
-[App Store 发布准备](Docs/App-Store-Release.md)、[50 项商店本地化文案](Docs/AppStore/Localization.md) 和 [截图清单](Docs/AppStore/Screenshots/README.md) 已提供。移动目标为 `1.0.0 (5)`、`app.mdanywhere.mobile`，Apple Developer 已注册该标识；新 SKU 为 `MD-ANY-WHERE-IOS-001`。旧记录已停止全部 175 个地区供应并移除，非永久删除，用户已明确不恢复。新记录尚未创建，Apple ID 为空；有限访问选项不可用，自动审批拒绝选择完全访问，具体授权待用户确认。
+[App Store 发布准备](Docs/App-Store-Release.md)、[50 项商店本地化文案](Docs/AppStore/Localization.md) 和 [截图清单](Docs/AppStore/Screenshots/README.md) 已提供。移动目标为 `1.0.0 (5)`、`app.mdanywhere.mobile`，Apple Developer 已注册该标识；新 SKU 为 `MD-ANY-WHERE-IOS-001`。旧记录已停止全部 175 个地区供应并移除，非永久删除，用户已明确不恢复。新记录 `6819394741` 已创建并绑定上述标识及 SKU；用户明确授权完全访问，团队仅本人。版本 `1.0.0` 简中推广文字、描述、关键词、支持/营销 URL、版权、私有审核联系人、不要求登录及手动发布设置已保存。
 
-发行计划保持免费、174 个地区，唯一排除中国大陆，香港、澳门、台湾保留，未来新增地区不自动加入。价格、地区、政策 URL、审核联系人及文案须在新记录创建后重新保存核验，不能沿用已移除记录的完成状态。后续如进入中国大陆，先确认 App 备案适用性，再决定是否办理；没有自营服务器不自动构成豁免。
+发行计划保持免费、174 个地区，唯一排除中国大陆，香港、澳门、台湾保留，未来新增地区不自动加入。新记录已保存免费价格、174 地区供应设置、关闭未来自动加入，以及效率/工具分类和副标题。隐私政策 URL 也已保存并核验，基础资料恢复完成；这些均为新记录的实际结果，不沿用已移除记录的完成状态。后续如进入中国大陆，先确认 App 备案适用性，再决定是否办理；没有自营服务器不自动构成豁免。
 
-历史版本 `1`、`3` 的截图已移出当前公开素材并保留备份。现有四张简体中文/英文 iPhone 编辑与 iPad 分栏截图真实拍摄于 build 4，尺寸、无 Alpha 通道及画面无历史品牌已核验；build 5 界面未变，可复用这些图片，文件名和来源版本保持不变。之前的两张简中上传仅属于已移除记录，新记录四张均未上传。移动 build 5 本地开发签名包及归档已严格验签，模拟器均安装启动并导入公开示例；真机尚未部署。macOS build 4 的构建与严格深层 ad-hoc 签名仍有效。App Store 发行签名导出、服务器 Validate、构建上传和审核尚未完成；历史导出错误不能证明用户当前退出 Xcode 账号。
+历史版本 `1`、`3` 的截图已移出当前公开素材并保留备份。现有四张简体中文/英文 iPhone 编辑与 iPad 分栏截图真实拍摄于 build 4，尺寸、无 Alpha 通道及画面无历史品牌已核验；build 5 界面未变，可复用这些图片，文件名和来源版本保持不变。新记录的简中两张已重新上传，iPhone 6.9 英寸与 iPad 13 英寸组各核验为 `1/10`；英文两张尚未上传。移动 build 5 本地开发签名包及归档已严格验签，模拟器均安装启动并导入公开示例；真机尚未部署。macOS build 4 的构建与严格深层 ad-hoc 签名仍有效。App Store 发行签名导出、服务器 Validate、构建上传和审核尚未完成；历史导出错误不能证明用户当前退出 Xcode 账号。
 
 英文商店名称冲突、DSA 交易商身份、目标年龄和最终隐私/适龄答案仍待相应确认；本次继续按现有可选、用户自配的 Agent 准备。隐私评估区分本地处理与第三方 API 通信，不以 BYOK 自动判定未收集，也不要求穷尽所有用户自选端点才开始填写。公开支持邮箱为 [longshenggdgz@163.com](mailto:longshenggdgz@163.com)，商店版权署名为 `© 2026 陈科霖`；审核私有联系人不写入源码。当前构建尚未上传、送审或发布。

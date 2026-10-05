@@ -7,9 +7,9 @@
 - **移动 build 5：** Release 本地自动开发签名及严格验签通过，未启用在线描述文件更新。iPhone/iPad 模拟器均完成安装、启动和公开示例导入；设备族 `1,2`、47 份 catalog、每份 583 条、51 个语言目录及打包 JavaScript 与源码一致已核对。尚未尝试本版真机安装。
 - **本地开发签名归档：** `.build/ios/app-store/build5/md any where.xcarchive` 已生成，严格签名、新标识、版本、资源、JavaScript 和 dSYM UUID 一致性通过。证书仍为开发签名，不是 Apple Distribution；App Store 发行签名导出、服务器 Validate 和上传未完成。
 - **macOS build 4：** 构建与严格深层 ad-hoc 签名通过，主应用及 Quick Look、缩略图、Agent 扩展标识已核对。本次移动 build 5 不改变 macOS 构建号。
-- **新记录尚未创建：** Apple Developer 已注册 `app.mdanywhere.mobile`，新建表单已填入该标识和 SKU `MD-ANY-WHERE-IOS-001`。有限访问选项不可用，自动审批拒绝选择完全访问，具体授权待用户确认。新 Apple ID 为空，后台文案、价格、地区、政策 URL、联系人及截图均未在新记录保存或上传。
+- **新记录已创建：** `6819394741` 已绑定 `app.mdanywhere.mobile` 和 SKU `MD-ANY-WHERE-IOS-001`。完全访问已获用户明确授权，团队仅本人。版本 `1.0.0` 的简中推广文字、描述、关键词、支持/营销 URL、版权、私有审核联系人、不要求登录及手动发布已保存。副标题、效率/工具分类、免费价格及 174 地区供应设置已恢复保存，未来新增地区自动加入已关闭。隐私政策 URL 也已保存并核验，基础资料恢复完成。
 - **旧记录已移除：** `6819302567` 已停止全部 175 个地区供应并移除，非永久删除；用户明确不恢复。旧记录此前的保存和截图上传只作历史证据，不计入新记录完成状态。
-- **四张截图保留：** 简中和英文各一张 iPhone 编辑、一张 iPad 分栏，真实来源为 build 4；尺寸、无 Alpha 通道和画面无历史品牌已核验。build 5 界面未变，可复用，保留原文件名及来源版本，不冒称重新拍摄。新记录四张均未上传，详见[截图清单](AppStore/Screenshots/README.md)。
+- **四张截图保留：** 简中和英文各一张 iPhone 编辑、一张 iPad 分栏，真实来源为 build 4；尺寸、无 Alpha 通道和画面无历史品牌已核验。build 5 界面未变，可复用，保留原文件名及来源版本，不冒称重新拍摄。新记录简中两张已上传，iPhone 6.9 英寸、iPad 13 英寸组各 `1/10`；英文两张待上传，详见[截图清单](AppStore/Screenshots/README.md)。
 
 ## 历史证据的适用范围
 
@@ -19,9 +19,9 @@
 
 ## 尚需完成
 
-1. 等待新记录创建所需的完全访问权限确认；创建成功后记录真实 Apple ID，并恢复已授权的免费价格、174 地区计划、政策 URL、简中文案及私有审核联系人。英文名称可用性仍须核验，年龄、隐私、内容版权与 DSA 声明按事实和发行者确认完成。详见 [submission.json](AppStore/submission.json)。
+1. 新记录 `6819394741` 已创建，简中版本资料与私有审核设置已恢复；副标题、分类、免费价格、174 地区供应设置及隐私政策 URL 也已恢复核验，基础资料恢复完成。英文名称可用性仍须核验，年龄、隐私、内容版权与 DSA 声明按事实和发行者确认完成。详见 [submission.json](AppStore/submission.json)。
 2. 对移动 build 5 完成真机部署和交互验收。标识变化可能形成独立容器，不保证历史草稿或 Keychain 自动迁移；先把要保留的文稿保存为文件，不删除历史安装数据。
-3. 新记录创建后上传并核验四张 build 4 来源图片；当前未上传，不沿用旧记录两张简中各 `1/10` 的历史结果。
+3. 新记录简中两张 build 4 来源图片已重新上传，两个设备组各 `1/10`；继续上传并核验英文两张，不把部分完成写成四张全部上传。
 4. 完成 App Store 发行签名导出和签名验证，再执行 Apple 服务器 Validate。已有本地归档为开发签名。可使用 `MD_ANY_WHERE_TEAM_ID=你的团队ID MD_ANY_WHERE_BUILD_NUMBER=5 ./scripts/archive-ios.sh all` 准备归档和导出，脚本不上传。若账号/签名访问受阻，先查看 Xcode 的“Settings → Apple Accounts”状态，不预先删除或重新登录账号。
 5. 继续按现有可选、用户自配 Agent 准备审核访问与问卷，不重新询问是否保留 AI。完成待核实项后再上传构建、TestFlight（如采用）、送审及发布，当前均未完成。
 
@@ -53,7 +53,7 @@
 
 当前原生网络使用 Apple URLSession/HTTPS，凭证用系统 Keychain，未发现随包提供自有加密算法。按这个实现，可能符合“加密仅限 Apple 操作系统提供”的文档豁免，但发行者仍要完成加密问题并确认最终依赖；不能把“使用 HTTPS”填写成“完全不使用加密”。只有确认不含非豁免加密后才设置 `ITSAppUsesNonExemptEncryption = NO`。参见 [加密文档要求](https://developer.apple.com/help/app-store-connect/reference/app-information/export-compliance-documentation-for-encryption) 和 [该键说明](https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption)。
 
-发行计划保持免费、174 个地区，唯一排除中国大陆，香港、澳门、台湾保留；未来新增地区不自动加入。旧记录已移除，新记录尚未创建，价格和地区须重新保存核验。已选定地区仍须满足适用要求，不等于已经获准销售。后续如进入中国大陆，先按实际功能确认本应用是否属于 App 备案适用范围，再决定是否办理；没有自营服务器、用户自行填写 API 地址并不自动构成豁免。工信部通知以境内从事互联网信息服务的 App 主办者为对象，本次查阅的官方资料未明确界定 BYOK 通用客户端，不将尚未提供备案号列为本次首发的确定缺项。参见 [工信部备案通知](https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2023/art_920db564162e4312916a01bed6540ad8.html)。欧盟 DSA 交易商身份待用户确认，再据实完成对应信息申报，不由源码或免费价格推断。本次继续按现有可选 Agent 准备，不再以重新选择是否保留 AI 为前置条件；隐私和年龄答案仍按各自事实与待确认项处理。参见 [Apple App 信息中的地区要求](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)；提交时复核实际后台问题。
+发行计划保持免费、174 个地区，唯一排除中国大陆，香港、澳门、台湾保留；未来新增地区不自动加入。新记录 `6819394741` 已保存免费价格和上述 174 地区供应设置；免费定价向导覆盖 175 个地区，供应范围单独排除中国大陆，不能把定价范围当成可售地区。已选定地区仍须满足适用要求，不等于已经获准销售。后续如进入中国大陆，先按实际功能确认本应用是否属于 App 备案适用范围，再决定是否办理；没有自营服务器、用户自行填写 API 地址并不自动构成豁免。工信部通知以境内从事互联网信息服务的 App 主办者为对象，本次查阅的官方资料未明确界定 BYOK 通用客户端，不将尚未提供备案号列为本次首发的确定缺项。参见 [工信部备案通知](https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2023/art_920db564162e4312916a01bed6540ad8.html)。欧盟 DSA 交易商身份待用户确认，再据实完成对应信息申报，不由源码或免费价格推断。本次继续按现有可选 Agent 准备，不再以重新选择是否保留 AI 为前置条件；隐私和年龄答案仍按各自事实与待确认项处理。参见 [Apple App 信息中的地区要求](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information/)；提交时复核实际后台问题。
 
 ## 源码公开边界
 
